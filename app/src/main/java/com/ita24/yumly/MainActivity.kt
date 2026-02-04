@@ -7,7 +7,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
-
+import android.widget.*
+import android.view.View
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,11 +22,19 @@ class MainActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
-        }
-        lifecycleScope.launch {
-        imageloader.preloadImgs(this@MainActivity)
+
         }
 
+        val imgdown = findViewById<ImageView>(R.id.imageDown)
+        val imgup = findViewById<ImageView>(R.id.imageUp)
+
+        lifecycleScope.launch {
+            try {
+            imageloader.preloadImgs(this@MainActivity)
+            imageloader.loadnewImg(imgdown)
+            imageloader.loadnewImg(imgup)
+            }catch (e: Exception){}
+        }
     }
 
 }
