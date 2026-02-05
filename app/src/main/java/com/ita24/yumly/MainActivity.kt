@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import android.widget.*
 import android.view.View
+import android.util.Log
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,13 +28,26 @@ class MainActivity : AppCompatActivity() {
 
         val imgdown = findViewById<ImageView>(R.id.imageDown)
         val imgup = findViewById<ImageView>(R.id.imageUp)
+        val button = findViewById<Button>(R.id.btnNext)
 
         lifecycleScope.launch {
             try {
-            imageloader.preloadImgs(this@MainActivity)
-            imageloader.loadnewImg(imgdown)
-            imageloader.loadnewImg(imgup)
-            }catch (e: Exception){}
+                Log.e("testbutton", "lifescope an")
+                imageloader.loadList()
+                Log.e("testbutton", "lifescope aus")
+
+                imageloader.preloadImgs(this@MainActivity)
+
+        button.setOnClickListener {
+            lifecycleScope.launch {
+                imageloader.loadnewImg(imgdown)
+                imageloader.loadnewImg(imgup)
+                Log.e("testbutton", "buttonclick")
+            }
+        }
+            }catch (e: Exception){
+                Log.e("testbutton", "${e}")
+            }
         }
     }
 
