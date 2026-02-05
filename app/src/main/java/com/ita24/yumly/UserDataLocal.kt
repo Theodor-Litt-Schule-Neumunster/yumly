@@ -9,7 +9,7 @@ class UserDataLocal(context: Context) {
             val userKey = username
             val recipeKey = recipe
 
-        return prefs.getInt(rezeptName, 1000)
+        return prefs.getInt(recipeKey, 1000)
         }
 
     }
