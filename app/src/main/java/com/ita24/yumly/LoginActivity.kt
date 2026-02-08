@@ -14,12 +14,18 @@ import com.google.firebase.database.ValueEventListener
 class LoginActivity : AppCompatActivity() {
 
     companion object {
-        // Key to pass the username to the MainActivity
         const val EXTRA_USERNAME = "LOGGED_IN_USERNAME"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val loggedInUser = SessionManager.getSession(this)
+        if (loggedInUser != null) {
+            navigateToWelcomeActivity(loggedInUser)
+            return
+        }
+
         setContentView(R.layout.activity_login)
 
         val usernameEditText = findViewById<TextInputEditText>(R.id.usernameEditText)
@@ -32,11 +38,10 @@ class LoginActivity : AppCompatActivity() {
             val password = passwordEditText.text.toString().trim()
 
             if (username.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Bitte Nutzername und Passwort eingeben", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Bitte Nutzername und Passwort eingeben.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // Use the specific database URL provided by the user
             val database = FirebaseDatabase.getInstance("https://yumly-874a5-default-rtdb.europe-west1.firebasedatabase.app/")
             val usersRef = database.getReference("users")
             val userQuery = usersRef.child(username)
@@ -44,23 +49,23 @@ class LoginActivity : AppCompatActivity() {
             userQuery.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
-                        // User exists, check password
                         val storedPassword = snapshot.child("password").getValue(String::class.java)
                         if (storedPassword == password) {
-                            Toast.makeText(this@LoginActivity, "Anmeldung erfolgreich!", Toast.LENGTH_SHORT).show()
-                            navigateToMainApp(username) // Pass username to main activity
+                            SessionManager.saveSession(this@LoginActivity, username)
+                            Toast.makeText(this@LoginActivity, "Anmeldung erfolgreich.", Toast.LENGTH_SHORT).show()
+                            navigateToWelcomeActivity(username)
                         } else {
-                            Toast.makeText(this@LoginActivity, "Falsches Passwort", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@LoginActivity, "Nutzername vergeben; Falsches Passwort.", Toast.LENGTH_SHORT).show()
                         }
                     } else {
-                        // User does not exist, create new account
                         val newUser = mapOf("password" to password)
                         userQuery.setValue(newUser).addOnCompleteListener { task ->
                             if (task.isSuccessful) {
-                                Toast.makeText(this@LoginActivity, "Account erstellt!", Toast.LENGTH_SHORT).show()
-                                navigateToMainApp(username) // Pass username to main activity
+                                SessionManager.saveSession(this@LoginActivity, username)
+                                Toast.makeText(this@LoginActivity, "Registrierung erfolgreich.", Toast.LENGTH_SHORT).show()
+                                navigateToWelcomeActivity(username)
                             } else {
-                                Toast.makeText(this@LoginActivity, "Fehler bei der Accounterstellung", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this@LoginActivity, "Registrierung fehlgeschlagen.", Toast.LENGTH_SHORT).show()
                             }
                         }
                     }
@@ -73,7 +78,6 @@ class LoginActivity : AppCompatActivity() {
         }
 
         skipButton.setOnClickListener {
-            // User skips login, navigate without a username
             navigateToMainApp(null)
         }
     }
@@ -84,6 +88,12 @@ class LoginActivity : AppCompatActivity() {
             intent.putExtra(EXTRA_USERNAME, username)
         }
         startActivity(intent)
-        finish() // Finish LoginActivity so the user can't navigate back to it
+        finish()
+    }
+
+    private fun navigateToWelcomeActivity(username: String) {
+        val intent = Intent(this, WelcomeActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }
