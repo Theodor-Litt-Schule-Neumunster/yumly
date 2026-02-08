@@ -14,6 +14,7 @@ class WelcomeActivity : AppCompatActivity() {
 
         val welcomeTextView = findViewById<TextView>(R.id.welcomeTextView)
         val newSessionButton = findViewById<Button>(R.id.newSessionButton)
+        val manageAccountButton = findViewById<Button>(R.id.manageAccountButton)
         val logoutButton = findViewById<Button>(R.id.logoutButton)
 
         val username = SessionManager.getSession(this)
@@ -28,6 +29,11 @@ class WelcomeActivity : AppCompatActivity() {
         newSessionButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             intent.putExtra(LoginActivity.EXTRA_USERNAME, username)
+            startActivity(intent)
+        }
+
+        manageAccountButton.setOnClickListener {
+            val intent = Intent(this, ManageAccountActivity::class.java)
             startActivity(intent)
         }
 

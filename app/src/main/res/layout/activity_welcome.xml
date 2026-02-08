@@ -25,22 +25,35 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
         android:text="Neue Sitzung"
-        app:layout_constraintBottom_toTopOf="@+id/logoutButton"
+        app:layout_constraintBottom_toTopOf="@+id/manageAccountButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/welcomeTextView" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/manageAccountButton"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Konto verwalten"
+        android:textColor="?android:attr/textColorSecondary"
+        app:layout_constraintBottom_toTopOf="@+id/logoutButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newSessionButton" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/logoutButton"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="Abmelden"
         android:textColor="?android:attr/textColorSecondary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newSessionButton" />
+        app:layout_constraintTop_toBottomOf="@+id/manageAccountButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
