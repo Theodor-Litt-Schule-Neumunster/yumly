@@ -1,10 +1,11 @@
 package com.ita24.yumly
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
+import android.view.MotionEvent
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.TextView
-import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -33,6 +34,9 @@ class MainActivity : AppCompatActivity() {
         val imgup = findViewById<ImageView>(R.id.imageUp)
         val button = findViewById<Button>(R.id.btnNext)
 
+        setupSwipeableImage(imgdown)
+        setupSwipeableImage(imgup)
+
         lifecycleScope.launch {
             try {
                 Log.e("testbutton", "lifescope an")
@@ -50,6 +54,60 @@ class MainActivity : AppCompatActivity() {
                 }
             } catch (e: Exception) {
                 Log.e("testbutton", "${e}")
+            }
+        }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun setupSwipeableImage(imageView: ImageView) {
+        var dX = 0f
+        var originalX = 0f
+        imageView.post {
+            originalX = imageView.x
+        }
+
+        imageView.setOnTouchListener { view, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    dX = view.x - event.rawX
+                    true
+                }
+                MotionEvent.ACTION_MOVE -> {
+                    val newX = event.rawX + dX
+                    view.x = newX
+                    val rotation = (newX - originalX) / (view.width.toFloat() / 2) * 15f
+                    view.rotation = rotation
+                    true
+                }
+                MotionEvent.ACTION_UP -> {
+                    val screenWidth = resources.displayMetrics.widthPixels
+                    val displacement = view.x - originalX
+
+                    if (Math.abs(displacement) > screenWidth / 4) {
+                        val endX = if (displacement > 0) screenWidth.toFloat() else -view.width.toFloat()
+                        view.animate()
+                            .x(endX)
+                            .alpha(0f)
+                            .setDuration(300)
+                            .withEndAction {
+                                view.x = originalX
+                                view.rotation = 0f
+                                view.alpha = 1f
+                                lifecycleScope.launch {
+                                    imageloader.loadnewImg(imageView)
+                                }
+                            }
+                            .start()
+                    } else {
+                        view.animate()
+                            .x(originalX)
+                            .rotation(0f)
+                            .setDuration(200)
+                            .start()
+                    }
+                    true
+                }
+                else -> false
             }
         }
     }
