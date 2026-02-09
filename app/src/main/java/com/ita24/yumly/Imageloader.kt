@@ -15,11 +15,7 @@ import kotlinx.coroutines.withContext
 class Imageloader(
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 ) {
-
-    private val userdataOnline = UserDataOnline()
     private val userDataLocal = UserDataLocal()
-    private val loggedIn = false
-    private val username = userdataOnline.getuserKey()
 
     var liste = mutableListOf<List<Any>>()
 
@@ -38,6 +34,7 @@ class Imageloader(
             val zutaten = doc.get("zutaten") as? ArrayList<String> ?: arrayListOf()
             val allergien = doc.get("allergien") as? ArrayList<String> ?: arrayListOf()
             val attribute = doc.get("attribute") as? ArrayList<String> ?: arrayListOf()
+
             val elorank = userDataLocal.getElo(name)
 
             liste.add(

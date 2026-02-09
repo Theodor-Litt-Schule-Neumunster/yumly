@@ -8,6 +8,7 @@ object SessionManager {
     private const val PREFS_NAME = "YumlySessionPrefs"
     private const val USERNAME_KEY = "LOGGED_IN_USERNAME"
 
+
     private fun getPrefs(context: Context): SharedPreferences {
         return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
     }

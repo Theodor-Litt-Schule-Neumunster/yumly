@@ -16,6 +16,8 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
 
     private var loggedInUsername: String? = null
+
+
     val imageloader = Imageloader()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +30,11 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        userdatapref.init(applicationContext)
+
+
         loggedInUsername = intent.getStringExtra(LoginActivity.EXTRA_USERNAME)
+
 
         val imgdown = findViewById<ImageView>(R.id.imageDown)
         val imgup = findViewById<ImageView>(R.id.imageUp)
@@ -39,9 +45,8 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             try {
-                Log.e("testbutton", "lifescope an")
+                UserDataOnline(loggedInUsername ?: "").start()
                 imageloader.loadList()
-                Log.e("testbutton", "lifescope aus")
 
                 imageloader.preloadImgs(this@MainActivity)
 
