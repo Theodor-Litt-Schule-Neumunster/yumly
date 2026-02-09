@@ -1,16 +1,36 @@
 package com.ita24.yumly
+import android.content.SharedPreferences
 import android.content.Context
 
-class UserDataLocal(context: Context) {
+object userdatapref {
 
-    private val prefs = context.getSharedPreferences("EloScores", Context.MODE_PRIVATE)
+    private lateinit var prefs: SharedPreferences
 
-    fun getelo(username: String, recipe: String): Int?{
-            val userKey = username
-            val recipeKey = recipe
+    fun init(context: Context) {
+        prefs = context.getSharedPreferences(
+            "meine_prefs",
+            Context.MODE_PRIVATE
+        )
+    }
 
-        return prefs.getInt(recipeKey, 1000)
+    fun edit(recipe: String, elo: Int) {
+        prefs.edit().putInt(recipe, elo).apply()
+    }
+
+    fun get(recipe: String, default: Int = 0): Int {
+        return prefs.getInt(recipe, default)
+    }
+}
+
+class UserDataLocal{
+
+    fun getElo(recipe: String): Int{
+        return userdatapref.get(recipe, 1000)
         }
+
+    fun saveElo(recipe: String, elo: Int) {
+        userdatapref.edit(recipe,elo)
+    }
 
     }
 

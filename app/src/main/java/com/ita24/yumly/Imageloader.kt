@@ -1,6 +1,8 @@
 package com.ita24.yumly
 
 import android.content.Context
+import android.content.SharedPreferences
+import android.content.Context.MODE_PRIVATE
 import android.util.Log
 import android.widget.ImageView
 import com.bumptech.glide.Glide
@@ -14,9 +16,10 @@ class Imageloader(
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 ) {
 
-    private val userdata = UserDataOnline()
+    private val userdataOnline = UserDataOnline()
+    private val userDataLocal = UserDataLocal()
     private val loggedIn = false
-    private val username = userdata.getuserKey()
+    private val username = userdataOnline.getuserKey()
 
     var liste = mutableListOf<List<Any>>()
 
@@ -35,14 +38,7 @@ class Imageloader(
             val zutaten = doc.get("zutaten") as? ArrayList<String> ?: arrayListOf()
             val allergien = doc.get("allergien") as? ArrayList<String> ?: arrayListOf()
             val attribute = doc.get("attribute") as? ArrayList<String> ?: arrayListOf()
-
-            val elorank: Int = if (loggedIn) {
-                userdata.getelo(username, name) ?: 1000
-
-            } else {
-                1000
-            }
-                Log.e("testbutton", "${elorank}")
+            val elorank = userDataLocal.getElo(name)
 
             liste.add(
                 listOf(
