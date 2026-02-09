@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
-import android.widget.Button
 import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -38,25 +37,19 @@ class MainActivity : AppCompatActivity() {
 
         val imgdown = findViewById<ImageView>(R.id.imageDown)
         val imgup = findViewById<ImageView>(R.id.imageUp)
-        val button = findViewById<Button>(R.id.btnNext)
+
 
         setupSwipeableImage(imgdown)
         setupSwipeableImage(imgup)
+
 
         lifecycleScope.launch {
             try {
                 UserDataOnline(loggedInUsername ?: "").start()
                 imageloader.loadList()
+                imageloader.loadnewImg(imgdown)
+                imageloader.loadnewImg(imgup)
 
-                imageloader.preloadImgs(this@MainActivity)
-
-                button.setOnClickListener {
-                    lifecycleScope.launch {
-                        imageloader.loadnewImg(imgdown)
-                        imageloader.loadnewImg(imgup)
-                        Log.e("testbutton", "buttonclick")
-                    }
-                }
             } catch (e: Exception) {
                 Log.e("testbutton", "${e}")
             }
