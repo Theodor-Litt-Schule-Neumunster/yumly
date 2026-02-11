@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -15,8 +16,6 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
 
     private var loggedInUsername: String? = null
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,20 +29,32 @@ class MainActivity : AppCompatActivity() {
 
         loggedInUsername = intent.getStringExtra(LoginActivity.EXTRA_USERNAME)
 
-
         val imgdown = findViewById<ImageView>(R.id.imageDown)
         val imgup = findViewById<ImageView>(R.id.imageUp)
 
+        val dishNameDown = findViewById<TextView>(R.id.dishNameDown)
+        val dishNameUp = findViewById<TextView>(R.id.dishNameTop)
 
-        setupSwipeableImage(imgdown)
-        setupSwipeableImage(imgup)
+        val zzDown = findViewById<TextView>(R.id.zzDown)
+        val zzUp = findViewById<TextView>(R.id.zzTop)
 
+        setupSwipeableImage(imgdown, dishNameDown, zzDown)
+        setupSwipeableImage(imgup, dishNameUp, zzUp)
 
         lifecycleScope.launch {
-            try {
-                imageloader.loadnewImg(imgdown)
-                imageloader.loadnewImg(imgup)
+            loadNewRecipe(imgdown, dishNameDown, zzDown)
+            loadNewRecipe(imgup, dishNameUp, zzUp)
+        }
+    }
 
+    private fun loadNewRecipe(imageView: ImageView, dishNameView: TextView, zzView: TextView) {
+        lifecycleScope.launch {
+            try {
+                val recipe = imageloader.loadnewImg(imageView)
+                if (recipe != null) {
+                    dishNameView.text = recipe[0] as String
+                    zzView.text = "${recipe[2]} Min."
+                }
             } catch (e: Exception) {
                 Log.e("testbutton", "${e}")
             }
@@ -51,7 +62,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private fun setupSwipeableImage(imageView: ImageView) {
+    private fun setupSwipeableImage(imageView: ImageView, dishNameView: TextView, zzView: TextView) {
         var dX = 0f
         var originalX = 0f
         imageView.post {
@@ -85,9 +96,7 @@ class MainActivity : AppCompatActivity() {
                                 view.x = originalX
                                 view.rotation = 0f
                                 view.alpha = 1f
-                                lifecycleScope.launch {
-                                    imageloader.loadnewImg(imageView)
-                                }
+                                loadNewRecipe(imageView, dishNameView, zzView)
                             }
                             .start()
                     } else {
