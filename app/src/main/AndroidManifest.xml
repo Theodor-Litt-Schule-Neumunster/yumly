@@ -32,6 +32,10 @@
         <activity
             android:name=".MainActivity"
             android:exported="false"/>
+        
+        <activity
+            android:name=".ManageAccountActivity"
+            android:exported="false"/>
 
     </application>
 
