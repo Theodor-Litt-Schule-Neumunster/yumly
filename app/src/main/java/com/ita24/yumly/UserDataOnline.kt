@@ -2,6 +2,7 @@ package com.ita24.yumly
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.tasks.await
+import android.util.Log
 
 class UserDataOnline(private val username: String) {
 
@@ -66,6 +67,7 @@ class UserDataOnline(private val username: String) {
         }
     }
     suspend fun start(){
+        Log.e("testusername", "$username")
         val recipes = getnames()
         overrideLocalAll(recipes)
     }

@@ -27,7 +27,7 @@ class WelcomeActivity : AppCompatActivity() {
         }
 
         newSessionButton.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, PreloadActivity::class.java)
             intent.putExtra(LoginActivity.EXTRA_USERNAME, username)
             startActivity(intent)
         }

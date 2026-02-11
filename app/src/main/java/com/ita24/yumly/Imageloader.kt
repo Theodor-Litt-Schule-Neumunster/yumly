@@ -1,8 +1,6 @@
 package com.ita24.yumly
 
 import android.content.Context
-import android.content.SharedPreferences
-import android.content.Context.MODE_PRIVATE
 import android.util.Log
 import android.widget.ImageView
 import com.bumptech.glide.Glide
@@ -11,15 +9,16 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
-class Imageloader(
-    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
-) {
+object imageloader
+{
     private val userDataLocal = UserDataLocal()
 
     var liste = mutableListOf<List<Any>>()
 
     suspend fun loadList(){
+        val db: FirebaseFirestore = FirebaseFirestore.getInstance()
         val collection = "rezepte"
         val snap = db.collection(collection).get().await()
 
@@ -51,23 +50,30 @@ class Imageloader(
         }
 
         }catch (e: Exception){
-            Log.e("", "${e}")
+            Log.e("testloader", "${e}")
         }
     }
     suspend fun preloadImgs(context: Context) {
         try {
-
-            withContext(Dispatchers.IO) {
+            coroutineScope {
                 liste.forEach { eintrag ->
                     val url = eintrag[1] as String
-                    Log.e("testloader", "${url}")
-                    Glide.with(context.applicationContext)
-                        .load(url)
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .preload()
+
+                    launch(Dispatchers.IO) {
+                        try {
+                            Log.d("testloader", "Starte: $url")
+                            Glide.with(context.applicationContext)
+                                .downloadOnly()
+                                .load(url)
+                                .submit()
+                                .get()
+                            Log.d("testloader", "Fertig: $url")
+                        } catch (e: Exception) {
+                            Log.e("testloader", "Fehler bei $url", e)
+                        }
+                    }
                 }
             }
-
         } catch (e: Exception) {
             Log.e("Imageloader", "preloadImgs failed", e)
         }
@@ -83,6 +89,8 @@ class Imageloader(
             withContext(Dispatchers.Main) {
                 Glide.with(imageView)
                     .load(url)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .dontAnimate()
                     .into(imageView)
             }
 

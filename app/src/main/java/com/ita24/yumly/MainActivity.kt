@@ -17,7 +17,6 @@ class MainActivity : AppCompatActivity() {
     private var loggedInUsername: String? = null
 
 
-    val imageloader = Imageloader()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,9 +27,6 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-        userdatapref.init(applicationContext)
-
 
         loggedInUsername = intent.getStringExtra(LoginActivity.EXTRA_USERNAME)
 
@@ -45,8 +41,6 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             try {
-                UserDataOnline(loggedInUsername ?: "").start()
-                imageloader.loadList()
                 imageloader.loadnewImg(imgdown)
                 imageloader.loadnewImg(imgup)
 

@@ -83,7 +83,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun navigateToMainApp(username: String?) {
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, PreloadActivity::class.java)
         if (username != null) {
             intent.putExtra(EXTRA_USERNAME, username)
         }
