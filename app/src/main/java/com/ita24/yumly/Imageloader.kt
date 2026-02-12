@@ -79,9 +79,9 @@ object imageloader
         }
     }
 
-    suspend fun loadnewImg(imageView: ImageView) {
+    suspend fun loadnewImg(imageView: ImageView): List<Any>? {
         try {
-            if (liste.isEmpty()) return
+            if (liste.isEmpty()) return null
 
             val rezept = liste.random()
             val url = rezept[1] as String
@@ -95,9 +95,11 @@ object imageloader
             }
 
             Log.d("DEBUGtest", "liste.size = ${liste.size}")
+            return rezept
 
         } catch (e: Exception) {
             Log.e("DEBUGtest", "loadnewImg crashed", e)
+            return null
         }
     }
 }
