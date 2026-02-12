@@ -52,6 +52,7 @@ class MainActivity : AppCompatActivity() {
             try {
                 val recipe = imageloader.loadnewImg(imageView)
                 if (recipe != null) {
+                    imageView.tag = recipe
                     dishNameView.text = recipe[0] as String
                     zzView.text = "${recipe[2]} Min."
                 }
