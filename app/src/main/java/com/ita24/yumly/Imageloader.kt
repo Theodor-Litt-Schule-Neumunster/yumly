@@ -25,8 +25,10 @@ object imageloader
         liste.clear()
 
         try {
-
+            var count = 0
         for (doc in snap.documents) {
+
+            val id = count
             val name = doc.getString("name") ?: continue
             val bildurl = doc.getString("bildurl") ?: continue
             val zeit = (doc.getLong("zubereitungszeitMinuten") ?: 0L).toInt()
@@ -34,19 +36,21 @@ object imageloader
             val allergien = doc.get("allergien") as? ArrayList<String> ?: arrayListOf()
             val attribute = doc.get("attribute") as? ArrayList<String> ?: arrayListOf()
 
-            val elorank = userDataLocal.getElo(name)
+            val elorank = userDataLocal.getElo(id)
 
             liste.add(
-                listOf(
+                mutableListOf(
                     name,
                     bildurl,
                     zeit,
                     zutaten,
                     allergien,
                     attribute,
-                    elorank
+                    elorank,
+                    id
                 )
             )
+            count++
         }
 
         }catch (e: Exception){
@@ -79,11 +83,17 @@ object imageloader
         }
     }
 
+    val exclude = mutableListOf<Int>()
+    const val idIndex = 7
     suspend fun loadnewImg(imageView: ImageView): List<Any>? {
+
+        val rezept = EloManager.pickNextRecipe(liste, exclude)
+
+        exclude.add(rezept[idIndex] as Int)
+
         try {
             if (liste.isEmpty()) return null
 
-            val rezept = liste.random()
             val url = rezept[1] as String
 
             withContext(Dispatchers.Main) {

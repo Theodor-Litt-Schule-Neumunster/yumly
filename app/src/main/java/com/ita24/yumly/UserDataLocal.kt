@@ -13,22 +13,23 @@ object userdatapref {
         )
     }
 
-    fun edit(recipe: String, elo: Int) {
-        prefs.edit().putInt(recipe, elo).apply()
+    fun edit(id: Int, elo: Int) {
+        prefs.edit().putInt("recipe_$id", elo).apply()
     }
 
-    fun get(recipe: String, default: Int = 0): Int {
-        return prefs.getInt(recipe, default)
+    fun get(id: Int, default: Int = 1000): Int {
+        return prefs.getInt("recipe_$id", default)
     }
 }
 
+
 class UserDataLocal{
 
-    fun getElo(recipe: String): Int{
+    fun getElo(recipe: Int): Int{
         return userdatapref.get(recipe, 1000)
         }
 
-    fun saveElo(recipe: String, elo: Int) {
+    fun saveElo(recipe: Int, elo: Int) {
         userdatapref.edit(recipe,elo)
     }
 

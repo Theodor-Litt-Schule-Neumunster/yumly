@@ -38,8 +38,8 @@ class MainActivity : AppCompatActivity() {
         val zzDown = findViewById<TextView>(R.id.zzDown)
         val zzUp = findViewById<TextView>(R.id.zzTop)
 
-        setupSwipeableImage(imgdown, dishNameDown, zzDown)
-        setupSwipeableImage(imgup, dishNameUp, zzUp)
+        setupSwipeableImage(imgdown, dishNameDown, zzDown, imgup)
+        setupSwipeableImage(imgup, dishNameUp, zzUp, imgdown)
 
         lifecycleScope.launch {
             loadNewRecipe(imgdown, dishNameDown, zzDown)
@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private fun setupSwipeableImage(imageView: ImageView, dishNameView: TextView, zzView: TextView) {
+    private fun setupSwipeableImage(imageView: ImageView, dishNameView: TextView, zzView: TextView, otherview: ImageView) {
         var dX = 0f
         var originalX = 0f
         imageView.post {
@@ -97,6 +97,7 @@ class MainActivity : AppCompatActivity() {
                                 view.x = originalX
                                 view.rotation = 0f
                                 view.alpha = 1f
+                                EloManager.updateElo( otherview.tag as MutableList<Any>, imageView.tag as MutableList<Any>, false)
                                 loadNewRecipe(imageView, dishNameView, zzView)
                             }
                             .start()
