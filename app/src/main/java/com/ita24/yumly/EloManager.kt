@@ -1,5 +1,6 @@
 package com.ita24.yumly
 
+import android.util.Log
 import kotlin.math.pow
 import kotlin.math.roundToInt
 import kotlin.random.Random
@@ -10,6 +11,16 @@ private const val idindex = 7
 object EloManager {
 
     val userDataLocal = UserDataLocal()
+
+    var starttime: Long = 0
+
+    fun starttimer(){
+        starttime = System.currentTimeMillis()
+    }
+    fun wasFastEnough(): Boolean{
+        val time = System.currentTimeMillis() - starttime
+        return time < 2500
+    }
 
 
     fun updateElo(winner: MutableList<Any>, loser: MutableList<Any>, fast: Boolean) {

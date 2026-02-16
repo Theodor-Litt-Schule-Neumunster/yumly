@@ -52,6 +52,7 @@ object imageloader
             )
             count++
         }
+            Log.e("testloadlist", "$liste")
 
         }catch (e: Exception){
             Log.e("testloader", "${e}")

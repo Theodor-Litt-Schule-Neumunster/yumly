@@ -55,6 +55,7 @@ class MainActivity : AppCompatActivity() {
                     imageView.tag = recipe
                     dishNameView.text = recipe[0] as String
                     zzView.text = "${recipe[2]} Min."
+                    EloManager.starttimer()
                 }
             } catch (e: Exception) {
                 Log.e("testbutton", "${e}")
@@ -97,7 +98,8 @@ class MainActivity : AppCompatActivity() {
                                 view.x = originalX
                                 view.rotation = 0f
                                 view.alpha = 1f
-                                EloManager.updateElo( otherview.tag as MutableList<Any>, imageView.tag as MutableList<Any>, false)
+                                EloManager.updateElo( otherview.tag as MutableList<Any>, imageView.tag as MutableList<Any>,
+                                    EloManager.wasFastEnough())
                                 loadNewRecipe(imageView, dishNameView, zzView)
                             }
                             .start()
