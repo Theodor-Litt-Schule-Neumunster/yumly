@@ -43,10 +43,15 @@ object EloManager {
         val loserIndex  = loser[idindex] as Int
 
         userDataLocal.saveElo(winnerIndex, accWinner.roundToInt())
+        Log.e("testelorating", "$winnerIndex $accWinner")
         userDataLocal.saveElo(loserIndex, accLoser.roundToInt())
+        Log.e("testelorating", "$loserIndex $accLoser")
+
     }
 
     fun pickNextRecipe(recipelist: List<List<Any>>, exclude: List<Int>): List<Any> {
+
+        Log.e("testelorating", "$exclude")
 
         val Auswahl = recipelist.filter { r ->
             val id = r[idindex] as Int

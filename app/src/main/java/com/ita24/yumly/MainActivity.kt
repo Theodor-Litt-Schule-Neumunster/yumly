@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        Imageloader.resetExcludedList()
 
         loggedInUsername = intent.getStringExtra(LoginActivity.EXTRA_USERNAME)
 
@@ -50,7 +51,7 @@ class MainActivity : AppCompatActivity() {
     private fun loadNewRecipe(imageView: ImageView, dishNameView: TextView, zzView: TextView) {
         lifecycleScope.launch {
             try {
-                val recipe = imageloader.loadnewImg(imageView)
+                val recipe = Imageloader.loadnewImg(imageView)
                 if (recipe != null) {
                     imageView.tag = recipe
                     dishNameView.text = recipe[0] as String

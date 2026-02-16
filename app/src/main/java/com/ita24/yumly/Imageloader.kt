@@ -11,7 +11,7 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.*
 
-object imageloader
+object Imageloader
 {
     private val userDataLocal = UserDataLocal()
 
@@ -85,6 +85,10 @@ object imageloader
     }
 
     val exclude = mutableListOf<Int>()
+
+    fun resetExcludedList(){
+        exclude.clear()
+    }
     const val idIndex = 7
     suspend fun loadnewImg(imageView: ImageView): List<Any>? {
 
