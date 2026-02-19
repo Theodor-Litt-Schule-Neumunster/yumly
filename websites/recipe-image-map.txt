@@ -1,0 +1,98 @@
+﻿recipes/1.html -> baklava.webp  f
+recipes/2.html -> bbq ribs.webp f
+recipes/3.html -> Bibimbap.webp f
+recipes/4.html -> Biryani.webp  f
+recipes/5.html -> Bœuf Bourguignon .webp    f
+recipes/6.html -> Bouillabaisse.webp    f
+recipes/7.html -> bratwurst-1446708_1280.webp   f
+recipes/8.html -> Bulgogi.webp  f
+recipes/9.html -> burger.webp   f
+recipes/10.html -> burritos.webp    f
+recipes/11.html -> butter Chicken.webp  f
+recipes/12.html -> caesarsalad.webp f
+recipes/13.html -> Carbonara.webp   f
+recipes/14.html -> ChanaMasala.webp f
+recipes/15.html -> cheeseburger.webp    
+recipes/16.html -> Chicken Tikka Masala.webp    f
+recipes/17.html -> chiliconcarne.webp   f
+recipes/18.html -> churros.webp f
+recipes/19.html -> Coq au vin.webp  f
+recipes/20.html -> Couscous.webp    f
+recipes/21.html -> croissants-wooden-cutting-board.webp f
+recipes/22.html -> Dal.webp f
+recipes/23.html -> depositphotos_24481733-stock-photo-traditional-vegetable-ratatouille-1080x1080.webp
+recipes/24.html -> dim-sum-924912_1920.webp f
+recipes/25.html -> dolma-stuffed-grape-leaves-turkish-greek-cuisine.webp
+recipes/26.html -> e10ac333-5071-4614-878f-dadd6cf22dd7.webp ################################################################################
+recipes/27.html -> enchiladas.webp  f
+recipes/28.html -> fajitas.webp f
+recipes/29.html -> Falaffel.webp    f
+recipes/30.html -> Fischsta╠êbchen mit Kartoffel.webp   f
+recipes/31.html -> Flammkuchen.webp f
+recipes/32.html -> friedchicken.webp    f
+recipes/33.html -> Frühlingsrollen.webp f
+recipes/34.html -> gazpacho.webp    f
+recipes/35.html -> Gebratene Nudeln.webp    f
+recipes/36.html -> Gebratener Reis.webp f
+recipes/37.html -> gemu╠êselasagne.webp f
+recipes/38.html -> Gnocchi.webp f
+recipes/39.html -> Guacamole.webpf
+recipes/40.html -> hotdog.webpf
+recipes/41.html -> Hummus.webpf
+recipes/42.html -> Kabeljau in Senfso├ƒe.webpf
+recipes/43.html -> kartoffelsalat.webpf
+recipes/44.html -> kasespatzle.webpf
+recipes/45.html -> Kimchi.webpf
+recipes/46.html -> Ku╠êrbissuppe.webpf
+recipes/47.html -> Lachsfilet mit Gemu╠êse.webpf
+recipes/48.html -> Lasagne.webp
+recipes/49.html -> linsensuppe.webp
+recipes/50.html -> mac and cheese.webp
+recipes/51.html -> MasalaDosaKI.webp
+recipes/52.html -> maultaschen.webp
+recipes/53.html -> moussaka-traditional-greek-dish.webp
+recipes/54.html -> Naan.webp
+recipes/55.html -> nachos.webp
+recipes/56.html -> ofengemüse.webp
+recipes/57.html -> Okonomiyaki.webp                         f
+recipes/58.html -> Onigiri.webp
+recipes/59.html -> Pad Thai.webp
+recipes/60.html -> paella.webp
+recipes/61.html -> PalekPaneerKI.webp
+recipes/62.html -> pancakes-4410605_1920.webp
+recipes/63.html -> pekingente.webp
+recipes/64.html -> Pho.webp
+recipes/65.html -> pide.webp
+recipes/66.html -> Pizza.webp
+recipes/67.html -> plate-lamb-kebabs-with-vegetables-bowl-red-sauce.webp
+recipes/68.html -> pokebowl.webp
+recipes/69.html -> pulledpork.webp
+recipes/70.html -> quesadillas.webp                                         fg
+recipes/71.html -> quiche Lorraine.webp
+recipes/72.html -> Ramen.webp
+recipes/73.html -> Ravioli.webp
+recipes/74.html -> Reibekuchen.webp
+recipes/75.html -> rinderouladen.webp
+recipes/76.html -> Risotto.webp
+recipes/77.html -> Samosas KI.webp
+recipes/78.html -> sauerbraten-2512441_1920.webp
+recipes/79.html -> Schnitzel.webp
+recipes/80.html -> Schweinebraten.webp                          
+recipes/81.html -> shakshuka.webp
+recipes/82.html -> Spaghetti.webp
+recipes/83.html -> spanish-tortilla-plate-high-angle.webp
+recipes/84.html -> steak.webp
+recipes/85.html -> Sushi.webp
+recipes/86.html -> tabbouleh-salad.webp
+recipes/87.html -> tacos.webp
+recipes/88.html -> Takoyaki.webp
+recipes/89.html -> tapas.webp
+recipes/90.html -> Tempura.webp
+recipes/91.html -> Teriyaki.webp
+recipes/92.html -> Thai Curry grün.webp
+recipes/93.html -> Thai Curry rot.webp
+recipes/94.html -> TomYumSuppe.webp
+recipes/95.html -> Tortellini.webp
+recipes/96.html -> Udon-nuden.webp
+recipes/97.html -> Vindaloo KI.webp
+recipes/98.html -> Yakitori.webp

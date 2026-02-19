@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yumly Rezepte</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap");
+        :root {
+            --yellow: #ffd400;
+            --dark-gray: #2b2b2b;
+            --black: #000000;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background-color: var(--black);
+            background-image: url("img/background.png");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .navbar {
+            width: 100%;
+            background: var(--dark-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px 16px;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+        }
+
+        .navbar__logo {
+            position: absolute;
+            left: 38px;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 56px;
+            width: auto;
+        }.navbar__title {
+            font-family: "Luckiest Guy", "Trebuchet MS", sans-serif;
+            font-size: 32px;
+            color: var(--yellow);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.45);
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <img class="navbar__logo" src="img/app_logo.png" alt="Yumly Logo">
+        <h1 class="navbar__title">Yumly Rezepte</h1></nav>
+    
+</body>
+</html>
+
+

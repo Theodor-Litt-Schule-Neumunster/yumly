@@ -1,0 +1,325 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yumly Rezepte</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap");
+        :root {
+            --yellow: #ffd400;
+            --dark-gray: #2b2b2b;
+            --black: #000000;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background-color: var(--black);
+            background-image: url("../img/background.png");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .navbar {
+            width: 100%;
+            background: var(--dark-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px 16px;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+        }
+
+        .navbar__logo {
+            position: absolute;
+            left: 38px;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 56px;
+            width: auto;
+        }.navbar__title {
+            font-family: "Luckiest Guy", "Trebuchet MS", sans-serif;
+            font-size: 32px;
+            color: var(--yellow);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.45);
+            margin: 0;
+        }
+
+        .page-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+            padding: 48px 16px 64px;
+        }
+
+        .card {
+            border: 4px solid var(--yellow);
+            border-radius: 18px;
+            background: var(--black);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .card--square {
+            width: 320px;
+            height: 320px;
+        }
+
+        .card--narrow {
+            width: 320px;
+            height: 90px;
+            background: #1e1e1e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 26px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .card--tall {
+            width: 320px;
+            min-height: 520px;
+            height: auto;
+            background: #1e1e1e;
+            color: #ffffff;
+            padding: 20px 18px 24px;
+            line-height: 1.45;
+        }
+
+        .card--flags {
+            width: 280px;
+            height: 64px;
+            background: #1e1e1e;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            overflow: hidden;
+            border-radius: 28px;
+        }
+
+        .flag-option {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+        }
+
+
+        .flag-option.is-selected {
+            background: rgba(46, 204, 113, 0.25);
+            box-shadow: inset 0 0 0 2px #2ecc71;
+            border-radius: 999px;
+        }
+
+        .recipe-text {
+            margin: 0;
+            font-size: 14px;
+            display: none;
+        }
+
+        .recipe-text.is-active {
+            display: block;
+        }
+
+        .recipe-text h2 {
+            margin: 0 0 12px;
+            font-size: 18px;
+            text-align: center;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #555555;
+        }
+
+        .recipe-text h3 {
+            margin: 16px 0 8px;
+            font-size: 16px;
+            text-align: center;
+            padding-bottom: 4px;
+            border-bottom: 1px solid #555555;
+        }
+
+        .recipe-text p {
+            margin: 6px 0;
+        }
+
+        .difficulty-tag {
+            display: inline-block;
+            margin-left: 6px;
+            padding: 2px 8px;
+            border-radius: 999px;
+            background: #b8f0c2;
+            border: 1px solid #2f8f3a;
+            color: #1f6b2a;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        .recipe-text ul,
+        .recipe-text ol {
+            margin: 6px 0 0 18px;
+            padding: 0;
+        }
+
+        .recipe-text li {
+            margin: 4px 0;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <h1 class="navbar__title">Yumly Rezepte</h1></nav>
+    <main class="page-content">
+        <section class="card card--square" style="background-image: url('../recipe%20img/friedchicken.webp'); background-size: cover; background-position: center;" aria-hidden="true"></section>
+        <section class="card card--narrow">Fried Chicken</section>
+        <section class="card card--flags" aria-label="Sprache auswaehlen">
+            <button class="flag-option" type="button" data-flag="de" aria-pressed="false">DE</button>
+            <button class="flag-option" type="button" data-flag="en" aria-pressed="false">EN</button>
+        </section>
+        <section class="card card--tall">
+            <div class="recipe-text is-active" data-lang="de">
+    <h2>&#127775; Kurzinfo</h2>
+    <p>Portionen: 4</p>
+    <p>Zeit: 45 Min. (+ Marinieren)</p>
+    <p>Schwierigkeit: <span class="difficulty-tag">Mittel</span></p>
+    <p>K&uuml;che: Amerikanisch</p>
+
+    <h3>&#129474; Zutaten</h3>
+    <ul>
+        <li>1 kg H&auml;hnchenteile</li>
+    </ul>
+    <p><strong>Marinade</strong></p>
+    <ul>
+        <li>500 ml Buttermilch</li>
+        <li>1 TL Paprikapulver</li>
+        <li>Salz, Pfeffer</li>
+    </ul>
+    <p><strong>Panade</strong></p>
+    <ul>
+        <li>200 g Mehl</li>
+        <li>1 TL Paprikapulver</li>
+        <li>1 TL Knoblauchpulver</li>
+        <li>Salz, Pfeffer</li>
+        <li>&Ouml;l zum Frittieren</li>
+    </ul>
+
+    <h3>&#128105;&#8205;&#127859; Zubereitung</h3>
+    <ol>
+        <li><strong>Marinieren</strong> H&auml;hnchen 2&ndash;12 Std. in Buttermilch marinieren.</li>
+        <li><strong>Panieren</strong> In gew&uuml;rztem Mehl wenden.</li>
+        <li><strong>Frittieren</strong> Bei 170&ndash;175 &deg;C 12&ndash;15 Min. goldbraun.</li>
+        <li><strong>Abtropfen</strong> Auf K&uuml;chenpapier ruhen lassen.</li>
+    </ol>
+
+    <h3>&#128161; Tipps</h3>
+    <ul>
+        <li>&Ouml;ltemperatur konstant halten.</li>
+        <li>Doppelt panieren f&uuml;r extra Crunch.</li>
+    </ul>
+
+    <h3>&#128257; Variationen</h3>
+    <ul>
+        <li>Scharf mit Cayenne</li>
+        <li>Ofenvariante mit wenig &Ouml;l</li>
+    </ul>
+</div>
+            <div class="recipe-text" data-lang="en">
+    <h2>&#127775; Quick Info</h2>
+    <p>Servings: 4</p>
+    <p>Time: 45 min (+ marinating)</p>
+    <p>Difficulty: <span class="difficulty-tag">Medium</span></p>
+    <p>Cuisine: American</p>
+
+    <h3>&#129474; Ingredients</h3>
+    <ul>
+        <li>1 kg chicken pieces</li>
+    </ul>
+    <p><strong>Marinade</strong></p>
+    <ul>
+        <li>500 ml buttermilk</li>
+        <li>1 tsp paprika</li>
+        <li>Salt, pepper</li>
+    </ul>
+    <p><strong>Breading</strong></p>
+    <ul>
+        <li>200 g flour</li>
+        <li>1 tsp paprika</li>
+        <li>1 tsp garlic powder</li>
+        <li>Salt, pepper</li>
+        <li>Oil for frying</li>
+    </ul>
+
+    <h3>&#128105;&#8205;&#127859; Instructions</h3>
+    <ol>
+        <li><strong>Marinate</strong> Soak chicken in buttermilk for 2&ndash;12 hours.</li>
+        <li><strong>Bread</strong> Dredge in seasoned flour.</li>
+        <li><strong>Fry</strong> Fry at 170&ndash;175 &deg;C for 12&ndash;15 min until golden.</li>
+        <li><strong>Drain</strong> Rest on paper towels.</li>
+    </ol>
+
+    <h3>&#128161; Tips</h3>
+    <ul>
+        <li>Keep oil temperature steady.</li>
+        <li>Double bread for extra crunch.</li>
+    </ul>
+
+    <h3>&#128257; Variations</h3>
+    <ul>
+        <li>Spicy with cayenne</li>
+        <li>Oven-baked with less oil</li>
+    </ul>
+</div>
+        </section>
+    </main>
+    <script>
+        const flagOptions = document.querySelectorAll(".flag-option");
+        const recipeBlocks = document.querySelectorAll(".recipe-text");
+
+        const setLanguage = (lang) => {
+            recipeBlocks.forEach((block) => {
+                block.classList.toggle("is-active", block.dataset.lang === lang);
+            });
+            flagOptions.forEach((btn) => {
+                const isActive = btn.dataset.flag === lang;
+                btn.classList.toggle("is-selected", isActive);
+                btn.setAttribute("aria-pressed", isActive ? "true" : "false");
+            });
+        };
+
+        setLanguage("de");
+
+        flagOptions.forEach((option) => {
+            option.addEventListener("click", () => {
+                setLanguage(option.dataset.flag);
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
