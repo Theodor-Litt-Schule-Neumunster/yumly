@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        Imageloader.resetExcludedList()
 
         loggedInUsername = intent.getStringExtra(LoginActivity.EXTRA_USERNAME)
 
@@ -38,8 +39,8 @@ class MainActivity : AppCompatActivity() {
         val zzDown = findViewById<TextView>(R.id.zzDown)
         val zzUp = findViewById<TextView>(R.id.zzTop)
 
-        setupSwipeableImage(imgdown, dishNameDown, zzDown)
-        setupSwipeableImage(imgup, dishNameUp, zzUp)
+        setupSwipeableImage(imgdown, dishNameDown, zzDown, imgup)
+        setupSwipeableImage(imgup, dishNameUp, zzUp, imgdown)
 
         lifecycleScope.launch {
             loadNewRecipe(imgdown, dishNameDown, zzDown)
@@ -50,10 +51,12 @@ class MainActivity : AppCompatActivity() {
     private fun loadNewRecipe(imageView: ImageView, dishNameView: TextView, zzView: TextView) {
         lifecycleScope.launch {
             try {
-                val recipe = imageloader.loadnewImg(imageView)
+                val recipe = Imageloader.loadnewImg(imageView)
                 if (recipe != null) {
+                    imageView.tag = recipe
                     dishNameView.text = recipe[0] as String
                     zzView.text = "${recipe[2]} Min."
+                    EloManager.starttimer()
                 }
             } catch (e: Exception) {
                 Log.e("testbutton", "${e}")
@@ -62,7 +65,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private fun setupSwipeableImage(imageView: ImageView, dishNameView: TextView, zzView: TextView) {
+    private fun setupSwipeableImage(imageView: ImageView, dishNameView: TextView, zzView: TextView, otherview: ImageView) {
         var dX = 0f
         var originalX = 0f
         imageView.post {
@@ -96,6 +99,8 @@ class MainActivity : AppCompatActivity() {
                                 view.x = originalX
                                 view.rotation = 0f
                                 view.alpha = 1f
+                                EloManager.updateElo( otherview.tag as MutableList<Any>, imageView.tag as MutableList<Any>,
+                                    EloManager.wasFastEnough())
                                 loadNewRecipe(imageView, dishNameView, zzView)
                             }
                             .start()

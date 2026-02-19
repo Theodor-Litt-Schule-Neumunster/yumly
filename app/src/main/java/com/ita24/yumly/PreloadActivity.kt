@@ -19,8 +19,8 @@ class PreloadActivity : AppCompatActivity() {
         lifecycleScope.launch(Dispatchers.IO) {
             try {
                 UserDataOnline(username ?: "").start()
-                imageloader.loadList()
-                imageloader.preloadImgs(this@PreloadActivity)
+                Imageloader.loadList()
+                Imageloader.preloadImgs(this@PreloadActivity)
             } catch (e: Exception) {
                 e.printStackTrace()
             }

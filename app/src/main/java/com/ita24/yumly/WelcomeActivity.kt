@@ -14,6 +14,7 @@ class WelcomeActivity : AppCompatActivity() {
 
         val welcomeTextView = findViewById<TextView>(R.id.welcomeTextView)
         val newSessionButton = findViewById<Button>(R.id.newSessionButton)
+        val uploadButton = findViewById<Button>(R.id.uploadButton)
         val manageAccountButton = findViewById<Button>(R.id.manageAccountButton)
         val logoutButton = findViewById<Button>(R.id.logoutButton)
 
@@ -34,6 +35,11 @@ class WelcomeActivity : AppCompatActivity() {
 
         manageAccountButton.setOnClickListener {
             val intent = Intent(this, ManageAccountActivity::class.java)
+            startActivity(intent)
+        }
+
+        uploadButton.setOnClickListener {
+            val intent = Intent(this, UploadRecipesActivity::class.java)
             startActivity(intent)
         }
 

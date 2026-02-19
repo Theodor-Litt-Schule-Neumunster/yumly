@@ -37,6 +37,10 @@
             android:name=".ManageAccountActivity"
             android:exported="false"/>
 
+        <activity
+            android:name=".UploadRecipesActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>
