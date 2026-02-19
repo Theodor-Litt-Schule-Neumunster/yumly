@@ -1,5 +1,6 @@
 package com.ita24.yumly
 
+import android.util.Log
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
@@ -17,6 +18,7 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputEditText
 import java.io.File
+import kotlin.String
 
 class UploadRecipesActivity : AppCompatActivity() {
 
@@ -91,6 +93,21 @@ class UploadRecipesActivity : AppCompatActivity() {
 
         val saveButton = findViewById<Button>(R.id.saveRecipe)
         val nameEditText = findViewById<TextInputEditText>(R.id.nameEditText)
+        val timefield = findViewById<TextInputEditText>(R.id.preparationTimeEditText)
+
+        var zeit = timefield.text.toString().trim().toIntOrNull()
+        if (zeit == null) {
+            Log.e("test", "zeit ist null")
+            zeit = 0;
+        }
+
+        val attributlist = attributeAdapter.getAttributes()
+
+        val imgurl = imageUri.toString()
+
+        val allergies = emptyList<String>()
+
+        userdataprefrecipes.init(this)
 
         saveButton.setOnClickListener {
             val name = nameEditText.text.toString().trim()
@@ -99,9 +116,25 @@ class UploadRecipesActivity : AppCompatActivity() {
                 Toast.makeText(this, "Bitte geben Sie dem Rezept einen Namen", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+            if (zeit == 0){
+                Toast.makeText(this, "Bitte geben Sie dem Rezept eine Zubereitungsdauer", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val rezept = localSavedRecipe(
+                name,
+                zeit,
+                imgurl,
+                ingredients,
+                allergies,
+                attributlist,
+                1100
+                )
+            userdataprefrecipes.saveRecipe(rezept)
 
             Toast.makeText(this, "Rezept \"$name\" hinzugefügt", Toast.LENGTH_SHORT).show()
-            finish() // Go back to the previous activity
+
+            finish()
         }
     }
 

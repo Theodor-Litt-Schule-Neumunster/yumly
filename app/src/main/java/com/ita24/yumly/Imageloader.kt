@@ -52,30 +52,65 @@ object Imageloader
             )
             count++
         }
+            addLokalToList(count)
             Log.e("testloadlist", "$liste")
 
         }catch (e: Exception){
             Log.e("testloader", "${e}")
         }
     }
+
+    fun addLokalToList(count: Int){
+        var count = count
+        val locals = userdataprefrecipes.getAllRecipes()
+        for (recipe in locals){
+            val id = count
+            val name = recipe.name
+            val bildurl = recipe.imgurl
+            val zeit = recipe.zeit
+            val zutaten = recipe.ingredients
+            val allergien = recipe.allergies
+            val attribute = recipe.attributlist
+            val elorank = recipe.elo
+
+            liste.add(
+                mutableListOf(
+                    name,
+                    bildurl,
+                    zeit,
+                    zutaten,
+                    allergien,
+                    attribute,
+                    elorank,
+                    id
+                )
+            )
+            count++
+        }
+
+    }
     suspend fun preloadImgs(context: Context) {
         try {
             coroutineScope {
                 liste.forEach { eintrag ->
                     val url = eintrag[1] as String
-
-                    launch(Dispatchers.IO) {
-                        try {
-                            Log.d("testloader", "Starte: $url")
-                            Glide.with(context.applicationContext)
-                                .downloadOnly()
-                                .load(url)
-                                .submit()
-                                .get()
-                            Log.d("testloader", "Fertig: $url")
-                        } catch (e: Exception) {
-                            Log.e("testloader", "Fehler bei $url", e)
+                    if (url.startsWith("http:") || url.startsWith("https:"))
+                    {
+                        launch(Dispatchers.IO) {
+                            try {
+                                Log.d("testloader", "Starte: $url")
+                                Glide.with(context.applicationContext)
+                                    .downloadOnly()
+                                    .load(url)
+                                    .submit()
+                                    .get()
+                                Log.d("testloader", "Fertig: $url")
+                            } catch (e: Exception) {
+                                Log.e("testloader", "Fehler bei $url", e)
+                            }
                         }
+                    }else{
+                        Log.d("testloader", "localimg: $url")
                     }
                 }
             }

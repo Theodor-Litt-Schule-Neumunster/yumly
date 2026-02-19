@@ -10,6 +10,10 @@ class AttributeAdapter(private val items: List<AttributeItem>) : RecyclerView.Ad
 
     val selectedAttributes = mutableSetOf<String>()
 
+    fun getAttributes(): List<String> {
+        return selectedAttributes.toList()
+    }
+
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val imageView: ImageView = view.findViewById(R.id.attributeImageView)
         val overlay: View = view.findViewById(R.id.selectionOverlay)
