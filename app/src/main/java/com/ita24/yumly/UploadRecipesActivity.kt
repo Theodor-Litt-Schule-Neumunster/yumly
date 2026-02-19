@@ -1,5 +1,6 @@
 package com.ita24.yumly
 
+import android.util.Log
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
@@ -17,6 +18,7 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputEditText
 import java.io.File
+import kotlin.String
 
 class UploadRecipesActivity : AppCompatActivity() {
 
@@ -91,17 +93,48 @@ class UploadRecipesActivity : AppCompatActivity() {
 
         val saveButton = findViewById<Button>(R.id.saveRecipe)
         val nameEditText = findViewById<TextInputEditText>(R.id.nameEditText)
+        val timefield = findViewById<TextInputEditText>(R.id.preparationTimeEditText)
+
+
+        userdataprefrecipes.init(this)
 
         saveButton.setOnClickListener {
             val name = nameEditText.text.toString().trim()
+            var zeit = timefield.text.toString().trim().toIntOrNull()
+            if (zeit == null) {
+                Log.e("test", "zeit ist null")
+                zeit = 0;
+            }
+
+            val attributlist = attributeAdapter.getAttributes()
+
+            val imgurl = imageUri.toString()
+
+            val allergies = emptyList<String>()
 
             if (name.isEmpty()) {
                 Toast.makeText(this, "Bitte geben Sie dem Rezept einen Namen", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+            if (zeit == 0){
+                Toast.makeText(this, "Bitte geben Sie dem Rezept eine Zubereitungsdauer", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val rezept = localSavedRecipe(
+                name,
+                zeit,
+                imgurl,
+                ingredients,
+                allergies,
+                attributlist,
+                1100
+                )
+            userdataprefrecipes.saveRecipe(rezept)
 
             Toast.makeText(this, "Rezept \"$name\" hinzugefügt", Toast.LENGTH_SHORT).show()
-            finish() // Go back to the previous activity
+
+            finish()
         }
     }
 
@@ -112,10 +145,20 @@ class UploadRecipesActivity : AppCompatActivity() {
 
     private fun createAttributeList(): List<AttributeItem> {
         return listOf(
+            AttributeItem("baked_att", R.drawable.baked_att),
+            AttributeItem("cold_att", R.drawable.cold_att),
+            AttributeItem("cooked_att", R.drawable.cooked_att),
             AttributeItem("baked_att", R.drawable.gebacken_german),
             AttributeItem("cold_att", R.drawable.kalt_german),
             AttributeItem("cooked_att", R.drawable.gekocht_german),
             AttributeItem("fast_food_att", R.drawable.fast_food_att),
+            AttributeItem("gluten_free_att", R.drawable.gluten_free_att),
+            AttributeItem("grilled_att", R.drawable.grilled_att),
+            AttributeItem("hearty_att", R.drawable.hearty_att),
+            AttributeItem("hot_att", R.drawable.hot_att),
+            AttributeItem("lactose_free_att", R.drawable.lactose_free_att),
+            AttributeItem("spicy_att", R.drawable.spicy_att),
+            AttributeItem("sweet_att", R.drawable.sweet_att),
             AttributeItem("gluten_free_att", R.drawable.gluten_frei_german),
             AttributeItem("grilled_att", R.drawable.gegrillt_german),
             AttributeItem("hearty_att", R.drawable.herzhaft_german),

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yumly Rezepte</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap");
+        :root {
+            --yellow: #ffd400;
+            --dark-gray: #2b2b2b;
+            --black: #000000;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background-color: var(--black);
+            background-image: url("../img/background.png");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .navbar {
+            width: 100%;
+            background: var(--dark-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px 16px;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+        }
+
+        .navbar__logo {
+            position: absolute;
+            left: 38px;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 56px;
+            width: auto;
+        }.navbar__title {
+            font-family: "Luckiest Guy", "Trebuchet MS", sans-serif;
+            font-size: 32px;
+            color: var(--yellow);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.45);
+            margin: 0;
+        }
+
+        .page-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+            padding: 48px 16px 64px;
+        }
+
+        .card {
+            border: 4px solid var(--yellow);
+            border-radius: 18px;
+            background: var(--black);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .card--square {
+            width: 320px;
+            height: 320px;
+        }
+
+        .card--narrow {
+            width: 320px;
+            height: 90px;
+            background: #1e1e1e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 26px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .card--tall {
+            width: 320px;
+            min-height: 520px;
+            height: auto;
+            background: #1e1e1e;
+            color: #ffffff;
+            padding: 20px 18px 24px;
+            line-height: 1.45;
+        }
+
+        .card--flags {
+            width: 280px;
+            height: 64px;
+            background: #1e1e1e;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            overflow: hidden;
+            border-radius: 28px;
+        }
+
+        .flag-option {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+        }
+
+
+        .flag-option.is-selected {
+            background: rgba(46, 204, 113, 0.25);
+            box-shadow: inset 0 0 0 2px #2ecc71;
+            border-radius: 999px;
+        }
+
+        .recipe-text {
+            margin: 0;
+            font-size: 14px;
+            display: none;
+        }
+
+        .recipe-text.is-active {
+            display: block;
+        }
+
+        .recipe-text h2 {
+            margin: 0 0 12px;
+            font-size: 18px;
+            text-align: center;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #555555;
+        }
+
+        .recipe-text h3 {
+            margin: 16px 0 8px;
+            font-size: 16px;
+            text-align: center;
+            padding-bottom: 4px;
+            border-bottom: 1px solid #555555;
+        }
+
+        .recipe-text p {
+            margin: 6px 0;
+        }
+
+        .difficulty-tag {
+            display: inline-block;
+            margin-left: 6px;
+            padding: 2px 8px;
+            border-radius: 999px;
+            background: #b8f0c2;
+            border: 1px solid #2f8f3a;
+            color: #1f6b2a;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        .recipe-text ul,
+        .recipe-text ol {
+            margin: 6px 0 0 18px;
+            padding: 0;
+        }
+
+        .recipe-text li {
+            margin: 4px 0;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <h1 class="navbar__title">Yumly Rezepte</h1></nav>
+    <main class="page-content">
+        <section class="card card--square" style="background-image: url('../recipe%20img/avocado%20toast.webp'); background-size: cover; background-position: center;" aria-hidden="true"></section>
+        <section class="card card--narrow">Avocado Toast</section>
+        <section class="card card--flags" aria-label="Sprache auswaehlen">
+            <button class="flag-option" type="button" data-flag="de" aria-pressed="false">DE</button>
+            <button class="flag-option" type="button" data-flag="en" aria-pressed="false">EN</button>
+        </section>
+        <section class="card card--tall">
+            <div class="recipe-text is-active" data-lang="de">
+                <h2>🌟 Kurzinfo</h2>
+                <p>Portionen: 4</p>
+                <p>Vorbereitungszeit: 10–15 Minuten</p>
+                <p>Schwierigkeit: <span class="difficulty-tag">Einfach</span></p>
+                <p>Küche: Mexikanisch</p>
+
+                <h3>🧂 Zutaten</h3>
+                <ul>
+                    <li>3 reife Avocados</li>
+                    <li>1 kleine rote Zwiebel (fein gewürfelt)</li>
+                    <li>1–2 reife Tomaten (gewürfelt, Kerne optional entfernt)</li>
+                    <li>1 Limette (Saft)</li>
+                    <li>1 kleine Knoblauchzehe (gepresst oder sehr fein gehackt)</li>
+                    <li>2–3 EL frischer Koriander (gehackt)</li>
+                    <li>Salz nach Geschmack</li>
+                    <li>Optional: schwarzer Pfeffer, Chili, Jalapeño</li>
+                </ul>
+
+                <h3>👩‍🍳 Zubereitung</h3>
+                <ol>
+                    <li><strong>Avocados vorbereiten</strong> Avocados halbieren, Kern entfernen und das Fruchtfleisch mit einem Löffel in eine Schüssel geben.</li>
+                    <li><strong>Zerdrücken</strong> Mit einer Gabel grob oder cremig zerdrücken – je nach gewünschter Konsistenz.</li>
+                    <li><strong>Würzen &amp; Mischen</strong> Limettensaft sofort untermischen (verhindert Braunwerden). Zwiebel, Tomaten, Knoblauch und Koriander hinzufügen.</li>
+                    <li><strong>Abschmecken</strong> Mit Salz, Pfeffer und optional Chili/Jalapeño würzen. Alles vorsichtig vermengen.</li>
+                    <li><strong>Servieren</strong> Frisch servieren, z. B. mit Tortilla-Chips, als Brotaufstrich oder Beilage.</li>
+                </ol>
+
+                <h3>💡 Tipps</h3>
+                <ul>
+                    <li>Reife Avocados: Geben bei leichtem Druck nach, sind aber nicht matschig.</li>
+                    <li>Weniger Wasser: Tomatenkerne entfernen für dickere Guacamole.</li>
+                    <li>Aufbewahrung: Luftdicht abdecken (Frischhaltefolie direkt auf die Oberfläche). Im Kühlschrank 1 Tag haltbar.</li>
+                </ul>
+
+                <h3>✨ Variationen</h3>
+                <ul>
+                    <li>Fruchtig: Mit gewürfelter Mango oder Ananas.</li>
+                    <li>Extra cremig: 1–2 EL Joghurt oder Crème fraîche.</li>
+                    <li>Würzig: Kreuzkümmel oder geräuchertes Paprikapulver.</li>
+                </ul>
+            </div>
+            <div class="recipe-text" data-lang="en">
+                <h2>🌟 Quick Info</h2>
+                <p>Servings: 4</p>
+                <p>Prep time: 10–15 minutes</p>
+                <p>Difficulty: <span class="difficulty-tag">Easy</span></p>
+                <p>Cuisine: Mexican</p>
+
+                <h3>🧂 Ingredients</h3>
+                <ul>
+                    <li>3 ripe avocados</li>
+                    <li>1 small red onion (finely diced)</li>
+                    <li>1–2 ripe tomatoes (diced, seeds optional)</li>
+                    <li>1 lime (juice)</li>
+                    <li>1 small garlic clove (pressed or finely chopped)</li>
+                    <li>2–3 tbsp fresh cilantro (chopped)</li>
+                    <li>Salt to taste</li>
+                    <li>Optional: black pepper, chili, jalapeño</li>
+                </ul>
+
+                <h3>👩‍🍳 Instructions</h3>
+                <ol>
+                    <li><strong>Prep the avocados</strong> Halve the avocados, remove the pit, and scoop the flesh into a bowl.</li>
+                    <li><strong>Mash</strong> Mash with a fork to your preferred texture, chunky or creamy.</li>
+                    <li><strong>Season &amp; mix</strong> Stir in lime juice right away (prevents browning). Add onion, tomatoes, garlic, and cilantro.</li>
+                    <li><strong>Adjust</strong> Season with salt, pepper, and optional chili/jalapeño. Mix gently.</li>
+                    <li><strong>Serve</strong> Serve fresh, e.g. with tortilla chips, as a spread, or as a side.</li>
+                </ol>
+
+                <h3>💡 Tips</h3>
+                <ul>
+                    <li>Ripe avocados: Yield to gentle pressure but are not mushy.</li>
+                    <li>Less water: Remove tomato seeds for a thicker guacamole.</li>
+                    <li>Storage: Cover airtight (plastic wrap touching the surface). Keeps 1 day in the fridge.</li>
+                </ul>
+
+                <h3>✨ Variations</h3>
+                <ul>
+                    <li>Fruity: Add diced mango or pineapple.</li>
+                    <li>Extra creamy: 1–2 tbsp yogurt or crème fraîche.</li>
+                    <li>Spicy: Cumin or smoked paprika.</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+    <script>
+        const flagOptions = document.querySelectorAll(".flag-option");
+        const recipeBlocks = document.querySelectorAll(".recipe-text");
+
+        const setLanguage = (lang) => {
+            recipeBlocks.forEach((block) => {
+                block.classList.toggle("is-active", block.dataset.lang === lang);
+            });
+            flagOptions.forEach((btn) => {
+                const isActive = btn.dataset.flag === lang;
+                btn.classList.toggle("is-selected", isActive);
+                btn.setAttribute("aria-pressed", isActive ? "true" : "false");
+            });
+        };
+
+        setLanguage("de");
+
+        flagOptions.forEach((option) => {
+            option.addEventListener("click", () => {
+                setLanguage(option.dataset.flag);
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
