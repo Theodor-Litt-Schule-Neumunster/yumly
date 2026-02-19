@@ -95,22 +95,22 @@ class UploadRecipesActivity : AppCompatActivity() {
         val nameEditText = findViewById<TextInputEditText>(R.id.nameEditText)
         val timefield = findViewById<TextInputEditText>(R.id.preparationTimeEditText)
 
-        var zeit = timefield.text.toString().trim().toIntOrNull()
-        if (zeit == null) {
-            Log.e("test", "zeit ist null")
-            zeit = 0;
-        }
-
-        val attributlist = attributeAdapter.getAttributes()
-
-        val imgurl = imageUri.toString()
-
-        val allergies = emptyList<String>()
 
         userdataprefrecipes.init(this)
 
         saveButton.setOnClickListener {
             val name = nameEditText.text.toString().trim()
+            var zeit = timefield.text.toString().trim().toIntOrNull()
+            if (zeit == null) {
+                Log.e("test", "zeit ist null")
+                zeit = 0;
+            }
+
+            val attributlist = attributeAdapter.getAttributes()
+
+            val imgurl = imageUri.toString()
+
+            val allergies = emptyList<String>()
 
             if (name.isEmpty()) {
                 Toast.makeText(this, "Bitte geben Sie dem Rezept einen Namen", Toast.LENGTH_SHORT).show()
