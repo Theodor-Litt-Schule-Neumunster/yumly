@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="2dp">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/attributeImageView"
+            android:layout_width="match_parent"
+            android:layout_height="70dp" 
+            android:scaleType="fitCenter" 
+            android:padding="4dp"
+            tools:src="@drawable/veggie_att" />
+
+        <View
+            android:id="@+id/selectionOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#40FFD600"
+            android:visibility="gone"
+            tools:visibility="visible"/>
+
+    </FrameLayout>
+</androidx.cardview.widget.CardView>
