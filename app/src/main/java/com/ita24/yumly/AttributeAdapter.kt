@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 
 class AttributeAdapter(private val items: List<AttributeItem>) : RecyclerView.Adapter<AttributeAdapter.ViewHolder>() {
 
-    // Holds the currently selected attribute names
     val selectedAttributes = mutableSetOf<String>()
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

@@ -29,5 +29,4 @@
             tools:visibility="visible"/>
 
     </FrameLayout>
-
 </androidx.cardview.widget.CardView>

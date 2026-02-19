@@ -40,6 +40,71 @@
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/preparationTimeInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Zubereitungszeit in Minuten"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nameInputLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/preparationTimeEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/ingredientsLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Zutaten hinzufügen"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/preparationTimeInputLayout" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/ingredientInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="Zutaten eingeben"
+            app:layout_constraintEnd_toStartOf="@id/addIngredientButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ingredientsLabel">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ingredientEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageButton
+            android:id="@+id/addIngredientButton"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_add"
+            app:layout_constraintBottom_toBottomOf="@id/ingredientInputLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ingredientInputLayout" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/ingredientChipGroup"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ingredientInputLayout" />
+
         <Button
             android:id="@+id/uploadImageButton"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -49,7 +114,7 @@
             android:text="Bild hochladen"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/nameInputLayout" />
+            app:layout_constraintTop_toBottomOf="@id/ingredientChipGroup" />
 
         <ImageView
             android:id="@+id/recipeImageView"
@@ -85,52 +150,6 @@
             tools:itemCount="12"
             tools:listitem="@layout/item_attribute" />
 
-        <TextView
-            android:id="@+id/ingredientsLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="Zutaten hinzufügen"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/attributesRecyclerView" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/ingredientInputLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:hint="Zutaten eingeben mit Komma getrennt"
-            app:layout_constraintEnd_toStartOf="@id/addIngredientButton"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ingredientsLabel">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/ingredientEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <ImageButton
-            android:id="@+id/addIngredientButton"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:src="@drawable/ic_add"
-            app:layout_constraintBottom_toBottomOf="@id/ingredientInputLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/ingredientInputLayout" />
-
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/ingredientChipGroup"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ingredientInputLayout" />
-
         <Button
             android:id="@+id/saveRecipe"
             android:layout_width="0dp"
@@ -139,7 +158,7 @@
             android:text="Rezept speichern"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ingredientChipGroup"
+            app:layout_constraintTop_toBottomOf="@id/attributesRecyclerView" 
             app:layout_constraintVertical_bias="1.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

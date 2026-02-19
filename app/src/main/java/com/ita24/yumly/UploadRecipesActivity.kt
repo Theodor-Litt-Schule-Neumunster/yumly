@@ -1,7 +1,5 @@
 package com.ita24.yumly
 
-import android.app.Activity
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
@@ -11,25 +9,23 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import kotlin.collections.filter
-import kotlin.collections.forEach
-import kotlin.collections.joinToString
-import kotlin.collections.map
-import kotlin.text.isNotEmpty
-import kotlin.text.split
-import kotlin.text.trim
+import com.google.android.material.textfield.TextInputEditText
+import java.io.File
 
 class UploadRecipesActivity : AppCompatActivity() {
 
     private val ingredients = mutableListOf<String>()
     private var imageUri: Uri? = null
+    private var tempImageUri: Uri? = null
     private lateinit var recipeImageView: ImageView
-    private lateinit var imagePickerLauncher: ActivityResultLauncher<Intent>
-
+    private lateinit var galleryLauncher: ActivityResultLauncher<String>
+    private lateinit var cameraLauncher: ActivityResultLauncher<Uri>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,9 +33,16 @@ class UploadRecipesActivity : AppCompatActivity() {
 
         recipeImageView = findViewById(R.id.recipeImageView)
 
-        imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                result.data?.data?.let {
+        galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            uri?.let {
+                imageUri = it
+                recipeImageView.setImageURI(it)
+            }
+        }
+
+        cameraLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { isSuccess: Boolean ->
+            if (isSuccess) {
+                tempImageUri?.let {
                     imageUri = it
                     recipeImageView.setImageURI(it)
                 }
@@ -48,18 +51,26 @@ class UploadRecipesActivity : AppCompatActivity() {
 
         val uploadImageButton = findViewById<Button>(R.id.uploadImageButton)
         uploadImageButton.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            imagePickerLauncher.launch(intent)
+            val options = arrayOf("Kamera", "Galerie")
+            AlertDialog.Builder(this)
+                .setTitle("Bild auswählen")
+                .setItems(options) { _, which ->
+                    when (which) {
+                        0 -> {
+                            tempImageUri = createImageUri()
+                            tempImageUri?.let { cameraLauncher.launch(it) }
+                        }
+                        1 -> galleryLauncher.launch("image/*")
+                    }
+                }
+                .show()
         }
 
-        // --- Attribute Selection Setup ---
         val recyclerView = findViewById<RecyclerView>(R.id.attributesRecyclerView)
         val attributes = createAttributeList()
         val attributeAdapter = AttributeAdapter(attributes)
         recyclerView.adapter = attributeAdapter
 
-        // --- Ingredient-Adding Setup ---
         val ingredientEditText = findViewById<EditText>(R.id.ingredientEditText)
         val addIngredientButton = findViewById<ImageButton>(R.id.addIngredientButton)
         val ingredientChipGroup = findViewById<ChipGroup>(R.id.ingredientChipGroup)
@@ -67,27 +78,36 @@ class UploadRecipesActivity : AppCompatActivity() {
         addIngredientButton.setOnClickListener {
             val ingredientsText = ingredientEditText.text.toString().trim()
             if (ingredientsText.isNotEmpty()) {
-                // Split the input by commas and trim whitespace from each ingredient
                 val newIngredients = ingredientsText.split(",").map { it.trim() }.filter { it.isNotEmpty() }
-                
                 newIngredients.forEach { ingredient ->
                     if (!ingredients.contains(ingredient)) {
                         addIngredientChip(ingredient, ingredientChipGroup)
                         ingredients.add(ingredient)
                     }
                 }
-                ingredientEditText.text.clear() // Clear the input field
+                ingredientEditText.text.clear()
             }
         }
 
-        // --- Save Button Setup ---
         val saveButton = findViewById<Button>(R.id.saveRecipe)
+        val nameEditText = findViewById<TextInputEditText>(R.id.nameEditText)
+
         saveButton.setOnClickListener {
-            val selectedAttributeNames = attributeAdapter.selectedAttributes
-            // TODO: Add logic to save the recipe with the selected attributes and ingredients
-            Toast.makeText(this, "Ausgewählte Attribute: ${'$'}{selectedAttributeNames.joinToString()}", Toast.LENGTH_LONG).show()
-            Toast.makeText(this, "Zutaten: ${'$'}{ingredients.joinToString()}", Toast.LENGTH_LONG).show()
+            val name = nameEditText.text.toString().trim()
+
+            if (name.isEmpty()) {
+                Toast.makeText(this, "Bitte geben Sie dem Rezept einen Namen", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            Toast.makeText(this, "Rezept \"$name\" hinzugefügt", Toast.LENGTH_SHORT).show()
+            finish() // Go back to the previous activity
         }
+    }
+
+    private fun createImageUri(): Uri {
+        val image = File(filesDir, "camera_photo.png")
+        return FileProvider.getUriForFile(this, "com.ita24.yumly.fileprovider", image)
     }
 
     private fun createAttributeList(): List<AttributeItem> {
