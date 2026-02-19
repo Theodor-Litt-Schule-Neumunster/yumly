@@ -12,7 +12,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
-
 class MainActivity : AppCompatActivity() {
 
     private var loggedInUsername: String? = null
@@ -63,6 +62,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
 
     @SuppressLint("ClickableViewAccessibility")
     private fun setupSwipeableImage(imageView: ImageView, dishNameView: TextView, zzView: TextView, otherview: ImageView) {
