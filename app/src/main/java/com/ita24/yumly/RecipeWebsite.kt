@@ -7,7 +7,7 @@ import android.content.Context
 object RecipeWebsite{
 
     fun getName(id: Int): String{
-        val url = "https://saschalf6.github.io/yumly-website/recipes/" + id + ".html"
+        val url = "https://theodor-litt-schule-neumunster.github.io/yumly/recipes/" + id + ".html"
         return url
     }
 
