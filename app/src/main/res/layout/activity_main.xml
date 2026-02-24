@@ -9,37 +9,40 @@
 
     <TextView
         android:id="@+id/zzTop"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:gravity="end"
+        android:layout_width="147dp"
+        android:layout_height="57dp"
+        android:background="@drawable/time_button"
+        android:gravity="center"
+        android:paddingStart="30dp"
+        android:paddingBottom="1dp"
+        android:text="120 Min."
         android:textColor="@color/white"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageUp"
-        app:layout_constraintEnd_toStartOf="@+id/imageUp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageUp"
-        tools:text="120 Min." />
+        android:textSize="19sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/dishNameTop"
+        app:layout_constraintEnd_toEndOf="@+id/dishNameTop"
+        app:layout_constraintHorizontal_bias="0.55"/>
 
     <TextView
         android:id="@+id/zzDown"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:gravity="start"
+        android:layout_width="147dp"
+        android:layout_height="57dp"
+        android:background="@drawable/time_button"
+        android:gravity="center"
+        android:paddingStart="30dp"
+        android:paddingBottom="1dp"
+        android:text="120 Min."
         android:textColor="@color/white"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageDown"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageDown"
-        app:layout_constraintTop_toTopOf="@+id/imageDown"
+        android:textSize="19sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/imageDown"
+        app:layout_constraintBottom_toTopOf="@+id/imageDown"
         tools:text="120 Min." />
 
+
     <ImageView
-        android:layout_width="251dp"
-        android:layout_height="190dp"
+        android:layout_width="211dp"
+        android:layout_height="150dp"
         android:rotation="10"
         android:scaleType="fitXY"
         android:src="@drawable/or_test"
@@ -51,25 +54,27 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imageUp"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
+        android:elevation="10dp"
+        android:layout_width="330dp"
+        android:layout_height="330dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:background="@color/black"
-        app:shapeAppearanceOverlay="@style/abgerundet"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/abgerundet" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imageDown"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_marginBottom="16dp"
+        android:elevation="10dp"
+        android:layout_width="330dp"
+        android:layout_height="330dp"
         android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
         android:background="@color/black"
-        app:shapeAppearanceOverlay="@style/abgerundet"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:shapeAppearanceOverlay="@style/abgerundet" />
 
     <TextView
         android:id="@+id/dishNameTop"
@@ -81,7 +86,6 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/imageUp"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/imageUp"
         app:layout_constraintTop_toBottomOf="@+id/imageUp"
         tools:text="Platzhalter" />
 
@@ -89,14 +93,13 @@
         android:id="@+id/dishNameDown"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:textColor="@color/white"
         android:textSize="22sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/imageDown"
-        app:layout_constraintEnd_toEndOf="@+id/imageDown"
+        app:layout_constraintBottom_toTopOf="@+id/zzDown"
+        app:layout_constraintEnd_toEndOf="@+id/zzDown"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/imageDown"
+        app:layout_constraintStart_toStartOf="@+id/zzDown"
         tools:text="Platzhalter" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
