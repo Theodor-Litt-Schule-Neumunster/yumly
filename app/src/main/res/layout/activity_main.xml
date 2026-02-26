@@ -22,23 +22,24 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/imageUpCard"
-
-
-        android:backgroundTint="@color/yumly_sand"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.85"
         app:layout_constraintHeight_percent="0.45"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:strokeWidth="4dp"
         app:strokeColor="@color/white"
-
         app:cardCornerRadius="20dp"
         app:cardElevation="12dp">
 
+        <!-- Card Front -->
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/card_front_up"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/yumly_sand">
 
             <TextView
                 android:id="@+id/zzTop"
@@ -56,24 +57,19 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="2dp"
-
-
                 tools:text="120 Min." />
 
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imageUp"
                 android:elevation="10dp"
-
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintWidth_percent="0.98"
                 app:layout_constraintDimensionRatio="1:1"
-
                 android:background="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-
                 app:layout_constraintTop_toTopOf="parent"
                 app:shapeAppearanceOverlay="@style/abgerundet" />
 
@@ -87,43 +83,70 @@
                 android:gravity="center_horizontal"
                 app:layout_constraintTop_toBottomOf="@+id/imageUp"
                 app:layout_constraintBottom_toBottomOf="parent"
-
-
                 android:singleLine="true"
                 android:ellipsize="marquee"
                 android:marqueeRepeatLimit="marquee_forever"
-
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-
                 app:layout_constraintWidth_percent="0.50"
                 app:layout_constraintEnd_toStartOf="@+id/zzTop"
                 app:layout_constraintStart_toStartOf="@id/imageUp"
-
-
                 tools:text="Platzhalterfsdnfjdjghdfjkgbkjfdhgkjdhfjkgjdkfhgjkdfhgh" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Card Back -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/card_back_up"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/yumly_sand"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/recipe_attributes_up"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="16dp"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/recipe_website_button_up"/>
+
+            <Button
+                android:id="@+id/recipe_website_button_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Zur Webseite"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginBottom="16dp"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/imageDownCard"
-
-        android:backgroundTint="@color/yumly_sand"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.85"
         app:layout_constraintHeight_percent="0.45"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:strokeWidth="4dp"
         app:strokeColor="@color/white"
-
         app:cardCornerRadius="20dp"
         app:cardElevation="12dp">
 
+        <!-- Card Front -->
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/card_front_down"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/yumly_sand">
 
             <TextView
                 android:id="@+id/zzDown"
@@ -147,16 +170,13 @@
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imageDown"
                 android:elevation="10dp"
-
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintWidth_percent="0.98"
                 app:layout_constraintDimensionRatio="1:1"
-
                 android:background="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:shapeAppearanceOverlay="@style/abgerundet" />
 
@@ -168,25 +188,50 @@
                 android:textSize="22sp"
                 android:textStyle="bold"
                 android:gravity="center_horizontal"
-                app:layout_constraintBottom_toTopOf="@+id/imageDown"
+                app:layout_constraintBottom_toTopOf="@id/imageDown"
                 app:layout_constraintTop_toTopOf="parent"
-
                 android:singleLine="true"
                 android:ellipsize="marquee"
                 android:marqueeRepeatLimit="marquee_forever"
-
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-
                 app:layout_constraintWidth_percent="0.50"
-
                 app:layout_constraintEnd_toEndOf="@id/imageDown"
                 app:layout_constraintStart_toEndOf="@id/zzDown"
-
-
                 tools:text="Platzhalter" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Card Back -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/card_back_down"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/yumly_sand"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/recipe_attributes_down"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="16dp"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/recipe_website_button_down"/>
+
+            <Button
+                android:id="@+id/recipe_website_button_down"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Zur Webseite"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginBottom="16dp"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

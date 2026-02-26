@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <!-- Declare camera feature, but it's not required to install the app -->
     <uses-feature
         android:name="android.hardware.camera"
@@ -44,6 +46,10 @@
 
         <activity
             android:name=".UploadRecipesActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".RecipeWebViewActivity"
             android:exported="false" />
         
         <!-- FileProvider for sharing the image URI securely with the camera app -->
