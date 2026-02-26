@@ -38,7 +38,8 @@ class LoginActivity : AppCompatActivity() {
             val password = passwordEditText.text.toString().trim()
 
             if (username.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Bitte Nutzername und Passwort eingeben.", Toast.LENGTH_SHORT).show()
+                val text = getString(R.string.login_empty_credentials_toast)
+                Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -52,27 +53,32 @@ class LoginActivity : AppCompatActivity() {
                         val storedPassword = snapshot.child("password").getValue(String::class.java)
                         if (storedPassword == password) {
                             SessionManager.saveSession(this@LoginActivity, username)
-                            Toast.makeText(this@LoginActivity, "Anmeldung erfolgreich.", Toast.LENGTH_SHORT).show()
+                            val text = getString(R.string.login_successful_toast)
+                            Toast.makeText(this@LoginActivity, text, Toast.LENGTH_SHORT).show()
                             navigateToWelcomeActivity(username)
                         } else {
-                            Toast.makeText(this@LoginActivity, "Nutzername vergeben; Falsches Passwort.", Toast.LENGTH_SHORT).show()
+                            val text = getString(R.string.login_wrong_password_toast)
+                            Toast.makeText(this@LoginActivity, text, Toast.LENGTH_SHORT).show()
                         }
                     } else {
                         val newUser = mapOf("password" to password)
                         userQuery.setValue(newUser).addOnCompleteListener { task ->
                             if (task.isSuccessful) {
                                 SessionManager.saveSession(this@LoginActivity, username)
-                                Toast.makeText(this@LoginActivity, "Registrierung erfolgreich.", Toast.LENGTH_SHORT).show()
+                                val text = getString(R.string.login_account_created_toast)
+                                Toast.makeText(this@LoginActivity, text, Toast.LENGTH_SHORT).show()
                                 navigateToWelcomeActivity(username)
                             } else {
-                                Toast.makeText(this@LoginActivity, "Registrierung fehlgeschlagen.", Toast.LENGTH_SHORT).show()
+                                val text = getString(R.string.login_account_creation_error_toast)
+                                Toast.makeText(this@LoginActivity, text, Toast.LENGTH_SHORT).show()
                             }
                         }
                     }
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(this@LoginActivity, "Datenbankfehler: ${error.message}", Toast.LENGTH_SHORT).show()
+                    val text = getString(R.string.login_database_error_toast, error.message)
+                    Toast.makeText(this@LoginActivity, text, Toast.LENGTH_SHORT).show()
                 }
             })
         }

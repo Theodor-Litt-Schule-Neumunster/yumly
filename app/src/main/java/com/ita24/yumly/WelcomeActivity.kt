@@ -21,7 +21,7 @@ class WelcomeActivity : AppCompatActivity() {
         val username = SessionManager.getSession(this)
 
         if (username != null) {
-            welcomeTextView.text = "Hallo, $username!"
+            welcomeTextView.text = getString(R.string.welcome_greeting, username)
         } else {
             navigateToLogin()
             return

@@ -53,9 +53,11 @@ class UploadRecipesActivity : AppCompatActivity() {
 
         val uploadImageButton = findViewById<Button>(R.id.uploadImageButton)
         uploadImageButton.setOnClickListener {
-            val options = arrayOf("Kamera", "Galerie")
+            val camera_option = getString(R.string.camera_option)
+            val gallery_option = getString(R.string.gallery_option)
+            val options = arrayOf(camera_option, gallery_option)
             AlertDialog.Builder(this)
-                .setTitle("Bild auswählen")
+                .setTitle(getString(R.string.select_image_dialog_title))
                 .setItems(options) { _, which ->
                     when (which) {
                         0 -> {
@@ -113,11 +115,14 @@ class UploadRecipesActivity : AppCompatActivity() {
             val allergies = emptyList<String>()
 
             if (name.isEmpty()) {
-                Toast.makeText(this, "Bitte geben Sie dem Rezept einen Namen", Toast.LENGTH_SHORT).show()
+                val message = getString(R.string.upload_error_name_image_toast)
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             if (zeit == 0){
-                Toast.makeText(this, "Bitte geben Sie dem Rezept eine Zubereitungsdauer", Toast.LENGTH_SHORT).show()
+                Log.e("test", "zeit ist null")
+                val text = getString(R.string.upload_error_duration_toast)
+                Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -132,7 +137,9 @@ class UploadRecipesActivity : AppCompatActivity() {
                 )
             userdataprefrecipes.saveRecipe(rezept)
 
-            Toast.makeText(this, "Rezept \"$name\" hinzugefügt", Toast.LENGTH_SHORT).show()
+            val text = getString(R.string.recipe_saved_toast, name)
+
+            Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
 
             finish()
         }
@@ -148,9 +155,6 @@ class UploadRecipesActivity : AppCompatActivity() {
             AttributeItem("baked_att", R.drawable.baked_att),
             AttributeItem("cold_att", R.drawable.cold_att),
             AttributeItem("cooked_att", R.drawable.cooked_att),
-            AttributeItem("baked_att", R.drawable.gebacken_german),
-            AttributeItem("cold_att", R.drawable.kalt_german),
-            AttributeItem("cooked_att", R.drawable.gekocht_german),
             AttributeItem("fast_food_att", R.drawable.fast_food_att),
             AttributeItem("gluten_free_att", R.drawable.gluten_free_att),
             AttributeItem("grilled_att", R.drawable.grilled_att),
@@ -159,13 +163,6 @@ class UploadRecipesActivity : AppCompatActivity() {
             AttributeItem("lactose_free_att", R.drawable.lactose_free_att),
             AttributeItem("spicy_att", R.drawable.spicy_att),
             AttributeItem("sweet_att", R.drawable.sweet_att),
-            AttributeItem("gluten_free_att", R.drawable.gluten_frei_german),
-            AttributeItem("grilled_att", R.drawable.gegrillt_german),
-            AttributeItem("hearty_att", R.drawable.herzhaft_german),
-            AttributeItem("hot_att", R.drawable.heiss_german),
-            AttributeItem("lactose_free_att", R.drawable.laktose_frei_german),
-            AttributeItem("spicy_att", R.drawable.scharf_german),
-            AttributeItem("sweet_att", R.drawable.sweet_german),
             AttributeItem("vegan_att", R.drawable.vegan_att),
             AttributeItem("veggie_att", R.drawable.veggie_att)
         )
