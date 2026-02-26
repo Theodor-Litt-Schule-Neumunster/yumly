@@ -6,4 +6,24 @@
     <!-- Your App's Branding Colors -->
     <color name="yumly_yellow">#FFD600</color>
     <color name="yumly_yellow_dark">#C7A500</color>
+    <color name="yumly_red">#FFC107</color>
+    <color name="yumly_red_dark">#FF9800</color>
+    <color name="yumly_green">#FF8BC34A</color>
+    <color name="yumly_green_dark">#FF689F38</color>
+    <color name="yumly_blue">#FF2196F3</color>
+    <color name="yumly_blue_dark">#FF1976D2</color>
+    <color name="yumly_purple">#FFAB47BC</color>
+    <color name="yumly_purple_dark">#FF7B1FA2</color>
+    <color name="yumly_orange">#FFFF9800</color>
+    <color name="yumly_orange_dark">#FFFF6D00</color>
+    <color name="yumly_pink">#FFFF4081</color>
+    <color name="yumly_pink_dark">#FFFF004D</color>
+    <color name="yumly_brown">#FF795548</color>
+    <color name="yumly_brown_dark">#FF4E342E</color>
+    <color name="yumly_grey">#FF616161</color>
+    <color name="yumly_grey_dark">#FF424242</color>
+    <color name="yumly_grey_light">#FF9E9E9E</color>
+    <color name="yumly_grey_light_dark">#FF757575</color>
+    <color name="yumly_grey_lighter">#FFBDBDBD</color>
+
 </resources>

@@ -36,35 +36,46 @@ class ManageAccountActivity : AppCompatActivity() {
         changePasswordButton.setOnClickListener {
             val newPassword = newPasswordEditText.text.toString().trim()
             if (newPassword.length < 6) {
-                Toast.makeText(this, "Das Passwort muss mindestens 6 Zeichen lang sein", Toast.LENGTH_SHORT).show()
+                val text = getString(R.string.password_length_error_toast)
+                Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             userRef.child("password").setValue(newPassword).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Toast.makeText(this, "Passwort erfolgreich geändert", Toast.LENGTH_SHORT).show()
+                    val text = getString(R.string.password_change_success_toast)
+                    Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(this, "Fehler beim Ändern des Passworts", Toast.LENGTH_SHORT).show()
+                    val text = getString(R.string.password_change_error_toast)
+                    Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
                 }
             }
         }
+        val title = getString(R.string.delete_account_dialog_title)
+        val message = getString(R.string.delete_account_dialog_message)
+        val deleteAction = getString(R.string.delete_action)
+        val successMessage = getString(R.string.account_deleted_toast)
+        val errorMessage = getString(R.string.account_deletion_error_toast)
+        val cancelAction = getString(R.string.cancel_action)
+
+
 
         deleteAccountButton.setOnClickListener {
             AlertDialog.Builder(this)
-                .setTitle("Konto löschen")
-                .setMessage("Bist du sicher, dass du dein Konto endgültig löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden.")
-                .setPositiveButton("Löschen") { _, _ ->
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(deleteAction) { _, _ ->
                     userRef.removeValue().addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             SessionManager.clearSession(this)
-                            Toast.makeText(this, "Konto gelöscht", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, successMessage, Toast.LENGTH_SHORT).show()
                             navigateToLogin()
                         } else {
-                            Toast.makeText(this, "Fehler beim Löschen des Kontos", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
-                .setNegativeButton("Abbrechen", null)
+                .setNegativeButton(cancelAction, null)
                 .show()
         }
     }
