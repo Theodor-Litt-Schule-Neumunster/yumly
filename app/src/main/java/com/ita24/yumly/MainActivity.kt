@@ -62,6 +62,11 @@ class MainActivity : AppCompatActivity() {
                     dishNameView.text = recipe[0] as String
                     zzView.text = "${recipe[2]} Min."
                     EloManager.starttimer()
+
+                    dishNameView.isSelected = true
+                    dishNameView.isFocusable = true
+                    dishNameView.isFocusableInTouchMode = true
+                    dishNameView.requestFocus()
                 }
             } catch (e: Exception) {
                 Log.e("testbutton", "${e}")
