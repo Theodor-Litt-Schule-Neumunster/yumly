@@ -1,0 +1,61 @@
+<resources>
+    <string name="app_name">yumly</string>
+
+    <!-- Login Activity -->
+    <string name="login_title">Iniciar sesión</string>
+    <string name="username_hint">Nombre de usuario</string>
+    <string name="password_hint">Contraseña</string>
+    <string name="login_button_text">Iniciar sesión / Registrarse</string>
+    <string name="skip_button_text">Omitir</string>
+    <string name="login_empty_credentials_toast">Por favor, ingrese usuario y contraseña</string>
+    <string name="login_successful_toast">¡Inicio de sesión exitoso!</string>
+    <string name="login_wrong_password_toast">Usuario ya existe / Contraseña incorrecta</string>
+    <string name="login_account_created_toast">¡Cuenta creada!</string>
+    <string name="login_account_creation_error_toast">Error al crear la cuenta</string>
+    <string name="login_database_error_toast">Error de la base de datos: \"%1$s\"</string>
+
+    <!-- Welcome Activity -->
+    <string name="welcome_greeting">¡Hola, %1$s!</string>
+    <string name="new_session_button_text">Nueva sesión</string>
+    <string name="manage_account_button_text">Administrar cuenta</string>
+    <string name="logout_button_text">Cerrar sesión</string>
+
+    <!-- Manage Account Activity -->
+    <string name="manage_account_title">Administrar cuenta</string>
+    <string name="new_password_hint">Nueva contraseña</string>
+    <string name="change_password_button_text">Cambiar contraseña</string>
+    <string name="password_length_error_toast">La contraseña debe tener al menos 6 caracteres</string>
+    <string name="password_change_success_toast">Contraseña cambiada con éxito</string>
+    <string name="password_change_error_toast">Error al cambiar la contraseña</string>
+    <string name="delete_account_button_text">Eliminar cuenta permanentemente</string>
+    <string name="delete_account_dialog_title">Eliminar cuenta</string>
+    <string name="delete_account_dialog_message">¿Estás seguro de que quieres eliminar tu cuenta de forma permanente? Esta acción no se puede deshacer.</string>
+    <string name="delete_action">Eliminar</string>
+    <string name="cancel_action">Cancelar</string>
+    <string name="account_deleted_toast">Cuenta eliminada</string>
+    <string name="account_deletion_error_toast">Error al eliminar la cuenta</string>
+
+    <!-- Main Activity -->
+    <string name="main_activity_next_button">Siguiente</string>
+    <string name="main_activity_status_logged_in">Sesión iniciada como: %s</string>
+    <string name="main_activity_status_local_session">Sesión local</string>
+    <string name="main_activity_prep_time">%d min</string>
+
+    <!-- Upload Recipes Activity -->
+    <string name="upload_recipe_title">Subir receta</string>
+    <string name="dish_name_hint">Nombre</string>
+    <string name="prep_time_hint">Tiempo de preparación</string>
+    <string name="upload_image_button_text">Subir imagen</string>
+    <string name="select_attributes_label">Seleccionar propiedades</string>
+    <string name="add_ingredients_label">Añadir ingredientes</string>
+    <string name="ingredients_hint">Ingresar ingrediente</string>
+    <string name="save_recipe_button_text">Guardar receta</string>
+    <string name="select_image_dialog_title">Seleccionar imagen</string>
+    <string name="camera_option">Cámara</string>
+    <string name="gallery_option">Galería</string>
+    <string name="upload_error_name_image_toast">Por favor, ingrese un nombre y una imagen</string>
+    <string name="recipe_saved_toast">Receta \"%1$s\" añadida</string>
+    <string name="upload_recipe_button_text">Subir receta</string>
+    <string name="upload_error_duration_toast">Por favor, ingrese una duración de preparación</string>
+
+</resources>
