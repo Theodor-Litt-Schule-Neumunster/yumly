@@ -7,99 +7,158 @@
     android:layout_height="match_parent"
     android:background="@drawable/background">
 
-    <TextView
-        android:id="@+id/zzTop"
-        android:layout_width="147dp"
-        android:layout_height="57dp"
-        android:background="@drawable/time_button"
-        android:gravity="center"
-        android:paddingStart="30dp"
-        android:paddingBottom="1dp"
-        android:text="120 Min."
-        android:textColor="@color/white"
-        android:textSize="19sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@+id/dishNameTop"
-        app:layout_constraintEnd_toEndOf="@+id/dishNameTop"
-        app:layout_constraintHorizontal_bias="0.55"/>
-
-    <TextView
-        android:id="@+id/zzDown"
-        android:layout_width="147dp"
-        android:layout_height="57dp"
-        android:background="@drawable/time_button"
-        android:gravity="center"
-        android:paddingStart="30dp"
-        android:paddingBottom="1dp"
-        android:text="120 Min."
-        android:textColor="@color/white"
-        android:textSize="19sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/imageDown"
-        app:layout_constraintBottom_toTopOf="@+id/imageDown"
-        tools:text="120 Min." />
-
-
     <ImageView
-        android:layout_width="211dp"
-        android:layout_height="150dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:rotation="10"
-        android:scaleType="fitXY"
         android:src="@drawable/or_test"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintWidth_percent="0.4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.528" />
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/imageUp"
-        android:elevation="10dp"
-        android:layout_width="330dp"
-        android:layout_height="330dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/abgerundet" />
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/imageUpCard"
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/imageDown"
-        android:elevation="10dp"
-        android:layout_width="330dp"
-        android:layout_height="330dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="@color/black"
+
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.45"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:strokeWidth="4dp"
+        app:strokeColor="@color/white"
+
+        app:cardCornerRadius="20dp"
+        app:cardElevation="12dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/zzTop"
+                android:layout_width="137dp"
+                android:layout_height="35dp"
+                android:background="@drawable/time_button_long"
+                android:gravity="center"
+                android:paddingStart="30dp"
+                android:paddingBottom="1dp"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/imageUp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/imageUp"
+                tools:text="120 Min." />
+
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imageUp"
+                android:elevation="10dp"
+
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintWidth_percent="0.98"
+                app:layout_constraintDimensionRatio="1:1"
+
+                android:background="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/abgerundet" />
+
+            <TextView
+                android:id="@+id/dishNameDown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/imageUp"
+                app:layout_constraintBottom_toBottomOf="parent"
+
+                app:layout_constraintEnd_toStartOf="@+id/zzTop"
+                app:layout_constraintStart_toStartOf="parent"
+
+
+                tools:text="Platzhalter" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/imageDownCard"
+
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.45"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:shapeAppearanceOverlay="@style/abgerundet" />
+        app:strokeWidth="4dp"
+        app:strokeColor="@color/white"
 
-    <TextView
-        android:id="@+id/dishNameTop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:textColor="@color/white"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/imageUp"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintTop_toBottomOf="@+id/imageUp"
-        tools:text="Platzhalter" />
+        app:cardCornerRadius="20dp"
+        app:cardElevation="12dp">
 
-    <TextView
-        android:id="@+id/dishNameDown"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/zzDown"
-        app:layout_constraintEnd_toEndOf="@+id/zzDown"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/zzDown"
-        tools:text="Platzhalter" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/zzDown"
+                android:layout_width="137dp"
+                android:layout_height="35dp"
+                android:background="@drawable/time_button_long"
+                android:gravity="center"
+                android:paddingStart="30dp"
+                android:paddingBottom="1dp"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/imageDown"
+                app:layout_constraintStart_toStartOf="@+id/imageDown"
+                tools:text="120 Min." />
+
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imageDown"
+                android:elevation="10dp"
+
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintWidth_percent="0.98"
+                app:layout_constraintDimensionRatio="1:1"
+
+                android:background="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:shapeAppearanceOverlay="@style/abgerundet" />
+
+            <TextView
+                android:id="@+id/dishNameTop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/imageDown"
+                app:layout_constraintTop_toTopOf="parent"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/zzDown"
+
+
+                tools:text="Platzhalter" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

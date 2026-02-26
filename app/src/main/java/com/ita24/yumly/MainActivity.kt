@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -32,14 +33,19 @@ class MainActivity : AppCompatActivity() {
         val imgdown = findViewById<ImageView>(R.id.imageDown)
         val imgup = findViewById<ImageView>(R.id.imageUp)
 
+        val imgupcard = findViewById<com.google.android.material.card.MaterialCardView>(R.id.imageUpCard)
+        val imgdowncard = findViewById<com.google.android.material.card.MaterialCardView>(R.id.imageDownCard)
+
+
+
         val dishNameDown = findViewById<TextView>(R.id.dishNameDown)
         val dishNameUp = findViewById<TextView>(R.id.dishNameTop)
 
         val zzDown = findViewById<TextView>(R.id.zzDown)
         val zzUp = findViewById<TextView>(R.id.zzTop)
 
-        setupSwipeableImage(imgdown, dishNameDown, zzDown, imgup)
-        setupSwipeableImage(imgup, dishNameUp, zzUp, imgdown)
+        setupSwipeableCard(imgdowncard,imgdown, dishNameDown, zzDown, imgup)
+        setupSwipeableCard(imgupcard,imgup, dishNameUp, zzUp, imgdown)
 
         lifecycleScope.launch {
             loadNewRecipe(imgdown, dishNameDown, zzDown)
@@ -65,14 +71,19 @@ class MainActivity : AppCompatActivity() {
 
 
     @SuppressLint("ClickableViewAccessibility")
-    private fun setupSwipeableImage(imageView: ImageView, dishNameView: TextView, zzView: TextView, otherview: ImageView) {
+    private fun setupSwipeableCard(
+        cardView: View,
+        imageView: ImageView,
+        dishNameView: TextView,
+        zzView: TextView,
+        otherview: ImageView
+    ) {
         var dX = 0f
         var originalX = 0f
-        imageView.post {
-            originalX = imageView.x
-        }
 
-        imageView.setOnTouchListener { view, event ->
+        cardView.post { originalX = cardView.x }
+
+        cardView.setOnTouchListener { view, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     dX = view.x - event.rawX
@@ -81,8 +92,7 @@ class MainActivity : AppCompatActivity() {
                 MotionEvent.ACTION_MOVE -> {
                     val newX = event.rawX + dX
                     view.x = newX
-                    val rotation = (newX - originalX) / (view.width.toFloat() / 2) * 15f
-                    view.rotation = rotation
+                    view.rotation = (newX - originalX) / (view.width.toFloat() / 2) * 15f
                     true
                 }
                 MotionEvent.ACTION_UP -> {
@@ -99,17 +109,19 @@ class MainActivity : AppCompatActivity() {
                                 view.x = originalX
                                 view.rotation = 0f
                                 view.alpha = 1f
-                                EloManager.updateElo( otherview.tag as MutableList<Any>, imageView.tag as MutableList<Any>,
-                                    EloManager.wasFastEnough())
+
+                                val winner = otherview.tag as? MutableList<Any>
+                                val loser = imageView.tag as? MutableList<Any>
+
+                                if (winner != null && loser != null) {
+                                    EloManager.updateElo(winner, loser, EloManager.wasFastEnough())
+                                }
+
                                 loadNewRecipe(imageView, dishNameView, zzView)
                             }
                             .start()
                     } else {
-                        view.animate()
-                            .x(originalX)
-                            .rotation(0f)
-                            .setDuration(200)
-                            .start()
+                        view.animate().x(originalX).rotation(0f).setDuration(200).start()
                     }
                     true
                 }
