@@ -15,7 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
 
-    private var loggedInUsername: String? = null
+    public var loggedInUsername: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -119,7 +119,7 @@ class MainActivity : AppCompatActivity() {
                                 val loser = imageView.tag as? MutableList<Any>
 
                                 if (winner != null && loser != null) {
-                                    EloManager.updateElo(winner, loser, EloManager.wasFastEnough())
+                                    lifecycleScope.launch { EloManager.updateElo(winner, loser, EloManager.wasFastEnough()) }
                                 }
 
                                 loadNewRecipe(imageView, dishNameView, zzView)

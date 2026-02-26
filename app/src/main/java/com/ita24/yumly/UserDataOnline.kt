@@ -4,9 +4,10 @@ import android.util.Log
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.tasks.await
 
-class UserDataOnline(private val username: String) {
+object UserDataOnline{
 
-    private val benutzer = username
+    public var benutzer = "";
+
 
     private val database = FirebaseDatabase.getInstance(
         "https://yumly-874a5-default-rtdb.europe-west1.firebasedatabase.app/"

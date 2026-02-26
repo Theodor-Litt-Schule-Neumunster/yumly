@@ -1,9 +1,12 @@
 package com.ita24.yumly
 
 import android.util.Log
+import com.google.firebase.firestore.auth.User
 import kotlin.math.pow
 import kotlin.math.roundToInt
 import kotlin.random.Random
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 private const val eloindex = 6
 private const val idindex = 7
@@ -23,7 +26,7 @@ object EloManager {
     }
 
 
-    fun updateElo(winner: MutableList<Any>, loser: MutableList<Any>, fast: Boolean) {
+    suspend fun updateElo(winner: MutableList<Any>, loser: MutableList<Any>, fast: Boolean) {
         val winnerElo = winner[eloindex] as Int
         val loserElo  = loser[eloindex] as Int
 
@@ -42,10 +45,18 @@ object EloManager {
         val winnerIndex = winner[idindex] as Int
         val loserIndex  = loser[idindex] as Int
 
-        userDataLocal.saveElo(winnerIndex, accWinner.roundToInt())
-        Log.e("testelorating", "$winnerIndex $accWinner")
-        userDataLocal.saveElo(loserIndex, accLoser.roundToInt())
-        Log.e("testelorating", "$loserIndex $accLoser")
+        withContext(Dispatchers.IO) {
+
+            userDataLocal.saveElo(winnerIndex, accWinner.roundToInt())
+            UserDataOnline.setElo(winnerIndex, accWinner.roundToInt())
+            Log.e("testelorating", "$winnerIndex $accWinner")
+            userDataLocal.saveElo(loserIndex, accLoser.roundToInt())
+            UserDataOnline.setElo(loserIndex, accLoser.roundToInt())
+            Log.e("testelorating", "$loserIndex $accLoser")
+
+        }
+
+
 
     }
 

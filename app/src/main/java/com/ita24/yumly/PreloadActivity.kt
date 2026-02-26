@@ -16,9 +16,11 @@ class PreloadActivity : AppCompatActivity() {
         userdatapref.init(applicationContext)
 
         val username = intent.getStringExtra(LoginActivity.EXTRA_USERNAME)
+        if(!username.isNullOrBlank()){UserDataOnline.benutzer = username}
+
         lifecycleScope.launch(Dispatchers.IO) {
             try {
-                UserDataOnline(username ?: "").start()
+                UserDataOnline.start()
                 Imageloader.loadList()
                 Imageloader.preloadImgs(this@PreloadActivity)
             } catch (e: Exception) {

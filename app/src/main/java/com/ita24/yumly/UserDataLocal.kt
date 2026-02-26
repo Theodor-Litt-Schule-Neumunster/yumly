@@ -1,7 +1,8 @@
 package com.ita24.yumly
 import android.content.SharedPreferences
 import android.content.Context
-
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 object userdatapref {
 
     private lateinit var prefs: SharedPreferences
@@ -30,9 +31,8 @@ class UserDataLocal{
         }
 
     fun saveElo(recipe: Int, elo: Int) {
-        userdatapref.edit(recipe,elo)
+        userdatapref.edit(recipe, elo)
     }
-
     }
 
 
