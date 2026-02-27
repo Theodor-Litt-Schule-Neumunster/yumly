@@ -28,7 +28,7 @@ object Imageloader
             var count = 0
         for (doc in snap.documents) {
 
-            val id = count
+            val id = doc.getString("id")?.toIntOrNull() ?: continue
             val name = doc.getString("name") ?: continue
             val bildurl = doc.getString("bildurl") ?: continue
             val zeit = (doc.getLong("zubereitungszeitMinuten") ?: 0L).toInt()
