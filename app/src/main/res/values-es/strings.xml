@@ -57,5 +57,6 @@
     <string name="recipe_saved_toast">Receta \"%1$s\" añadida</string>
     <string name="upload_recipe_button_text">Subir receta</string>
     <string name="upload_error_duration_toast">Por favor, ingrese una duración de preparación</string>
+    <string name="recipe_website" >Ver receta</string>
 
 </resources>
