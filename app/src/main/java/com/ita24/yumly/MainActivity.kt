@@ -86,6 +86,7 @@ class MainActivity : AppCompatActivity() {
         val recipeImageView: ImageView
         val attributesView: TextView
         val websiteButton: Button
+        val cardView: MaterialCardView = if (isUpCard) findViewById(R.id.imageUpCard) else findViewById(R.id.imageDownCard)
 
         if (isUpCard) {
             cardFront = cardFrontUp
@@ -104,70 +105,56 @@ class MainActivity : AppCompatActivity() {
         val isFlipped = if (isUpCard) isCardUpFlipped else isCardDownFlipped
 
         if (!isFlipped) {
-            // FLIP TO BACK
+            // PREPARE BACK CONTENT
             val recipe = recipeImageView.tag as? List<*>
             if (recipe != null) {
-                // Attributes are at index 5
                 val attributesList = recipe.getOrNull(5) as? List<*>
-                val attributesText = attributesList?.joinToString(separator = "\n") ?: "Keine Attribute gefunden"
-                attributesView.text = attributesText
-
+                attributesView.text = attributesList?.joinToString(separator = "\n") ?: "Keine Attribute gefunden"
                 websiteButton.setOnClickListener {
-                    // ID is at index 7
                     val idObject = recipe.getOrNull(7)
                     val recipeId = when (idObject) {
                         is Number -> idObject.toInt()
                         is String -> idObject.toIntOrNull()
                         else -> null
                     }
-
-                    if (recipeId != null) {
-                        RecipeWebsite.sendToWebsite(this, recipeId)
-                    } else {
-                        Log.e("Yumly", "Could not parse recipeId from object: $idObject")
-                    }
+                    if (recipeId != null) RecipeWebsite.sendToWebsite(this, recipeId)
                 }
             }
-
-            attributesView.setOnClickListener { 
-                flipCard(isUpCard) 
-            }
-
-            cardFront.animate().rotationY(90f).setDuration(300).withEndAction {
-                cardFront.visibility = View.GONE
-                cardBack.visibility = View.VISIBLE
-                cardBack.rotationY = -90f
-                cardBack.animate().rotationY(0f).setDuration(300).start()
-            }.start()
-
+            attributesView.setOnClickListener { flipCard(isUpCard) }
         } else {
-            // FLIP TO FRONT
             attributesView.setOnClickListener(null)
             websiteButton.setOnClickListener(null)
+        }
 
-            cardBack.animate().rotationY(-90f).setDuration(300).withEndAction {
+        val distance = 8000
+        val scale = resources.displayMetrics.density
+        cardView.cameraDistance = distance * scale
+
+        // ANIMATE WHOLE CARD
+        cardView.animate().rotationY(if (!isFlipped) 90f else -90f).setDuration(300).withEndAction {
+            if (!isFlipped) {
+                cardFront.visibility = View.GONE
+                cardBack.visibility = View.VISIBLE
+                cardView.rotationY = -90f
+            } else {
                 cardBack.visibility = View.GONE
                 cardFront.visibility = View.VISIBLE
-                cardFront.rotationY = 90f
-                cardFront.animate().rotationY(0f).setDuration(300).start()
-            }.start()
-        }
+                cardView.rotationY = 90f
+            }
+            cardView.animate().rotationY(0f).setDuration(300).start()
+        }.start()
 
-        if (isUpCard) {
-            isCardUpFlipped = !isCardUpFlipped
-        } else {
-            isCardDownFlipped = !isCardDownFlipped
-        }
+        if (isUpCard) isCardUpFlipped = !isCardUpFlipped else isCardDownFlipped = !isCardDownFlipped
     }
 
     private fun resetCardFlip(isUpCard: Boolean) {
+        val cardView = if (isUpCard) findViewById<MaterialCardView>(R.id.imageUpCard) else findViewById<MaterialCardView>(R.id.imageDownCard)
+        cardView.rotationY = 0f
         if (isUpCard) {
             if (isCardUpFlipped) {
                 isCardUpFlipped = false
                 cardFrontUp.visibility = View.VISIBLE
                 cardBackUp.visibility = View.GONE
-                cardFrontUp.rotationY = 0f
-                cardBackUp.rotationY = 0f
                 recipeAttributesUp.setOnClickListener(null)
                 recipeWebsiteButtonUp.setOnClickListener(null)
             }
@@ -176,8 +163,6 @@ class MainActivity : AppCompatActivity() {
                 isCardDownFlipped = false
                 cardFrontDown.visibility = View.VISIBLE
                 cardBackDown.visibility = View.GONE
-                cardFrontDown.rotationY = 0f
-                cardBackDown.rotationY = 0f
                 recipeAttributesDown.setOnClickListener(null)
                 recipeWebsiteButtonDown.setOnClickListener(null)
             }
@@ -224,7 +209,6 @@ class MainActivity : AppCompatActivity() {
             val isFlipped = if (isUpCard) isCardUpFlipped else isCardDownFlipped
 
             if (isFlipped) {
-                // Pass touch events to children (Button) if card is flipped
                 return@setOnTouchListener false
             }
 

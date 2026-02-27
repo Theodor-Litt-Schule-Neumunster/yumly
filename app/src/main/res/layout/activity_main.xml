@@ -23,6 +23,7 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/imageUpCard"
         android:layout_width="0dp"
+        android:elevation="10dp"
         android:layout_height="0dp"
         app:layout_constraintWidth_percent="0.85"
         app:layout_constraintHeight_percent="0.45"
@@ -62,12 +63,11 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imageUp"
-                android:elevation="10dp"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintWidth_percent="0.98"
                 app:layout_constraintDimensionRatio="1:1"
-                android:background="@color/black"
+                android:background="@color/yumly_sand"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -129,6 +129,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/imageDownCard"
+        android:elevation="10dp"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintWidth_percent="0.85"
@@ -169,12 +170,11 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imageDown"
-                android:elevation="10dp"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintWidth_percent="0.98"
                 app:layout_constraintDimensionRatio="1:1"
-                android:background="@color/black"
+                android:background="@color/yumly_sand"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
