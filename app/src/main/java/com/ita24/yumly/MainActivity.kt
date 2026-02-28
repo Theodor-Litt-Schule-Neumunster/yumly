@@ -102,6 +102,20 @@ class MainActivity : AppCompatActivity() {
             "fast food" -> R.drawable.fast_food_att
             "süß" -> R.drawable.sweet_att
             "gegrillt" -> R.drawable.grilled_att
+            "baked_att" -> R.drawable.baked_att
+            "cold_att" -> R.drawable.cold_att
+            "gluten_free_att" -> R.drawable.gluten_free_att
+            "hot_att" -> R.drawable.hot_att
+            "lactose_free_att" -> R.drawable.lactose_free_att
+            "spicy_att" -> R.drawable.spicy_att
+            "veggie_att" -> R.drawable.veggie_att
+            "cooked_att" -> R.drawable.cooked_att
+            "fast_food_att" -> R.drawable.fast_food_att
+            "sweet_att" -> R.drawable.sweet_att
+            "grilled_att" -> R.drawable.grilled_att
+            "hearty_att" -> R.drawable.hearty_att
+            "vegan_att" -> R.drawable.vegan_att
+
             else -> null
         }
     }
