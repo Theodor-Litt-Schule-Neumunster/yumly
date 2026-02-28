@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
+import android.widget.GridLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -29,9 +30,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var cardBackUp: ConstraintLayout
     private lateinit var cardFrontDown: ConstraintLayout
     private lateinit var cardBackDown: ConstraintLayout
-    private lateinit var recipeAttributesUp: TextView
+    private lateinit var attributeGridUp: GridLayout
     private lateinit var recipeWebsiteButtonUp: Button
-    private lateinit var recipeAttributesDown: TextView
+    private lateinit var attributeGridDown: GridLayout
     private lateinit var recipeWebsiteButtonDown: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +52,11 @@ class MainActivity : AppCompatActivity() {
         val imgupcard = findViewById<MaterialCardView>(R.id.imageUpCard)
         val imgdowncard = findViewById<MaterialCardView>(R.id.imageDownCard)
 
+        // Set camera distance for 3D rotation
+        val scale = resources.displayMetrics.density
+        imgupcard.cameraDistance = 8000 * scale
+        imgdowncard.cameraDistance = 8000 * scale
+
         // Front and Back layouts
         cardFrontUp = findViewById(R.id.card_front_up)
         cardBackUp = findViewById(R.id.card_back_up)
@@ -58,9 +64,9 @@ class MainActivity : AppCompatActivity() {
         cardBackDown = findViewById(R.id.card_back_down)
 
         // Back-of-card views
-        recipeAttributesUp = findViewById(R.id.recipe_attributes_up)
+        attributeGridUp = findViewById(R.id.attribute_grid_up)
         recipeWebsiteButtonUp = findViewById(R.id.recipe_website_button_up)
-        recipeAttributesDown = findViewById(R.id.recipe_attributes_down)
+        attributeGridDown = findViewById(R.id.attribute_grid_down)
         recipeWebsiteButtonDown = findViewById(R.id.recipe_website_button_down)
 
         // Original views
@@ -80,36 +86,78 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun getAttributeDrawableId(attribute: String): Int? {
+        return when (attribute.lowercase().trim()) {
+            "gekocht" -> R.drawable.cooked_att
+            "scharf" -> R.drawable.spicy_att
+            "spicy" -> R.drawable.spicy_att
+            "warme gerichte" -> R.drawable.hot_att
+            "vegetarisch" -> R.drawable.veggie_att
+            "herzhaft" -> R.drawable.hearty_att
+            "glutenfrei" -> R.drawable.gluten_free_att
+            "vegan" -> R.drawable.vegan_att
+            "kalte gerichte" -> R.drawable.cold_att
+            "laktosefrei" -> R.drawable.lactose_free_att
+            "gebacken" -> R.drawable.baked_att
+            "fast food" -> R.drawable.fast_food_att
+            "süß" -> R.drawable.sweet_att
+            "gegrillt" -> R.drawable.grilled_att
+            else -> null
+        }
+    }
+
     private fun flipCard(isUpCard: Boolean) {
+        val cardView: MaterialCardView
         val cardFront: ConstraintLayout
         val cardBack: ConstraintLayout
+        val attributeGrid: GridLayout
         val recipeImageView: ImageView
-        val attributesView: TextView
         val websiteButton: Button
-        val cardView: MaterialCardView = if (isUpCard) findViewById(R.id.imageUpCard) else findViewById(R.id.imageDownCard)
 
         if (isUpCard) {
+            cardView = findViewById(R.id.imageUpCard)
             cardFront = cardFrontUp
             cardBack = cardBackUp
+            attributeGrid = attributeGridUp
             recipeImageView = findViewById(R.id.imageUp)
-            attributesView = recipeAttributesUp
             websiteButton = recipeWebsiteButtonUp
         } else {
+            cardView = findViewById(R.id.imageDownCard)
             cardFront = cardFrontDown
             cardBack = cardBackDown
+            attributeGrid = attributeGridDown
             recipeImageView = findViewById(R.id.imageDown)
-            attributesView = recipeAttributesDown
             websiteButton = recipeWebsiteButtonDown
         }
 
         val isFlipped = if (isUpCard) isCardUpFlipped else isCardDownFlipped
 
         if (!isFlipped) {
-            // PREPARE BACK CONTENT
+            // FLIP TO BACK
+            attributeGrid.removeAllViews()
             val recipe = recipeImageView.tag as? List<*>
             if (recipe != null) {
                 val attributesList = recipe.getOrNull(5) as? List<*>
-                attributesView.text = attributesList?.joinToString(separator = "\n") ?: "Keine Attribute gefunden"
+                if (!attributesList.isNullOrEmpty()) {
+                    attributesList.forEach { attribute ->
+                        if (attribute is String) {
+                            getAttributeDrawableId(attribute)?.let { drawableId ->
+                                val imageView = ImageView(this).apply {
+                                    setImageResource(drawableId)
+                                    layoutParams = GridLayout.LayoutParams().apply {
+                                        width = 0
+                                        height = 0
+                                        columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1, 1f)
+                                        rowSpec = GridLayout.spec(GridLayout.UNDEFINED, 1, 1f)
+                                        setMargins(8, 8, 8, 8)
+                                    }
+                                }
+                                attributeGrid.addView(imageView)
+                            }
+                        }
+                    }
+                }
+
                 websiteButton.setOnClickListener {
                     val idObject = recipe.getOrNull(7)
                     val recipeId = when (idObject) {
@@ -120,31 +168,37 @@ class MainActivity : AppCompatActivity() {
                     if (recipeId != null) RecipeWebsite.sendToWebsite(this, recipeId)
                 }
             }
-            attributesView.setOnClickListener { flipCard(isUpCard) }
+            attributeGrid.setOnClickListener { flipCard(isUpCard) }
+
         } else {
-            attributesView.setOnClickListener(null)
+            attributeGrid.setOnClickListener(null)
             websiteButton.setOnClickListener(null)
         }
 
-        val distance = 8000
-        val scale = resources.displayMetrics.density
-        cardView.cameraDistance = distance * scale
-
-        // ANIMATE WHOLE CARD
-        cardView.animate().rotationY(if (!isFlipped) 90f else -90f).setDuration(300).withEndAction {
-            if (!isFlipped) {
-                cardFront.visibility = View.GONE
-                cardBack.visibility = View.VISIBLE
+        // Correct two-step animation to prevent mirror effect
+        cardView.animate()
+            .rotationY(90f)
+            .setDuration(250)
+            .withEndAction {
                 cardView.rotationY = -90f
-            } else {
-                cardBack.visibility = View.GONE
-                cardFront.visibility = View.VISIBLE
-                cardView.rotationY = 90f
-            }
-            cardView.animate().rotationY(0f).setDuration(300).start()
-        }.start()
+                if (isFlipped) {
+                    cardBack.visibility = View.GONE
+                    cardFront.visibility = View.VISIBLE
+                } else {
+                    cardFront.visibility = View.GONE
+                    cardBack.visibility = View.VISIBLE
+                }
+                cardView.animate()
+                    .rotationY(0f)
+                    .setDuration(250)
+                    .start()
+            }.start()
 
-        if (isUpCard) isCardUpFlipped = !isCardUpFlipped else isCardDownFlipped = !isCardDownFlipped
+        if (isUpCard) {
+            isCardUpFlipped = !isCardUpFlipped
+        } else {
+            isCardDownFlipped = !isCardDownFlipped
+        }
     }
 
     private fun resetCardFlip(isUpCard: Boolean) {
@@ -155,7 +209,7 @@ class MainActivity : AppCompatActivity() {
                 isCardUpFlipped = false
                 cardFrontUp.visibility = View.VISIBLE
                 cardBackUp.visibility = View.GONE
-                recipeAttributesUp.setOnClickListener(null)
+                attributeGridUp.setOnClickListener(null)
                 recipeWebsiteButtonUp.setOnClickListener(null)
             }
         } else {
@@ -163,7 +217,7 @@ class MainActivity : AppCompatActivity() {
                 isCardDownFlipped = false
                 cardFrontDown.visibility = View.VISIBLE
                 cardBackDown.visibility = View.GONE
-                recipeAttributesDown.setOnClickListener(null)
+                attributeGridDown.setOnClickListener(null)
                 recipeWebsiteButtonDown.setOnClickListener(null)
             }
         }

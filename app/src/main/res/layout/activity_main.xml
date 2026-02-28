@@ -89,7 +89,7 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 app:layout_constraintWidth_percent="0.50"
-                app:layout_constraintEnd_toStartOf="@+id/zzTop"
+                app:layout_constraintEnd_toStartOf="@id/zzTop"
                 app:layout_constraintStart_toStartOf="@id/imageUp"
                 tools:text="Platzhalterfsdnfjdjghdfjkgbkjfdhgkjdhfjkgjdkfhgjkdfhgh" />
 
@@ -103,15 +103,15 @@
             android:background="@color/yumly_sand"
             android:visibility="gone">
 
-            <TextView
-                android:id="@+id/recipe_attributes_up"
-                android:layout_width="match_parent"
+            <GridLayout
+                android:id="@+id/attribute_grid_up"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_margin="16dp"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:textSize="18sp"
+                android:columnCount="3"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/recipe_website_button_up"/>
 
             <Button
@@ -210,15 +210,15 @@
             android:background="@color/yumly_sand"
             android:visibility="gone">
 
-            <TextView
-                android:id="@+id/recipe_attributes_down"
-                android:layout_width="match_parent"
+            <GridLayout
+                android:id="@+id/attribute_grid_down"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_margin="16dp"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:textSize="18sp"
+                android:columnCount="3"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/recipe_website_button_down"/>
 
             <Button
