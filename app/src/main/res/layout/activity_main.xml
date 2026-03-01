@@ -55,6 +55,7 @@
                 android:textStyle="bold"
                 app:layout_constraintTop_toBottomOf="@+id/imageUp"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/dishNameTop"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="2dp"
@@ -65,12 +66,16 @@
                 android:id="@+id/imageUp"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:layout_constraintWidth_percent="0.98"
-                app:layout_constraintDimensionRatio="1:1"
-                android:background="@color/yumly_sand"
+
+                app:layout_constraintBottom_toTopOf="@id/dishNameTop"
+
+                android:background="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintDimensionRatio="W,1:1"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="false"
                 app:shapeAppearanceOverlay="@style/abgerundet" />
 
             <TextView
@@ -89,8 +94,9 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 app:layout_constraintWidth_percent="0.50"
+                android:layout_marginStart="10dp"
                 app:layout_constraintEnd_toStartOf="@id/zzTop"
-                app:layout_constraintStart_toStartOf="@id/imageUp"
+                app:layout_constraintStart_toStartOf="parent"
                 tools:text="Platzhalterfsdnfjdjghdfjkgbkjfdhgkjdhfjkgjdkfhgjkdfhgh" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -163,6 +169,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/imageDown"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/dishNameDown"
+
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="2dp"
                 tools:text="120 Min." />
@@ -172,9 +180,10 @@
                 android:id="@+id/imageDown"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:layout_constraintWidth_percent="0.98"
-                app:layout_constraintDimensionRatio="1:1"
-                android:background="@color/yumly_sand"
+                app:layout_constraintTop_toBottomOf="@id/dishNameDown"
+
+                app:layout_constraintDimensionRatio="W,1:1"
+                android:background="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -196,7 +205,8 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 app:layout_constraintWidth_percent="0.50"
-                app:layout_constraintEnd_toEndOf="@id/imageDown"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/zzDown"
                 tools:text="Platzhalter" />
 
