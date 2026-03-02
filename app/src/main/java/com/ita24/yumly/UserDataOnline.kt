@@ -61,7 +61,6 @@ object UserDataOnline{
             .setValue(elo)
             .await()
     }
-
     suspend fun overrideLocal(recipeId: Int) {
         if (benutzer.isBlank()) return
 
