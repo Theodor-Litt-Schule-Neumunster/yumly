@@ -23,22 +23,23 @@
         <activity
             android:name=".LoginActivity"
             android:screenOrientation="portrait"
+            android:exported="false">
+        </activity>
+
+        <activity
+            android:name=".PreloadActivity"
+            android:screenOrientation="portrait"
+            android:exported="false"/>
+
+        <activity
+            android:name=".WelcomeActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".PreloadActivity"
-            android:screenOrientation="portrait"
-            android:exported="false">
-        </activity>
-        <activity
-            android:name=".WelcomeActivity"
-            android:screenOrientation="portrait"
-            android:exported="false" />
 
         <activity
             android:name=".MainActivity"
@@ -60,6 +61,7 @@
             android:screenOrientation="portrait"
             android:exported="false" />
         
+        <!-- FileProvider for sharing the image URI securely with the camera app -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.ita24.yumly.fileprovider"
