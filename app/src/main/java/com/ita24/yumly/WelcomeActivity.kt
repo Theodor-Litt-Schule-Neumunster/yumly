@@ -22,9 +22,12 @@ class WelcomeActivity : AppCompatActivity() {
 
         if (username != null) {
             welcomeTextView.text = getString(R.string.welcome_greeting, username)
+            manageAccountButton.text = getString(R.string.manage_account_button_text)
+            logoutButton.text = getString(R.string.logout_button_text)
         } else {
-            navigateToLogin()
-            return
+            welcomeTextView.text = getString(R.string.welcome_greeting_guest)
+            manageAccountButton.text = getString(R.string.welcome_register_button_text)
+            logoutButton.text = getString(R.string.welcome_login_button_text)
         }
 
         newSessionButton.setOnClickListener {
