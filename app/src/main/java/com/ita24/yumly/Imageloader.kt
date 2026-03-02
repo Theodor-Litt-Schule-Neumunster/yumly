@@ -52,8 +52,8 @@ object Imageloader
             )
             count++
         }
-            addLokalToList(count)
             Log.e("testloadlist", "$liste")
+            addLokalToList(count)
 
         }catch (e: Exception){
             Log.e("testloader", "${e}")

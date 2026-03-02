@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -17,8 +18,16 @@ class LoginActivity : AppCompatActivity() {
         const val EXTRA_USERNAME = "LOGGED_IN_USERNAME"
     }
 
+    private lateinit var auth: FirebaseAuth
+    private lateinit var database: FirebaseDatabase
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        auth = FirebaseAuth.getInstance()
+        database = FirebaseDatabase.getInstance(
+            "https://yumly-874a5-default-rtdb.europe-west1.firebasedatabase.app/"
+        )
 
         val loggedInUser = SessionManager.getSession(this)
         if (loggedInUser != null) {
@@ -38,47 +47,100 @@ class LoginActivity : AppCompatActivity() {
             val password = passwordEditText.text.toString().trim()
 
             if (username.isEmpty() || password.isEmpty()) {
-                val text = getString(R.string.login_empty_credentials_toast)
-                Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    getString(R.string.login_empty_credentials_toast),
+                    Toast.LENGTH_SHORT
+                ).show()
                 return@setOnClickListener
             }
 
-            val database = FirebaseDatabase.getInstance("https://yumly-874a5-default-rtdb.europe-west1.firebasedatabase.app/")
             val usersRef = database.getReference("users")
-            val userQuery = usersRef.child(username)
+            val userRef = usersRef.child(username)
+            val email = "$username@yumly.app"
 
-            userQuery.addListenerForSingleValueEvent(object : ValueEventListener {
+            userRef.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
                         val storedPassword = snapshot.child("password").getValue(String::class.java)
+
                         if (storedPassword == password) {
-                            SessionManager.saveSession(this@LoginActivity, username)
-                            val text = getString(R.string.login_successful_toast)
-                            Toast.makeText(this@LoginActivity, text, Toast.LENGTH_SHORT).show()
-                            navigateToWelcomeActivity(username)
+                            auth.signInWithEmailAndPassword(email, password)
+                                .addOnCompleteListener { loginTask ->
+                                    if (!loginTask.isSuccessful) {
+                                        // Auth Account existiert noch nicht → erstellen
+                                        auth.createUserWithEmailAndPassword(email, password)
+                                            .addOnCompleteListener { createTask ->
+                                                val uid = auth.currentUser?.uid
+                                                if (uid != null) {
+                                                    userRef.child("uid").setValue(uid)
+                                                }
+                                            }
+                                    } else {
+                                        val uid = auth.currentUser?.uid
+                                        if (uid != null && !snapshot.hasChild("uid")) {
+                                            userRef.child("uid").setValue(uid)
+                                        }
+                                    }
+
+                                    SessionManager.saveSession(this@LoginActivity, username)
+                                    Toast.makeText(
+                                        this@LoginActivity,
+                                        getString(R.string.login_successful_toast),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    navigateToWelcomeActivity(username)
+                                }
                         } else {
-                            val text = getString(R.string.login_wrong_password_toast)
-                            Toast.makeText(this@LoginActivity, text, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this@LoginActivity,
+                                getString(R.string.login_wrong_password_toast),
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     } else {
-                        val newUser = mapOf("password" to password)
-                        userQuery.setValue(newUser).addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                SessionManager.saveSession(this@LoginActivity, username)
-                                val text = getString(R.string.login_account_created_toast)
-                                Toast.makeText(this@LoginActivity, text, Toast.LENGTH_SHORT).show()
-                                navigateToWelcomeActivity(username)
-                            } else {
-                                val text = getString(R.string.login_account_creation_error_toast)
-                                Toast.makeText(this@LoginActivity, text, Toast.LENGTH_SHORT).show()
+                        auth.createUserWithEmailAndPassword(email, password)
+                            .addOnCompleteListener { createTask ->
+                                if (createTask.isSuccessful) {
+                                    val uid = auth.currentUser?.uid
+                                    val newUser = mapOf(
+                                        "password" to password,
+                                        "uid" to uid
+                                    )
+                                    userRef.setValue(newUser).addOnCompleteListener { dbTask ->
+                                        if (dbTask.isSuccessful) {
+                                            SessionManager.saveSession(this@LoginActivity, username)
+                                            Toast.makeText(
+                                                this@LoginActivity,
+                                                getString(R.string.login_account_created_toast),
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                            navigateToWelcomeActivity(username)
+                                        } else {
+                                            Toast.makeText(
+                                                this@LoginActivity,
+                                                getString(R.string.login_account_creation_error_toast),
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }
+                                    }
+                                } else {
+                                    Toast.makeText(
+                                        this@LoginActivity,
+                                        "Auth Fehler: ${createTask.exception?.message}",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
                             }
-                        }
                     }
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    val text = getString(R.string.login_database_error_toast, error.message)
-                    Toast.makeText(this@LoginActivity, text, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@LoginActivity,
+                        getString(R.string.login_database_error_toast, error.message),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             })
         }
@@ -98,7 +160,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun navigateToWelcomeActivity(username: String) {
-
         val intent = Intent(this, WelcomeActivity::class.java)
         startActivity(intent)
         finish()
