@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <!-- Declare camera feature, but it's not required to install the app -->
@@ -21,6 +22,7 @@
 
         <activity
             android:name=".LoginActivity"
+            android:screenOrientation="unspecified"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,26 +32,32 @@
 
         <activity
             android:name=".PreloadActivity"
+            android:screenOrientation="unspecified"
             android:exported="false">
         </activity>
         <activity
             android:name=".WelcomeActivity"
+            android:screenOrientation="unspecified"
             android:exported="false" />
 
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="unspecified"
             android:exported="false"/>
         
         <activity
             android:name=".ManageAccountActivity"
+            android:screenOrientation="unspecified"
             android:exported="false"/>
 
         <activity
             android:name=".UploadRecipesActivity"
+            android:screenOrientation="unspecified"
             android:exported="false" />
 
         <activity
             android:name=".RecipeWebViewActivity"
+            android:screenOrientation="unspecified"
             android:exported="false" />
         
         <!-- FileProvider for sharing the image URI securely with the camera app -->
