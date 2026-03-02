@@ -2,11 +2,11 @@
     <string name="app_name">yumly</string>
 
     <!-- Login Activity -->
-    <string name="login_title">Login</string>
+    <string name="login_title">Your yumly account</string>
     <string name="username_hint">Username</string>
     <string name="password_hint">Password</string>
     <string name="login_button_text">Login / Register</string>
-    <string name="skip_button_text">Skip</string>
+    <string name="skip_button_text">Skip for now</string>
     <string name="login_empty_credentials_toast">Please enter username and password</string>
     <string name="login_successful_toast">Login successful!</string>
     <string name="login_wrong_password_toast">Username taken / Wrong password</string>
@@ -16,12 +16,17 @@
 
     <!-- Welcome Activity -->
     <string name="welcome_greeting">Hello, %1$s!</string>
+    <string name="welcome_greeting_guest">Hello!</string>
     <string name="new_session_button_text">New session</string>
+    <string name="upload_recipe_button_text">Upload recipe</string>
     <string name="manage_account_button_text">Manage Account</string>
     <string name="logout_button_text">Logout</string>
+    <string name="welcome_register_button_text">Register</string>
+    <string name="welcome_login_button_text">Login</string>
 
     <!-- Manage Account Activity -->
     <string name="manage_account_title">Manage Account</string>
+    <string name="old_password_hint">Current Password</string>
     <string name="new_password_hint">New Password</string>
     <string name="change_password_button_text">Change Password</string>
     <string name="password_length_error_toast">Password must be at least 6 characters long</string>
@@ -40,6 +45,7 @@
     <string name="main_activity_status_logged_in">Logged in as: %s</string>
     <string name="main_activity_status_local_session">Local Session</string>
     <string name="main_activity_prep_time">%d Min</string>
+    <string name="recipe_website" >View recipe</string>
 
     <!-- Upload Recipes Activity -->
     <string name="upload_recipe_title">Upload Recipe</string>
@@ -55,8 +61,5 @@
     <string name="gallery_option">Gallery</string>
     <string name="upload_error_name_image_toast">Please provide a name and an image</string>
     <string name="recipe_saved_toast">Recipe \"%1$s\" added</string>
-    <string name="upload_recipe_button_text">Upload recipe</string>
     <string name="upload_error_duration_toast">Please enter a prep duration</string>
-    <string name="recipe_website" >View recipe</string>
-
 </resources>

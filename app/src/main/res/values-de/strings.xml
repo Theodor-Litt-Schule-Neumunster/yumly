@@ -2,11 +2,11 @@
     <string name="app_name">yumly</string>
 
     <!-- Login Activity -->
-    <string name="login_title">Anmeldung</string>
+    <string name="login_title">Dein yumly-Konto</string>
     <string name="username_hint">Nutzername</string>
     <string name="password_hint">Passwort</string>
     <string name="login_button_text">Anmelden / Registrieren</string>
-    <string name="skip_button_text">Ohne Konto fortfahren</string>
+    <string name="skip_button_text">Vielleicht später</string>
     <string name="login_empty_credentials_toast">Bitte Nutzername und Passwort eingeben.</string>
     <string name="login_successful_toast">Anmeldung erfolgreich!</string>
     <string name="login_wrong_password_toast">Nutzername vergeben / Falsches Passwort</string>
@@ -16,13 +16,17 @@
 
     <!-- Welcome Activity -->
     <string name="welcome_greeting">Hallo, %1$s!</string>
+    <string name="welcome_greeting_guest" >Hallo!</string>
     <string name="new_session_button_text">Neue Sitzung</string>
     <string name="upload_recipe_button_text">Rezept hochladen</string>
     <string name="manage_account_button_text">Konto verwalten</string>
     <string name="logout_button_text">Abmelden</string>
+    <string name="welcome_register_button_text">Registrieren</string>
+    <string name="welcome_login_button_text">Anmelden</string>
 
     <!-- Manage Account Activity -->
     <string name="manage_account_title">Konto verwalten</string>
+    <string name="old_password_hint">Aktuelles Passwort</string>
     <string name="new_password_hint">Neues Passwort</string>
     <string name="change_password_button_text">Passwort ändern</string>
     <string name="password_length_error_toast">Passwort muss mindestens 6 Zeichen lang sein</string>
@@ -37,9 +41,6 @@
     <string name="account_deletion_error_toast">Fehler beim Löschen des Kontos</string>
 
     <!-- Main Activity -->
-    <string name="main_activity_next_button">Next</string>
-    <string name="main_activity_status_logged_in">Logged in as: %s</string>
-    <string name="main_activity_status_local_session">Local Session</string>
     <string name="main_activity_prep_time">%d Min</string>
 
     <!-- Upload Recipes Activity -->
@@ -58,5 +59,4 @@
     <string name="upload_error_duration_toast">Bitte geben Sie dem Rezept eine Zubereitungsdauer</string>
     <string name="recipe_saved_toast">Rezept \"%1$s\" hinzugefügt</string>
     <string name="recipe_website" >Rezept anshen</string>
-
 </resources>

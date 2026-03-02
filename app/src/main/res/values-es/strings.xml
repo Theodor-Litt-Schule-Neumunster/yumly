@@ -2,11 +2,11 @@
     <string name="app_name">yumly</string>
 
     <!-- Login Activity -->
-    <string name="login_title">Iniciar sesión</string>
+    <string name="login_title">Tu cuenta de yumly</string>
     <string name="username_hint">Nombre de usuario</string>
     <string name="password_hint">Contraseña</string>
     <string name="login_button_text">Iniciar sesión / Registrarse</string>
-    <string name="skip_button_text">Omitir</string>
+    <string name="skip_button_text">Continuar sin cuenta</string>
     <string name="login_empty_credentials_toast">Por favor, ingrese usuario y contraseña</string>
     <string name="login_successful_toast">¡Inicio de sesión exitoso!</string>
     <string name="login_wrong_password_toast">Usuario ya existe / Contraseña incorrecta</string>
@@ -16,12 +16,14 @@
 
     <!-- Welcome Activity -->
     <string name="welcome_greeting">¡Hola, %1$s!</string>
+    <string name="welcome_greeting_guest" >¡Hola!</string>
     <string name="new_session_button_text">Nueva sesión</string>
     <string name="manage_account_button_text">Administrar cuenta</string>
     <string name="logout_button_text">Cerrar sesión</string>
 
     <!-- Manage Account Activity -->
     <string name="manage_account_title">Administrar cuenta</string>
+    <string name="old_password_hint">Contraseña actual</string>
     <string name="new_password_hint">Nueva contraseña</string>
     <string name="change_password_button_text">Cambiar contraseña</string>
     <string name="password_length_error_toast">La contraseña debe tener al menos 6 caracteres</string>
@@ -36,10 +38,9 @@
     <string name="account_deletion_error_toast">Error al eliminar la cuenta</string>
 
     <!-- Main Activity -->
-    <string name="main_activity_next_button">Siguiente</string>
-    <string name="main_activity_status_logged_in">Sesión iniciada como: %s</string>
-    <string name="main_activity_status_local_session">Sesión local</string>
     <string name="main_activity_prep_time">%d min</string>
+    <string name="recipe_website" >Ver receta</string>
+
 
     <!-- Upload Recipes Activity -->
     <string name="upload_recipe_title">Subir receta</string>
@@ -57,6 +58,4 @@
     <string name="recipe_saved_toast">Receta \"%1$s\" añadida</string>
     <string name="upload_recipe_button_text">Subir receta</string>
     <string name="upload_error_duration_toast">Por favor, ingrese una duración de preparación</string>
-    <string name="recipe_website" >Ver receta</string>
-
 </resources>
