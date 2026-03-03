@@ -10,6 +10,7 @@ class WelcomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        userdatapref.init(applicationContext)
         setContentView(R.layout.activity_welcome)
 
         val welcomeTextView = findViewById<TextView>(R.id.welcomeTextView)

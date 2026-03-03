@@ -1,6 +1,7 @@
 package com.ita24.yumly
 
 import android.content.Intent
+import android.media.Image
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
@@ -11,8 +12,15 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import android.util.Log
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.Dispatchers
+
+
 
 class LoginActivity : AppCompatActivity() {
+
 
     companion object {
         const val EXTRA_USERNAME = "LOGGED_IN_USERNAME"
@@ -69,6 +77,7 @@ class LoginActivity : AppCompatActivity() {
                                 .addOnCompleteListener { loginTask ->
                                     if (!loginTask.isSuccessful) {
                                         // Auth Account existiert noch nicht → erstellen
+
                                         auth.createUserWithEmailAndPassword(email, password)
                                             .addOnCompleteListener { createTask ->
                                                 val uid = auth.currentUser?.uid
@@ -76,10 +85,12 @@ class LoginActivity : AppCompatActivity() {
                                                     userRef.child("uid").setValue(uid)
                                                 }
                                             }
+
                                     } else {
                                         val uid = auth.currentUser?.uid
                                         if (uid != null && !snapshot.hasChild("uid")) {
                                             userRef.child("uid").setValue(uid)
+
                                         }
                                     }
 
@@ -109,6 +120,14 @@ class LoginActivity : AppCompatActivity() {
                                     )
                                     userRef.setValue(newUser).addOnCompleteListener { dbTask ->
                                         if (dbTask.isSuccessful) {
+
+                                            if(!username.isNullOrBlank()){UserDataOnline.benutzer = username}
+
+                                            CoroutineScope(Dispatchers.IO).launch {
+                                                val idlist = Imageloader.loadallIds()
+                                                    UserDataOnline.setAllElo(idlist)
+                                                }
+
                                             SessionManager.saveSession(this@LoginActivity, username)
                                             Toast.makeText(
                                                 this@LoginActivity,

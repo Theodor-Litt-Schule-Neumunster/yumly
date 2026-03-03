@@ -60,6 +60,30 @@ object Imageloader
         }
     }
 
+    suspend fun loadallIds(): List<Int>{
+        val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+        val collection = "rezepte"
+        val snap = db.collection(collection).get().await()
+
+
+        var listOfIds = mutableListOf<Int>()
+
+
+        try {
+            for (doc in snap.documents) {
+
+                val id = doc.getString("id")?.toIntOrNull() ?: continue
+
+                listOfIds.add(id)
+            }
+            return listOfIds
+
+        }catch (e: Exception){
+            Log.e("testloader", "${e}")
+            return emptyList()
+        }
+    }
+
     fun addLokalToList(count: Int){
         var count = count
         val locals = userdataprefrecipes.getAllRecipes()

@@ -4,6 +4,7 @@ import android.util.Log
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.tasks.await
 
+
 object UserDataOnline{
 
     public var benutzer = "";
@@ -61,6 +62,25 @@ object UserDataOnline{
             .setValue(elo)
             .await()
     }
+
+    suspend fun setAllElo(ids: List<Int>){
+
+
+        for (id in ids){
+
+            val elo = local.getElo(id)
+
+        ref
+            .child("users")
+            .child(benutzer)
+            .child("gerichte")
+            .child(id.toString())
+            .child("elo")
+            .setValue(elo)
+            .await()
+        }
+    }
+
     suspend fun overrideLocal(recipeId: Int) {
         if (benutzer.isBlank()) return
 

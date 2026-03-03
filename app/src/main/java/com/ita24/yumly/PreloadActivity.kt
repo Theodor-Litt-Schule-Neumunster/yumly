@@ -13,7 +13,6 @@ class PreloadActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_preload)
-        userdatapref.init(applicationContext)
 
         val username = intent.getStringExtra(LoginActivity.EXTRA_USERNAME)
         if(!username.isNullOrBlank()){UserDataOnline.benutzer = username}
