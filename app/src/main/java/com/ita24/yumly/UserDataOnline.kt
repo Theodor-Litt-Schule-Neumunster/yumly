@@ -20,64 +20,80 @@ object UserDataOnline{
     suspend fun getIds(): List<Int> {
         if (benutzer.isBlank()) return emptyList()
 
-        val snapshot = ref
-            .child("users")
-            .child(benutzer)
-            .child("gerichte")
-            .get()
-            .await()
+        try {
+            val snapshot = ref
+                .child("users")
+                .child(benutzer)
+                .child("gerichte")
+                .get()
+                .await()
 
-        val ids = mutableListOf<Int>()
-        for (child in snapshot.children) {
-            val key = child.key ?: continue
-            val id = key.toIntOrNull() ?: continue
-            ids.add(id)
+            val ids = mutableListOf<Int>()
+            for (child in snapshot.children) {
+                val key = child.key ?: continue
+                val id = key.toIntOrNull() ?: continue
+                ids.add(id)
+            }
+            return ids
+        } catch (e: Exception) {
+            Log.e("UserDataOnline", "Error getting ids: ${e.message}")
+            return emptyList()
         }
-        return ids
     }
 
     suspend fun getElo(recipeId: Int): Int? {
         if (benutzer.isBlank()) return null
 
-        return ref
-            .child("users")
-            .child(benutzer)
-            .child("gerichte")
-            .child(recipeId.toString())
-            .child("elo")
-            .get()
-            .await()
-            .getValue(Int::class.java)
+        try {
+            return ref
+                .child("users")
+                .child(benutzer)
+                .child("gerichte")
+                .child(recipeId.toString())
+                .child("elo")
+                .get()
+                .await()
+                .getValue(Int::class.java)
+        } catch (e: Exception) {
+            Log.e("UserDataOnline", "Error getting elo: ${e.message}")
+            return null
+        }
     }
 
     suspend fun setElo(recipeId: Int, elo: Int) {
         if (benutzer.isBlank()) return
 
-        ref
-            .child("users")
-            .child(benutzer)
-            .child("gerichte")
-            .child(recipeId.toString())
-            .child("elo")
-            .setValue(elo)
-            .await()
+        try {
+            ref
+                .child("users")
+                .child(benutzer)
+                .child("gerichte")
+                .child(recipeId.toString())
+                .child("elo")
+                .setValue(elo)
+                .await()
+        } catch (e: Exception) {
+            Log.e("UserDataOnline", "Error setting elo: ${e.message}")
+        }
     }
 
     suspend fun setAllElo(ids: List<Int>){
-
+        if (benutzer.isBlank()) return
 
         for (id in ids){
-
-            val elo = local.getElo(id)
-
-        ref
-            .child("users")
-            .child(benutzer)
-            .child("gerichte")
-            .child(id.toString())
-            .child("elo")
-            .setValue(elo)
-            .await()
+            try {
+                val elo = local.getElo(id)
+                ref
+                    .child("users")
+                    .child(benutzer)
+                    .child("gerichte")
+                    .child(id.toString())
+                    .child("elo")
+                    .setValue(elo)
+                    .await()
+            } catch (e: Exception) {
+                Log.e("UserDataOnline", "Error setting all elo for id $id: ${e.message}")
+            }
         }
     }
 
