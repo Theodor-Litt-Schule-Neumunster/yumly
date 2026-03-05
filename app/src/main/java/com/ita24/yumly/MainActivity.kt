@@ -89,6 +89,8 @@ class MainActivity : AppCompatActivity() {
     private fun getAttributeDrawableId(attribute: String): Int? {
         return when (attribute.lowercase().trim()) {
             "gekocht" -> R.drawable.cooked_att
+            "gebraten" -> R.drawable.fried_att
+            "frittiert" -> R.drawable.deep_fried_att
             "scharf" -> R.drawable.spicy_att
             "spicy" -> R.drawable.spicy_att
             "warme gerichte" -> R.drawable.hot_att
@@ -103,6 +105,8 @@ class MainActivity : AppCompatActivity() {
             "süß" -> R.drawable.sweet_att
             "gegrillt" -> R.drawable.grilled_att
             "baked_att" -> R.drawable.baked_att
+            "fried_att" -> R.drawable.fried_att
+            "deep_fried_att" -> R.drawable.deep_fried_att
             "cold_att" -> R.drawable.cold_att
             "gluten_free_att" -> R.drawable.gluten_free_att
             "hot_att" -> R.drawable.hot_att
