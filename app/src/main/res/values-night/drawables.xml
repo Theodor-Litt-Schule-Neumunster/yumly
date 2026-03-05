@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="themed_background" type="drawable">@drawable/background</item>
+    <item name="themed_background_blur" type="drawable">@drawable/background_blur</item>
+</resources>

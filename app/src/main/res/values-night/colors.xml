@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark Theme Colors -->
+    <!-- A good practice is to use a less saturated primary color in dark theme -->
+    <color name="yumly_yellow">#C7A500</color> <!-- This was yumly_yellow_dark in light theme -->
+    <color name="yumly_yellow_dark">#9E7D00</color>
+</resources>
