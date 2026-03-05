@@ -148,8 +148,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/attributesLabel"
-            app:spanCount="2"
-            tools:itemCount="12"
+            app:spanCount="3"
+            tools:itemCount="15"
             tools:listitem="@layout/item_attribute" />
 
         <Button
