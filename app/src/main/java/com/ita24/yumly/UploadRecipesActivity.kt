@@ -153,18 +153,20 @@ class UploadRecipesActivity : AppCompatActivity() {
     private fun createAttributeList(): List<AttributeItem> {
         return listOf(
             AttributeItem("baked_att", R.drawable.baked_att),
-            AttributeItem("cold_att", R.drawable.cold_att),
             AttributeItem("cooked_att", R.drawable.cooked_att),
-            AttributeItem("fast_food_att", R.drawable.fast_food_att),
-            AttributeItem("gluten_free_att", R.drawable.gluten_free_att),
+            AttributeItem("fried_att", R.drawable.fried_att),
+            AttributeItem("deep_fried_att", R.drawable.deep_fried_att),
             AttributeItem("grilled_att", R.drawable.grilled_att),
-            AttributeItem("hearty_att", R.drawable.hearty_att),
+            AttributeItem("fast_food_att", R.drawable.fast_food_att),
+            AttributeItem("cold_att", R.drawable.cold_att),
             AttributeItem("hot_att", R.drawable.hot_att),
+            AttributeItem("gluten_free_att", R.drawable.gluten_free_att),
             AttributeItem("lactose_free_att", R.drawable.lactose_free_att),
             AttributeItem("spicy_att", R.drawable.spicy_att),
             AttributeItem("sweet_att", R.drawable.sweet_att),
             AttributeItem("vegan_att", R.drawable.vegan_att),
-            AttributeItem("veggie_att", R.drawable.veggie_att)
+            AttributeItem("veggie_att", R.drawable.veggie_att),
+            AttributeItem("hearty_att", R.drawable.hearty_att)
         )
     }
 
