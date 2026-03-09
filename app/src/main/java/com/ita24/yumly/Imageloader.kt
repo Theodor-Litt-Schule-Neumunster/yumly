@@ -84,8 +84,8 @@ object Imageloader
         }
     }
 
-    fun addLokalToList(count: Int){
-        var count = count
+    fun addLokalToList(startcount: Int){
+        var count = startcount
         val locals = userdataprefrecipes.getAllRecipes()
         for (recipe in locals){
             val id = count

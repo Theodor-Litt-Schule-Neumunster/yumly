@@ -96,7 +96,6 @@ class UploadRecipesActivity : AppCompatActivity() {
         val nameEditText = findViewById<TextInputEditText>(R.id.nameEditText)
         val timefield = findViewById<TextInputEditText>(R.id.preparationTimeEditText)
 
-        userdataprefrecipes.init(this)
 
         saveButton.setOnClickListener {
             var zeit = timefield.text.toString().trim().toIntOrNull()
@@ -141,6 +140,8 @@ class UploadRecipesActivity : AppCompatActivity() {
                 1100
             )
             userdataprefrecipes.saveRecipe(rezept)
+            Log.e("test", "Recipe saved: $rezept")
+
 
             val text = getString(R.string.recipe_saved_toast, name)
             Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
