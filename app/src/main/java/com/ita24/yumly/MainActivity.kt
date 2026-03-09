@@ -17,6 +17,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.card.MaterialCardView
 import kotlinx.coroutines.launch
+import android.widget.LinearLayout
 
 class MainActivity : AppCompatActivity() {
 
@@ -52,6 +53,17 @@ class MainActivity : AppCompatActivity() {
         val imgupcard = findViewById<MaterialCardView>(R.id.imageUpCard)
         val imgdowncard = findViewById<MaterialCardView>(R.id.imageDownCard)
 
+        // Funktion prüfen, ob Tutorial angezeigt werden soll
+        fun shouldShowTutorial(): Boolean {
+            val prefs = getSharedPreferences("tutorialPrefs", MODE_PRIVATE)
+            return !prefs.getBoolean("hasSeenTutorial", false)
+        }
+
+        if(shouldShowTutorial()){
+            val tutorialOverlay = findViewById<View>(R.id.tutorialOverlay)
+            tutorialOverlay.visibility = View.VISIBLE
+            showTutorial(true)
+        }
         // Set camera distance for 3D rotation
         val scale = resources.displayMetrics.density
         imgupcard.cameraDistance = 8000 * scale
@@ -77,6 +89,7 @@ class MainActivity : AppCompatActivity() {
         val zzDown = findViewById<TextView>(R.id.zzDown)
         val zzUp = findViewById<TextView>(R.id.zzTop)
 
+
         setupSwipeableCard(imgdowncard, imgdown, dishNameDown, zzDown, imgup)
         setupSwipeableCard(imgupcard, imgup, dishNameUp, zzUp, imgdown)
 
@@ -84,6 +97,11 @@ class MainActivity : AppCompatActivity() {
             loadNewRecipe(imgdown, dishNameDown, zzDown)
             loadNewRecipe(imgup, dishNameUp, zzUp)
         }
+    }
+
+    fun sawTutorial() {
+        val prefs = getSharedPreferences("tutorialPrefs", MODE_PRIVATE)
+        prefs.edit().putBoolean("hasSeenTutorial", true).apply()
     }
 
     private fun getAttributeDrawableId(attribute: String): Int? {
@@ -151,7 +169,7 @@ class MainActivity : AppCompatActivity() {
         val isFlipped = if (isUpCard) isCardUpFlipped else isCardDownFlipped
 
         if (!isFlipped) {
-            // FLIP TO BACK
+            if (tutorialrunning) stopTutorial()
             attributeGrid.removeAllViews()
             val recipe = recipeImageView.tag as? List<*>
             if (recipe != null) {
@@ -262,6 +280,64 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    var tutorialrunning = false;
+    var firstuse = false
+    private fun showTutorial(swipe: Boolean) {
+        tutorialrunning = true;
+        if(swipe) {
+            firstuse = true;
+            val tutorialOverlay = findViewById<View>(R.id.tutorialOverlay)
+            val swipeTutorial = findViewById<LinearLayout>(R.id.swipeTutorial)
+            val swipeArrow = findViewById<ImageView>(R.id.swipeArrow)
+            val clickTutorial = findViewById<LinearLayout>(R.id.clickTutorial)
+            val clickArrow = findViewById<ImageView>(R.id.clickArrow)
+
+            tutorialOverlay.visibility = View.VISIBLE
+            swipeTutorial.visibility = View.VISIBLE
+            clickTutorial.visibility = View.GONE
+
+            val animDistance = 30f
+            swipeArrow.animate().translationXBy(animDistance).setDuration(500).withEndAction {
+                swipeArrow.animate().translationXBy(-animDistance * 2).setDuration(1000)
+                    .withEndAction {
+                        swipeArrow.animate().translationXBy(animDistance).setDuration(500).start()
+                    }.start()
+            }.start()
+        }else{
+            firstuse = false;
+            val tutorialOverlay = findViewById<View>(R.id.tutorialOverlay)
+            val clickTutorial = findViewById<LinearLayout>(R.id.clickTutorial)
+            val clickArrow = findViewById<ImageView>(R.id.clickArrow)
+
+            tutorialOverlay.visibility = View.VISIBLE
+            clickTutorial.visibility = View.VISIBLE
+            sawTutorial()
+        }
+
+    }
+
+
+    private fun stopTutorial() {
+        tutorialrunning = false;
+        val tutorialOverlay = findViewById<View>(R.id.tutorialOverlay)
+        val swipeTutorial = findViewById<LinearLayout>(R.id.swipeTutorial)
+        val swipeArrow = findViewById<ImageView>(R.id.swipeArrow)
+        val clickTutorial = findViewById<LinearLayout>(R.id.clickTutorial)
+        val clickArrow = findViewById<ImageView>(R.id.clickArrow)
+
+        // Tutorial-Overlay ausblenden
+        tutorialOverlay.visibility = View.GONE
+        swipeTutorial.visibility = View.GONE
+        clickTutorial.visibility = View.GONE
+
+        // Animationen abbrechen
+        swipeArrow.animate().cancel()
+        clickArrow.animate().cancel()
+
+        swipeArrow.translationX = 0f
+        clickArrow.translationX = 0f
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     private fun setupSwipeableCard(
         cardView: MaterialCardView,
@@ -291,6 +367,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 MotionEvent.ACTION_MOVE -> {
+                    if (tutorialrunning) stopTutorial()
                     val newX = event.rawX + dX
                     view.x = newX
                     view.rotation = (newX - originalX) / (view.width.toFloat() / 2) * 15f
@@ -325,6 +402,7 @@ class MainActivity : AppCompatActivity() {
                                 }
 
                                 loadNewRecipe(imageView, dishNameView, zzView)
+                                if(firstuse)showTutorial(false)
                             }
                             .start()
                     } else {

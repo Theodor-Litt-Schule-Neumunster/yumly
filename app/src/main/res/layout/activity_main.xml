@@ -7,6 +7,70 @@
     android:layout_height="match_parent"
     android:background="@drawable/themed_background_blur">
 
+
+    <FrameLayout
+        android:id="@+id/tutorialOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:elevation="100dp"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/swipeTutorial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:padding="24dp">
+
+            <TextView
+                android:id="@+id/swipeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Swipe weg, was du weniger magst"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:gravity="center"/>
+
+            <ImageView
+                android:id="@+id/swipeArrow"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/info_button"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+
+        <!-- Click Tutorial -->
+        <LinearLayout
+            android:id="@+id/clickTutorial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:padding="24dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Klicke für mehr Infos"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:gravity="center"/>
+
+            <ImageView
+                android:id="@+id/clickArrow"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/info_button"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+
+    </FrameLayout>
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/imageUpCard"
         android:layout_width="0dp"
@@ -232,5 +296,4 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
