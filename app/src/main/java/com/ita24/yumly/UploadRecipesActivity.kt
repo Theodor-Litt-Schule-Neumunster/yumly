@@ -18,7 +18,6 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputEditText
 import java.io.File
-import kotlin.String
 
 class UploadRecipesActivity : AppCompatActivity() {
 
@@ -53,9 +52,9 @@ class UploadRecipesActivity : AppCompatActivity() {
 
         val uploadImageButton = findViewById<Button>(R.id.uploadImageButton)
         uploadImageButton.setOnClickListener {
-            val camera_option = getString(R.string.camera_option)
-            val gallery_option = getString(R.string.gallery_option)
-            val options = arrayOf(camera_option, gallery_option)
+            val cameraOption = getString(R.string.camera_option)
+            val galleryOption = getString(R.string.gallery_option)
+            val options = arrayOf(cameraOption, galleryOption)
             AlertDialog.Builder(this)
                 .setTitle(getString(R.string.select_image_dialog_title))
                 .setItems(options) { _, which ->
@@ -97,11 +96,9 @@ class UploadRecipesActivity : AppCompatActivity() {
         val nameEditText = findViewById<TextInputEditText>(R.id.nameEditText)
         val timefield = findViewById<TextInputEditText>(R.id.preparationTimeEditText)
 
-
         userdataprefrecipes.init(this)
 
         saveButton.setOnClickListener {
-            val name = nameEditText.text.toString().trim()
             var zeit = timefield.text.toString().trim().toIntOrNull()
             if (zeit == null) {
                 Log.e("test", "zeit ist null")
@@ -113,40 +110,63 @@ class UploadRecipesActivity : AppCompatActivity() {
             val imgurl = imageUri.toString()
 
             val allergies = emptyList<String>()
+            val name = nameEditText.text.toString().trim()
 
-            if (name.isEmpty()) {
+            val currentUri = imageUri
+            if (name.isEmpty() || currentUri == null) {
                 val message = getString(R.string.upload_error_name_image_toast)
                 Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            if (zeit == 0){
-                Log.e("test", "zeit ist null")
+
+            if (zeit == 0) {
                 val text = getString(R.string.upload_error_duration_toast)
                 Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val permanentImgUrl = saveImageToInternalStorage(currentUri)
+            if (permanentImgUrl == null) {
+                Toast.makeText(this, "Fehler beim Speichern des Bildes", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             val rezept = localSavedRecipe(
                 name,
                 zeit,
-                imgurl,
+                permanentImgUrl,
                 ingredients,
                 allergies,
                 attributlist,
                 1100
-                )
+            )
             userdataprefrecipes.saveRecipe(rezept)
 
             val text = getString(R.string.recipe_saved_toast, name)
-
             Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
-
             finish()
         }
     }
 
+    private fun saveImageToInternalStorage(uri: Uri): String? {
+        return try {
+            val inputStream = contentResolver.openInputStream(uri) ?: return null
+            val fileName = "recipe_image_${System.currentTimeMillis()}.jpg"
+            val file = File(filesDir, fileName)
+
+            file.outputStream().use { outputStream ->
+                inputStream.use { it.copyTo(outputStream) }
+            }
+
+            Uri.fromFile(file).toString()
+        } catch (e: Exception) {
+            Log.e("UploadRecipes", "Fehler beim Kopieren", e)
+            null
+        }
+    }
+
     private fun createImageUri(): Uri {
-        val image = File(filesDir, "camera_photo.png")
+        val image = File(filesDir, "temp_camera_photo.png")
         return FileProvider.getUriForFile(this, "com.ita24.yumly.fileprovider", image)
     }
 
