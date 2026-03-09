@@ -38,7 +38,7 @@
                 android:id="@+id/swipeArrow"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="@drawable/info_button"
+                android:src="@drawable/swipeimage"
                 android:layout_gravity="center"/>
         </LinearLayout>
 
@@ -65,7 +65,7 @@
                 android:id="@+id/clickArrow"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="@drawable/info_button"
+                android:src="@drawable/clickimage"
                 android:layout_gravity="center"/>
         </LinearLayout>
 

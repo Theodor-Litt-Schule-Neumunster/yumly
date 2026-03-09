@@ -18,6 +18,10 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.card.MaterialCardView
 import kotlinx.coroutines.launch
 import android.widget.LinearLayout
+import android.animation.ValueAnimator
+import android.view.animation.LinearInterpolator
+import android.R.attr.animation
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -296,13 +300,23 @@ class MainActivity : AppCompatActivity() {
             swipeTutorial.visibility = View.VISIBLE
             clickTutorial.visibility = View.GONE
 
-            val animDistance = 30f
-            swipeArrow.animate().translationXBy(animDistance).setDuration(500).withEndAction {
-                swipeArrow.animate().translationXBy(-animDistance * 2).setDuration(1000)
-                    .withEndAction {
-                        swipeArrow.animate().translationXBy(animDistance).setDuration(500).start()
-                    }.start()
-            }.start()
+            fun startSwipeAnimation(swipeArrow: ImageView) {
+                val distance = 50f
+
+                val animator = ValueAnimator.ofFloat(0f, distance, -distance, 0f).apply {
+                    duration = 2000
+                    interpolator = LinearInterpolator()
+                    repeatCount = ValueAnimator.INFINITE
+
+                    addUpdateListener { animation ->
+                        swipeArrow.translationX = animation.animatedValue as Float
+                    }
+                }
+
+                animator.start()
+            }
+            startSwipeAnimation(swipeArrow)
+
         }else{
             firstuse = false;
             val tutorialOverlay = findViewById<View>(R.id.tutorialOverlay)
