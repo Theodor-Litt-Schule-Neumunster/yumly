@@ -51,6 +51,11 @@
     <string name="open_recipe_with">Open recipe with...</string>
     <string name="error_open_file">Could not open file or link</string>
 
+    <string name="swipe_tutorial">Swipe away the dish you like less.</string>
+    <string name="click_tutorial">Tap a dish to see more information and the recipe.</string>
+
+
+
     <!-- Upload Recipes Activity -->
     <string name="upload_recipe_title">Upload Recipe</string>
     <string name="dish_name_hint">Name</string>

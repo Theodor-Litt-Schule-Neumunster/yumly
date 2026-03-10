@@ -1,13 +1,17 @@
 package com.ita24.yumly
 
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import android.view.animation.LinearInterpolator
 import android.widget.Button
 import android.widget.GridLayout
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +21,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.card.MaterialCardView
 import kotlinx.coroutines.launch
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -52,6 +57,18 @@ class MainActivity : AppCompatActivity() {
         val imgupcard = findViewById<MaterialCardView>(R.id.imageUpCard)
         val imgdowncard = findViewById<MaterialCardView>(R.id.imageDownCard)
 
+        // Funktion prüfen, ob Tutorial angezeigt werden soll
+        fun shouldShowTutorial(): Boolean {
+            val prefs = getSharedPreferences("tutorialPrefs", MODE_PRIVATE)
+            //return !prefs.getBoolean("hasSeenTutorial", false)
+            return true
+        }
+
+        if(shouldShowTutorial()){
+            val tutorialOverlay = findViewById<View>(R.id.tutorialOverlay)
+            tutorialOverlay.visibility = View.VISIBLE
+            showTutorial(true)
+        }
         // Set camera distance for 3D rotation
         val scale = resources.displayMetrics.density
         imgupcard.cameraDistance = 8000 * scale
@@ -264,6 +281,79 @@ class MainActivity : AppCompatActivity() {
                 Log.e("Yumly", "Error loading new recipe: $e")
             }
         }
+    }
+
+    var tutorialrunning = false;
+    var firstuse = false
+    private fun showTutorial(swipe: Boolean) {
+        tutorialrunning = true;
+        if(swipe) {
+            firstuse = true;
+            val tutorialOverlay = findViewById<View>(R.id.tutorialOverlay)
+            val swipeTutorial = findViewById<LinearLayout>(R.id.swipeTutorial)
+            val swipeArrow = findViewById<ImageView>(R.id.swipeArrow)
+            val clickTutorial = findViewById<LinearLayout>(R.id.clickTutorial)
+            val clickArrow = findViewById<ImageView>(R.id.clickArrow)
+
+            tutorialOverlay.visibility = View.VISIBLE
+            swipeTutorial.visibility = View.VISIBLE
+            clickTutorial.visibility = View.GONE
+
+            fun startSwipeAnimation(swipeArrow: ImageView) {
+                val distance = 50f
+
+                val animator = ValueAnimator.ofFloat(0f, distance, -distance, 0f).apply {
+                    duration = 2000
+                    interpolator = LinearInterpolator()
+                    repeatCount = ValueAnimator.INFINITE
+
+                    addUpdateListener { animation ->
+                        swipeArrow.translationX = animation.animatedValue as Float
+                    }
+                }
+
+                animator.start()
+            }
+            startSwipeAnimation(swipeArrow)
+
+        }else{
+            firstuse = false;
+            val tutorialOverlay = findViewById<View>(R.id.tutorialOverlay)
+            val clickTutorial = findViewById<LinearLayout>(R.id.clickTutorial)
+            val finger = findViewById<ImageView>(R.id.clickArrow)
+
+            tutorialOverlay.visibility = View.VISIBLE
+            clickTutorial.visibility = View.VISIBLE
+            val animator = ObjectAnimator.ofFloat(finger, "translationY", 0f, 20f)
+            animator.setDuration(500)
+            animator.setRepeatMode(ValueAnimator.REVERSE)
+            animator.setRepeatCount(ValueAnimator.INFINITE)
+            animator.start()
+            sawTutorial()
+        }
+
+    }
+
+
+    private fun stopTutorial() {
+        tutorialrunning = false;
+        val tutorialOverlay = findViewById<View>(R.id.tutorialOverlay)
+        val swipeTutorial = findViewById<LinearLayout>(R.id.swipeTutorial)
+        val swipeArrow = findViewById<ImageView>(R.id.swipeArrow)
+        val clickTutorial = findViewById<LinearLayout>(R.id.clickTutorial)
+        val clickArrow = findViewById<ImageView>(R.id.clickArrow)
+
+        // Tutorial-Overlay ausblenden
+        tutorialOverlay.visibility = View.GONE
+        swipeTutorial.visibility = View.GONE
+        clickTutorial.visibility = View.GONE
+
+        // Animationen abbrechen
+        swipeArrow.animate().cancel()
+        clickArrow.animate().cancel()
+
+        swipeArrow.translationX = 0f
+        clickArrow.translationX = 0f
     }
 
     @SuppressLint("ClickableViewAccessibility")
