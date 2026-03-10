@@ -3,6 +3,7 @@ package com.ita24.yumly
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
@@ -12,6 +13,7 @@ import android.widget.Button
 import android.widget.GridLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -53,14 +55,17 @@ class MainActivity : AppCompatActivity() {
 
         loggedInUsername = intent.getStringExtra(LoginActivity.EXTRA_USERNAME)
 
+        val menuButton = findViewById<ImageView>(R.id.menuButton)
+        menuButton.setOnClickListener { view ->
+            showMenu(view)
+        }
+
         // Card views
         val imgupcard = findViewById<MaterialCardView>(R.id.imageUpCard)
         val imgdowncard = findViewById<MaterialCardView>(R.id.imageDownCard)
 
         // Funktion prüfen, ob Tutorial angezeigt werden soll
         fun shouldShowTutorial(): Boolean {
-            val prefs = getSharedPreferences("tutorialPrefs", MODE_PRIVATE)
-            //return !prefs.getBoolean("hasSeenTutorial", false)
             return true
         }
 
@@ -101,6 +106,43 @@ class MainActivity : AppCompatActivity() {
             loadNewRecipe(imgdown, dishNameDown, zzDown)
             loadNewRecipe(imgup, dishNameUp, zzUp)
         }
+    }
+
+    private fun showMenu(view: View) {
+        val popup = PopupMenu(this, view)
+        popup.menuInflater.inflate(R.menu.main_menu, popup.menu)
+
+        try {
+            val fieldPopupDelegate = PopupMenu::class.java.getDeclaredField("mPopup")
+            fieldPopupDelegate.isAccessible = true
+            val mPopup = fieldPopupDelegate.get(popup)
+            mPopup.javaClass
+                .getDeclaredMethod("setForceShowIcon", Boolean::class.java)
+                .invoke(mPopup, true)
+        } catch (e: Exception) {
+            Log.e("MainActivity", "Error showing menu icons", e)
+        }
+
+        popup.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.action_home -> {
+                    val intent = Intent(this, WelcomeActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                    startActivity(intent)
+                    true
+                }
+                R.id.action_filter -> {
+                    // Filter Implementierung
+                    true
+                }
+                R.id.action_tutorial -> {
+                    showTutorial(true)
+                    true
+                }
+                else -> false
+            }
+        }
+        popup.show()
     }
 
     private fun getAttributeDrawableId(attribute: String): Int? {
@@ -287,15 +329,16 @@ class MainActivity : AppCompatActivity() {
     var firstuse = false
     private fun showTutorial(swipe: Boolean) {
         tutorialrunning = true;
+        val tutorialOverlay = findViewById<View>(R.id.tutorialOverlay)
+        val swipeTutorial = findViewById<LinearLayout>(R.id.swipeTutorial)
+        val swipeArrow = findViewById<ImageView>(R.id.swipeArrow)
+        val clickTutorial = findViewById<LinearLayout>(R.id.clickTutorial)
+        val clickArrow = findViewById<ImageView>(R.id.clickArrow)
+
+        tutorialOverlay.visibility = View.VISIBLE
+
         if(swipe) {
             firstuse = true;
-            val tutorialOverlay = findViewById<View>(R.id.tutorialOverlay)
-            val swipeTutorial = findViewById<LinearLayout>(R.id.swipeTutorial)
-            val swipeArrow = findViewById<ImageView>(R.id.swipeArrow)
-            val clickTutorial = findViewById<LinearLayout>(R.id.clickTutorial)
-            val clickArrow = findViewById<ImageView>(R.id.clickArrow)
-
-            tutorialOverlay.visibility = View.VISIBLE
             swipeTutorial.visibility = View.VISIBLE
             clickTutorial.visibility = View.GONE
 
@@ -318,20 +361,18 @@ class MainActivity : AppCompatActivity() {
 
         }else{
             firstuse = false;
-            val tutorialOverlay = findViewById<View>(R.id.tutorialOverlay)
-            val clickTutorial = findViewById<LinearLayout>(R.id.clickTutorial)
-            val finger = findViewById<ImageView>(R.id.clickArrow)
-
-            tutorialOverlay.visibility = View.VISIBLE
+            swipeTutorial.visibility = View.GONE
             clickTutorial.visibility = View.VISIBLE
-            val animator = ObjectAnimator.ofFloat(finger, "translationY", 0f, 20f)
+            val animator = ObjectAnimator.ofFloat(clickArrow, "translationY", 0f, 20f)
             animator.setDuration(500)
             animator.setRepeatMode(ValueAnimator.REVERSE)
             animator.setRepeatCount(ValueAnimator.INFINITE)
             animator.start()
-            sawTutorial()
         }
 
+        tutorialOverlay.setOnClickListener {
+            stopTutorial()
+        }
     }
 
 

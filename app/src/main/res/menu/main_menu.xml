@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_home"
+        android:icon="@drawable/home_button"
+        android:title="Zurück zum Startbildschirm" />
+    <item
+        android:id="@+id/action_filter"
+        android:icon="@drawable/filter_button"
+        android:title="Filter anwenden" />
+    <item
+        android:id="@+id/action_tutorial"
+        android:icon="@drawable/tutorial_button"
+        android:title="Tutorial starten" />
+</menu>
