@@ -1,7 +1,6 @@
 package com.ita24.yumly
 
 import android.util.Log
-import com.google.firebase.firestore.auth.User
 import kotlin.math.pow
 import kotlin.math.roundToInt
 import kotlin.random.Random
@@ -26,9 +25,9 @@ object EloManager {
     }
 
 
-    suspend fun updateElo(winner: MutableList<Any>, loser: MutableList<Any>, fast: Boolean) {
-        val winnerElo = winner[eloindex] as Int
-        val loserElo  = loser[eloindex] as Int
+    suspend fun updateElo(winner: MutableList<Any?>, loser: MutableList<Any?>, fast: Boolean) {
+        val winnerElo = (winner[eloindex] as? Number)?.toInt() ?: 1100
+        val loserElo  = (loser[eloindex] as? Number)?.toInt() ?: 1100
 
         val k = if (fast) 30.0 else 20.0
 
@@ -42,40 +41,37 @@ object EloManager {
         winner[eloindex] = accWinner.roundToInt()
         loser[eloindex]  = accLoser.roundToInt()
 
-        val winnerIndex = winner[idindex] as Int
-        val loserIndex  = loser[idindex] as Int
+        val winnerIndex = (winner[idindex] as? Number)?.toInt() ?: -1
+        val loserIndex  = (loser[idindex] as? Number)?.toInt() ?: -1
 
-        withContext(Dispatchers.IO) {
-
-            userDataLocal.saveElo(winnerIndex, accWinner.roundToInt())
-            UserDataOnline.setElo(winnerIndex, accWinner.roundToInt())
-            Log.e("testelorating", "$winnerIndex $accWinner")
-            userDataLocal.saveElo(loserIndex, accLoser.roundToInt())
-            UserDataOnline.setElo(loserIndex, accLoser.roundToInt())
-            Log.e("testelorating", "$loserIndex $accLoser")
-
+        if (winnerIndex != -1 && loserIndex != -1) {
+            withContext(Dispatchers.IO) {
+                userDataLocal.saveElo(winnerIndex, accWinner.roundToInt())
+                UserDataOnline.setElo(winnerIndex, accWinner.roundToInt())
+                Log.e("testelorating", "$winnerIndex $accWinner")
+                userDataLocal.saveElo(loserIndex, accLoser.roundToInt())
+                UserDataOnline.setElo(loserIndex, accLoser.roundToInt())
+                Log.e("testelorating", "$loserIndex $accLoser")
+            }
         }
-
-
-
     }
 
-    fun pickNextRecipe(recipelist: List<List<Any>>, exclude: List<Int>): List<Any> {
+    fun pickNextRecipe(recipelist: List<List<Any?>>, exclude: List<Int>): List<Any?> {
 
         Log.e("testelorating", "$exclude")
 
         val Auswahl = recipelist.filter { r ->
-            val id = r[idindex] as Int
-            id !in exclude
+            val id = (r[idindex] as? Number)?.toInt() ?: -1
+            id !in exclude && id != -1
         }
         if (Auswahl.isEmpty()) return emptyList()
 
 
         val minWeight = 5
         val scale = 0.5
-        val minElo = Auswahl.minOf { (it[eloindex] as Int) }
+        val minElo = Auswahl.minOf { (it[eloindex] as? Number)?.toInt() ?: 1100 }
         val weights = Auswahl.map { r ->
-            val elo = r[eloindex] as Int
+            val elo = (r[eloindex] as? Number)?.toInt() ?: 1100
             minWeight + (elo - minElo + 1) * scale
         }
 

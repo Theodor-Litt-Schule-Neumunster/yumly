@@ -15,7 +15,7 @@ object Imageloader
 {
     private val userDataLocal = UserDataLocal()
 
-    var liste = mutableListOf<List<Any>>()
+    var liste = mutableListOf<MutableList<Any?>>()
 
     suspend fun loadList(){
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
@@ -26,32 +26,33 @@ object Imageloader
 
         try {
             var count = 0
-        for (doc in snap.documents) {
+            for (doc in snap.documents) {
 
-            val id = doc.getString("id")?.toIntOrNull() ?: continue
-            val name = doc.getString("name") ?: continue
-            val bildurl = doc.getString("bildurl") ?: continue
-            val zeit = (doc.getLong("zubereitungszeitMinuten") ?: 0L).toInt()
-            val zutaten = doc.get("zutaten") as? ArrayList<String> ?: arrayListOf()
-            val allergien = doc.get("allergien") as? ArrayList<String> ?: arrayListOf()
-            val attribute = doc.get("attribute") as? ArrayList<String> ?: arrayListOf()
+                val id = doc.getString("id")?.toIntOrNull() ?: continue
+                val name = doc.getString("name") ?: continue
+                val bildurl = doc.getString("bildurl") ?: continue
+                val zeit = (doc.getLong("zubereitungszeitMinuten") ?: 0L).toInt()
+                val zutaten = doc.get("zutaten") as? ArrayList<String> ?: arrayListOf()
+                val allergien = doc.get("allergien") as? ArrayList<String> ?: arrayListOf()
+                val attribute = doc.get("attribute") as? ArrayList<String> ?: arrayListOf()
 
-            val elorank = userDataLocal.getElo(id)
+                val elorank = userDataLocal.getElo(id)
 
-            liste.add(
-                mutableListOf(
-                    name,
-                    bildurl,
-                    zeit,
-                    zutaten,
-                    allergien,
-                    attribute,
-                    elorank,
-                    id
+                liste.add(
+                    mutableListOf(
+                        name,
+                        bildurl,
+                        zeit,
+                        zutaten,
+                        allergien,
+                        attribute,
+                        elorank,
+                        id,
+                        null // Kein recipeSource für Online-Rezepte
+                    )
                 )
-            )
-            count++
-        }
+                count++
+            }
             Log.e("testloadlist", "$liste")
             addLokalToList(count)
 
@@ -84,11 +85,11 @@ object Imageloader
         }
     }
 
-    fun addLokalToList(startcount: Int){
-        var count = startcount
+    fun addLokalToList(count: Int){
+        var currentCount = count
         val locals = userdataprefrecipes.getAllRecipes()
         for (recipe in locals){
-            val id = count
+            val id = currentCount
             val name = recipe.name
             val bildurl = recipe.imgurl
             val zeit = recipe.zeit
@@ -96,6 +97,7 @@ object Imageloader
             val allergien = recipe.allergies
             val attribute = recipe.attributlist
             val elorank = recipe.elo
+            val source = recipe.recipeSource
 
             liste.add(
                 mutableListOf(
@@ -106,10 +108,11 @@ object Imageloader
                     allergien,
                     attribute,
                     elorank,
-                    id
+                    id,
+                    source
                 )
             )
-            count++
+            currentCount++
         }
 
     }
@@ -117,8 +120,8 @@ object Imageloader
         try {
             coroutineScope {
                 liste.forEach { eintrag ->
-                    val url = eintrag[1] as String
-                    if (url.startsWith("http:") || url.startsWith("https:"))
+                    val url = eintrag[1] as? String
+                    if (url != null && (url.startsWith("http:") || url.startsWith("https:")))
                     {
                         launch(Dispatchers.IO) {
                             try {
@@ -133,7 +136,7 @@ object Imageloader
                                 Log.e("testloader", "Fehler bei $url", e)
                             }
                         }
-                    }else{
+                    }else if (url != null){
                         Log.d("testloader", "localimg: $url")
                     }
                 }
@@ -149,14 +152,16 @@ object Imageloader
         exclude.clear()
     }
     const val idIndex = 7
-    suspend fun loadnewImg(imageView: ImageView): List<Any>? {
+    suspend fun loadnewImg(imageView: ImageView): MutableList<Any?>? {
 
         val rezept = EloManager.pickNextRecipe(liste, exclude)
 
-        exclude.add(rezept[idIndex] as Int)
+        if (rezept != null && rezept.size > idIndex && rezept[idIndex] is Int) {
+            exclude.add(rezept[idIndex] as Int)
+        }
 
         try {
-            if (liste.isEmpty()) return null
+            if (liste.isEmpty() || rezept == null || rezept.isEmpty()) return null
 
             val url = rezept[1] as String
 
@@ -169,7 +174,7 @@ object Imageloader
             }
 
             Log.d("DEBUGtest", "liste.size = ${liste.size}")
-            return rezept
+            return rezept.toMutableList()
 
         } catch (e: Exception) {
             Log.e("DEBUGtest", "loadnewImg crashed", e)

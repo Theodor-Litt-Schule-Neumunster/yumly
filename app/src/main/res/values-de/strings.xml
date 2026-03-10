@@ -42,8 +42,14 @@
 
     <!-- Main Activity -->
     <string name="main_activity_prep_time">%d Min</string>
+    <string name="recipe_website" >Rezept ansehen</string>
+    <string name="recipe_att">Eigenschaften</string>
+    <string name="recipe_all">Allergien</string>
+    <string name="swipeText">Swipe weg, was du weniger magst</string>
+    <string name="clickTutorial">Klicke für mehr Infos</string>
 
     <!-- Upload Recipes Activity -->
+    <string name="recipe_ing">Zutaten</string>
     <string name="upload_recipe_title">Rezept hochladen</string>
     <string name="dish_name_hint">Name des Gerichts</string>
     <string name="prep_time_hint">Zubereitungszeit in Minuten</string>
@@ -58,5 +64,6 @@
     <string name="upload_error_name_image_toast">Bitte geben Sie dem Rezept einen Namen</string>
     <string name="upload_error_duration_toast">Bitte geben Sie dem Rezept eine Zubereitungsdauer</string>
     <string name="recipe_saved_toast">Rezept \"%1$s\" hinzugefügt</string>
-    <string name="recipe_website" >Rezept anshen</string>
+    <string name="upload_error_save_image_toast">Fehler beim Speichern des Bildes</string>
+
 </resources>

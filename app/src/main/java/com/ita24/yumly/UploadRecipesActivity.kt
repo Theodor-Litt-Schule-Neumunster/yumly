@@ -3,10 +3,12 @@ package com.ita24.yumly
 import android.util.Log
 import android.net.Uri
 import android.os.Bundle
+import android.provider.OpenableColumns
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -24,15 +26,19 @@ class UploadRecipesActivity : AppCompatActivity() {
     private val ingredients = mutableListOf<String>()
     private var imageUri: Uri? = null
     private var tempImageUri: Uri? = null
+    private var selectedFileUri: Uri? = null
     private lateinit var recipeImageView: ImageView
+    private lateinit var selectedFileName: TextView
     private lateinit var galleryLauncher: ActivityResultLauncher<String>
     private lateinit var cameraLauncher: ActivityResultLauncher<Uri>
+    private lateinit var filePickerLauncher: ActivityResultLauncher<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_upload_recipes)
 
         recipeImageView = findViewById(R.id.recipeImageView)
+        selectedFileName = findViewById(R.id.selectedFileName)
 
         galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             uri?.let {
@@ -47,6 +53,13 @@ class UploadRecipesActivity : AppCompatActivity() {
                     imageUri = it
                     recipeImageView.setImageURI(it)
                 }
+            }
+        }
+
+        filePickerLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            uri?.let {
+                selectedFileUri = it
+                selectedFileName.text = getFileName(it) ?: "Datei ausgewählt"
             }
         }
 
@@ -67,6 +80,11 @@ class UploadRecipesActivity : AppCompatActivity() {
                     }
                 }
                 .show()
+        }
+
+        val selectFileButton = findViewById<Button>(R.id.selectFileButton)
+        selectFileButton.setOnClickListener {
+            filePickerLauncher.launch("*/*")
         }
 
         val recyclerView = findViewById<RecyclerView>(R.id.attributesRecyclerView)
@@ -95,39 +113,38 @@ class UploadRecipesActivity : AppCompatActivity() {
         val saveButton = findViewById<Button>(R.id.saveRecipe)
         val nameEditText = findViewById<TextInputEditText>(R.id.nameEditText)
         val timefield = findViewById<TextInputEditText>(R.id.preparationTimeEditText)
-
+        val recipeUrlEditText = findViewById<TextInputEditText>(R.id.recipeUrlEditText)
 
         saveButton.setOnClickListener {
-            var zeit = timefield.text.toString().trim().toIntOrNull()
-            if (zeit == null) {
-                Log.e("test", "zeit ist null")
-                zeit = 0;
-            }
-
-            val attributlist = attributeAdapter.getAttributes()
-
-            val imgurl = imageUri.toString()
-
-            val allergies = emptyList<String>()
+            var zeit = timefield.text.toString().trim().toIntOrNull() ?: 0
             val name = nameEditText.text.toString().trim()
-
             val currentUri = imageUri
+
             if (name.isEmpty() || currentUri == null) {
-                val message = getString(R.string.upload_error_name_image_toast)
-                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.upload_error_name_image_toast), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             if (zeit == 0) {
-                val text = getString(R.string.upload_error_duration_toast)
-                Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.upload_error_duration_toast), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            val permanentImgUrl = saveImageToInternalStorage(currentUri)
+            val permanentImgUrl = saveFileToInternalStorage(currentUri, "recipe_img_${System.currentTimeMillis()}.jpg")
             if (permanentImgUrl == null) {
-                Toast.makeText(this, "Fehler beim Speichern des Bildes", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.upload_error_save_image_toast), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
+            }
+
+            val urlSource = recipeUrlEditText.text.toString().trim()
+            var recipeSource: String? = null
+            
+            if (urlSource.isNotEmpty()) {
+                recipeSource = urlSource
+            } else if (selectedFileUri != null) {
+                val originalName = getFileName(selectedFileUri!!) ?: "document"
+                val fileName = "recipe_doc_${System.currentTimeMillis()}_$originalName"
+                recipeSource = saveFileToInternalStorage(selectedFileUri!!, fileName)
             }
 
             val rezept = localSavedRecipe(
@@ -135,35 +152,49 @@ class UploadRecipesActivity : AppCompatActivity() {
                 zeit,
                 permanentImgUrl,
                 ingredients,
-                allergies,
-                attributlist,
-                1100
+                emptyList(),
+                attributeAdapter.getAttributes(),
+                1100,
+                recipeSource
             )
             userdataprefrecipes.saveRecipe(rezept)
-            Log.e("test", "Recipe saved: $rezept")
 
-
-            val text = getString(R.string.recipe_saved_toast, name)
-            Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.recipe_saved_toast, name), Toast.LENGTH_SHORT).show()
             finish()
         }
     }
 
-    private fun saveImageToInternalStorage(uri: Uri): String? {
+    private fun saveFileToInternalStorage(uri: Uri, fileName: String): String? {
         return try {
             val inputStream = contentResolver.openInputStream(uri) ?: return null
-            val fileName = "recipe_image_${System.currentTimeMillis()}.jpg"
             val file = File(filesDir, fileName)
-
             file.outputStream().use { outputStream ->
                 inputStream.use { it.copyTo(outputStream) }
             }
-
-            Uri.fromFile(file).toString()
+            file.absolutePath
         } catch (e: Exception) {
-            Log.e("UploadRecipes", "Fehler beim Kopieren", e)
+            Log.e("UploadRecipes", "Fehler beim Speichern", e)
             null
         }
+    }
+
+    private fun getFileName(uri: Uri): String? {
+        var result: String? = null
+        if (uri.scheme == "content") {
+            val cursor = contentResolver.query(uri, null, null, null, null)
+            cursor.use {
+                if (it != null && it.moveToFirst()) {
+                    val index = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                    if (index != -1) result = it.getString(index)
+                }
+            }
+        }
+        if (result == null) {
+            result = uri.path
+            val cut = result?.lastIndexOf('/') ?: -1
+            if (cut != -1) result = result?.substring(cut + 1)
+        }
+        return result
     }
 
     private fun createImageUri(): Uri {

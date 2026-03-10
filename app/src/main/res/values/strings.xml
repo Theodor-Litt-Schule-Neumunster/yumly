@@ -41,11 +41,15 @@
     <string name="account_deletion_error_toast">Error deleting account</string>
 
     <!-- Main Activity -->
-    <string name="main_activity_next_button">Next</string>
-    <string name="main_activity_status_logged_in">Logged in as: %s</string>
-    <string name="main_activity_status_local_session">Local Session</string>
     <string name="main_activity_prep_time">%d Min</string>
     <string name="recipe_website" >View recipe</string>
+    <string name="recipe_att">Properties</string>
+    <string name="recipe_all">Allergies</string>
+    <string name="recipe_ing">Ingredients</string>
+    <string name="swipeText">Swipe weg, was du weniger magst</string>
+    <string name="clickTutorial">Klicke für mehr Infos</string>
+    <string name="open_recipe_with">Open recipe with...</string>
+    <string name="error_open_file">Could not open file or link</string>
 
     <!-- Upload Recipes Activity -->
     <string name="upload_recipe_title">Upload Recipe</string>
@@ -62,4 +66,6 @@
     <string name="upload_error_name_image_toast">Please provide a name and an image</string>
     <string name="recipe_saved_toast">Recipe \"%1$s\" added</string>
     <string name="upload_error_duration_toast">Please enter a prep duration</string>
+    <string name="upload_error_save_image_toast">Error saving image</string>
+
 </resources>

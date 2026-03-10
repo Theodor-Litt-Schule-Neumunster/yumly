@@ -11,7 +11,8 @@ data class localSavedRecipe(
     val ingredients: List<String>,
     val allergies: List<String>,
     val attributlist: List<String>,
-    var elo: Int = 1100
+    var elo: Int = 1100,
+    val recipeSource: String? = null
 )
 
 object userdataprefrecipes {

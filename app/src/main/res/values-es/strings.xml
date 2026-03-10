@@ -22,6 +22,8 @@
     <string name="logout_button_text">Cerrar sesión</string>
 
     <!-- Manage Account Activity -->
+    <string name="welcome_register_button_text">Registrarse</string>
+    <string name="welcome_login_button_text">Iniciar sesión</string>
     <string name="manage_account_title">Administrar cuenta</string>
     <string name="old_password_hint">Contraseña actual</string>
     <string name="new_password_hint">Nueva contraseña</string>
@@ -40,9 +42,13 @@
     <!-- Main Activity -->
     <string name="main_activity_prep_time">%d min</string>
     <string name="recipe_website" >Ver receta</string>
-
+    <string name="recipe_att">Características</string>
+    <string name="recipe_all">Alergias</string>
+    <string name="swipeText">Swipe para eliminar lo que menos te guste</string>
+    <string name="clickTutorial">Click para ver más</string>
 
     <!-- Upload Recipes Activity -->
+    <string name="recipe_ing">Ingredientes</string>
     <string name="upload_recipe_title">Subir receta</string>
     <string name="dish_name_hint">Nombre</string>
     <string name="prep_time_hint">Tiempo de preparación</string>
@@ -58,4 +64,5 @@
     <string name="recipe_saved_toast">Receta \"%1$s\" añadida</string>
     <string name="upload_recipe_button_text">Subir receta</string>
     <string name="upload_error_duration_toast">Por favor, ingrese una duración de preparación</string>
+    <string name="upload_error_save_image_toast">Error al guardar la imagen</string>
 </resources>

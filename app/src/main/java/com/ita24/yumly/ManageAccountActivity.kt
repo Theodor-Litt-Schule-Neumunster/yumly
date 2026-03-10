@@ -1,6 +1,5 @@
 package com.ita24.yumly
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
@@ -10,9 +9,6 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.auth.EmailAuthProvider
-
-
-
 
 class ManageAccountActivity : AppCompatActivity() {
 
@@ -25,6 +21,7 @@ class ManageAccountActivity : AppCompatActivity() {
         val newPasswordEditText = findViewById<TextInputEditText>(R.id.newPasswordEditText)
         val changePasswordButton = findViewById<Button>(R.id.changePasswordButton)
         val deleteAccountButton = findViewById<Button>(R.id.deleteAccountButton)
+        val recipeWebsiteButton = findViewById<Button>(R.id.recipe_website)
 
         val currentUser = SessionManager.getSession(this)
         if (currentUser == null) {
@@ -112,11 +109,32 @@ class ManageAccountActivity : AppCompatActivity() {
             }
         }
 
+        recipeWebsiteButton.setOnClickListener {
+            userdataprefrecipes.init(this)
+            val recipes = userdataprefrecipes.getAllRecipes()
+            if (recipes.isNotEmpty()) {
+                val recipeOptions = recipes.map { it.name }.toTypedArray()
+                AlertDialog.Builder(this)
+                    .setTitle("Rezept zum Öffnen auswählen")
+                    .setItems(recipeOptions) { _, which ->
+                        val selectedRecipe = recipes[which]
+                        val source = selectedRecipe.recipeSource
+                        if (source != null) {
+                            RecipeWebsite.openSource(this, source)
+                        } else {
+                            Toast.makeText(this, "Keine URL oder Datei für dieses Rezept hinterlegt", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    .show()
+            } else {
+                Toast.makeText(this, "Keine eigenen Rezepte gefunden", Toast.LENGTH_SHORT).show()
+            }
+        }
+
         val title = getString(R.string.delete_account_dialog_title)
         val message = getString(R.string.delete_account_dialog_message)
         val deleteAction = getString(R.string.delete_action)
         val successMessage = getString(R.string.account_deleted_toast)
-        val errorMessage = getString(R.string.account_deletion_error_toast)
         val cancelAction = getString(R.string.cancel_action)
 
         deleteAccountButton.setOnClickListener {
@@ -170,8 +188,8 @@ class ManageAccountActivity : AppCompatActivity() {
     }
 
     private fun navigateToLogin() {
-        val intent = Intent(this, LoginActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        val intent = android.content.Intent(this, LoginActivity::class.java)
+        intent.flags = android.content.Intent.FLAG_ACTIVITY_NEW_TASK or android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
     }
