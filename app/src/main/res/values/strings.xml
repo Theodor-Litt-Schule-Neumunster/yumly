@@ -47,6 +47,11 @@
     <string name="main_activity_prep_time">%d Min</string>
     <string name="recipe_website" >View recipe</string>
 
+    <string name="swipe_tutorial">Swipe away the dish you like less.</string>
+    <string name="click_tutorial">Tap a dish to see more information and the recipe.</string>
+
+
+
     <!-- Upload Recipes Activity -->
     <string name="upload_recipe_title">Upload Recipe</string>
     <string name="dish_name_hint">Name</string>

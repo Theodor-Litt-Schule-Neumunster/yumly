@@ -152,6 +152,7 @@ object Imageloader
     suspend fun loadnewImg(imageView: ImageView): List<Any>? {
 
         val rezept = EloManager.pickNextRecipe(liste, exclude)
+        Filter.
 
         exclude.add(rezept[idIndex] as Int)
 

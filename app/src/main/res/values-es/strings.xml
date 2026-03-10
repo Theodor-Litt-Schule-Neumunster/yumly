@@ -43,6 +43,7 @@
 
 
     <!-- Upload Recipes Activity -->
+    <string name="click_tutorial">Toca un plato para ver más información y la receta.</string>
     <string name="upload_recipe_title">Subir receta</string>
     <string name="dish_name_hint">Nombre</string>
     <string name="prep_time_hint">Tiempo de preparación</string>
@@ -58,4 +59,5 @@
     <string name="recipe_saved_toast">Receta \"%1$s\" añadida</string>
     <string name="upload_recipe_button_text">Subir receta</string>
     <string name="upload_error_duration_toast">Por favor, ingrese una duración de preparación</string>
+    <string name="swipe_tutorial">Desliza el plato que menos te guste.</string>
 </resources>

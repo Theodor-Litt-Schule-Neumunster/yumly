@@ -1,13 +1,17 @@
 package com.ita24.yumly
 
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import android.view.animation.LinearInterpolator
 import android.widget.Button
 import android.widget.GridLayout
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -17,10 +21,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.card.MaterialCardView
 import kotlinx.coroutines.launch
-import android.widget.LinearLayout
-import android.animation.ValueAnimator
-import android.view.animation.LinearInterpolator
-import android.R.attr.animation
 
 
 class MainActivity : AppCompatActivity() {
@@ -60,7 +60,8 @@ class MainActivity : AppCompatActivity() {
         // Funktion prüfen, ob Tutorial angezeigt werden soll
         fun shouldShowTutorial(): Boolean {
             val prefs = getSharedPreferences("tutorialPrefs", MODE_PRIVATE)
-            return !prefs.getBoolean("hasSeenTutorial", false)
+            //return !prefs.getBoolean("hasSeenTutorial", false)
+            return true
         }
 
         if(shouldShowTutorial()){
@@ -321,10 +322,15 @@ class MainActivity : AppCompatActivity() {
             firstuse = false;
             val tutorialOverlay = findViewById<View>(R.id.tutorialOverlay)
             val clickTutorial = findViewById<LinearLayout>(R.id.clickTutorial)
-            val clickArrow = findViewById<ImageView>(R.id.clickArrow)
+            val finger = findViewById<ImageView>(R.id.clickArrow)
 
             tutorialOverlay.visibility = View.VISIBLE
             clickTutorial.visibility = View.VISIBLE
+            val animator = ObjectAnimator.ofFloat(finger, "translationY", 0f, 20f)
+            animator.setDuration(500)
+            animator.setRepeatMode(ValueAnimator.REVERSE)
+            animator.setRepeatCount(ValueAnimator.INFINITE)
+            animator.start()
             sawTutorial()
         }
 
