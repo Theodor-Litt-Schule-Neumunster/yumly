@@ -165,7 +165,7 @@
                 app:layout_constraintEnd_toStartOf="@id/zzTop"
                 app:layout_constraintStart_toStartOf="parent"
                 android:paddingBottom="4dp"
-                tools:text="Platzhalterfsdnfjdjghdfjkgbkjfdhgkjdhfjkgjdkfhgjkdfhgh" />
+                tools:text="Platzhalter" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -177,16 +177,70 @@
             android:background="@color/yumly_sand"
             android:visibility="gone">
 
-            <GridLayout
-                android:id="@+id/attribute_grid_up"
-                android:layout_width="0dp"
+            <ViewFlipper
+                android:id="@+id/viewFlipperUp"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_margin="16dp"
-                android:columnCount="3"
+                android:inAnimation="@anim/slide_in_right"
+                android:outAnimation="@anim/slide_out_left"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/recipe_website_button_up"/>
+                app:layout_constraintBottom_toTopOf="@id/recipe_website_button_up">
+
+                <!-- Page 1: Attributes -->
+                <GridLayout
+                    android:id="@+id/attribute_grid_up"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="16dp"
+                    android:columnCount="3" />
+
+                <!-- Page 2: Allergens & Ingredients -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/allLabelUp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/recipe_all"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"/>
+
+                    <GridLayout
+                        android:id="@+id/allergen_grid_up"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:columnCount="4"
+                        android:layout_marginTop="4dp" />
+
+                    <TextView
+                        android:id="@+id/ingLabelUp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/recipe_ing"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="8dp" />
+
+                    <ScrollView
+                        android:id="@+id/ingredients_scroll_up"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1.5"
+                        android:layout_marginTop="4dp">
+                        <TextView
+                            android:id="@+id/ingredients_text_up"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"/>
+                    </ScrollView>
+                </LinearLayout>
+            </ViewFlipper>
 
             <Button
                 android:id="@+id/recipe_website_button_up"
@@ -196,7 +250,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="8dp"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
@@ -289,16 +343,70 @@
             android:background="@color/yumly_sand"
             android:visibility="gone">
 
-            <GridLayout
-                android:id="@+id/attribute_grid_down"
-                android:layout_width="0dp"
+            <ViewFlipper
+                android:id="@+id/viewFlipperDown"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_margin="16dp"
-                android:columnCount="3"
+                android:inAnimation="@anim/slide_in_right"
+                android:outAnimation="@anim/slide_out_left"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/recipe_website_button_down"/>
+                app:layout_constraintBottom_toTopOf="@id/recipe_website_button_down">
+
+                <!-- Page 1: Attributes -->
+                <GridLayout
+                    android:id="@+id/attribute_grid_down"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="16dp"
+                    android:columnCount="3" />
+
+                <!-- Page 2: Allergens & Ingredients -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/allLabelDown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/recipe_all"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"/>
+
+                    <GridLayout
+                        android:id="@+id/allergen_grid_down"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:columnCount="4"
+                        android:layout_marginTop="4dp" />
+
+                    <TextView
+                        android:id="@+id/ingLabelDown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/recipe_ing"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="8dp" />
+
+                    <ScrollView
+                        android:id="@+id/ingredients_scroll_down"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1.5"
+                        android:layout_marginTop="4dp">
+                        <TextView
+                            android:id="@+id/ingredients_text_down"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"/>
+                    </ScrollView>
+                </LinearLayout>
+            </ViewFlipper>
 
             <Button
                 android:id="@+id/recipe_website_button_down"
@@ -308,7 +416,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="8dp"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>

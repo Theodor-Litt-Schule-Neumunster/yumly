@@ -6,8 +6,10 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
 import android.widget.Button
 import android.widget.GridLayout
@@ -15,6 +17,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.PopupMenu
 import android.widget.TextView
+import android.widget.ViewFlipper
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -37,9 +40,17 @@ class MainActivity : AppCompatActivity() {
     private lateinit var cardBackUp: ConstraintLayout
     private lateinit var cardFrontDown: ConstraintLayout
     private lateinit var cardBackDown: ConstraintLayout
+
+    private lateinit var viewFlipperUp: ViewFlipper
     private lateinit var attributeGridUp: GridLayout
+    private lateinit var allergenGridUp: GridLayout
+    private lateinit var zutatenTextUp: TextView
     private lateinit var recipeWebsiteButtonUp: Button
+
+    private lateinit var viewFlipperDown: ViewFlipper
     private lateinit var attributeGridDown: GridLayout
+    private lateinit var allergenGridDown: GridLayout
+    private lateinit var zutatenTextDown: TextView
     private lateinit var recipeWebsiteButtonDown: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,6 +66,7 @@ class MainActivity : AppCompatActivity() {
 
         loggedInUsername = intent.getStringExtra(LoginActivity.EXTRA_USERNAME)
 
+        // Menu button setup
         val menuButton = findViewById<ImageView>(R.id.menuButton)
         menuButton.setOnClickListener { view ->
             showMenu(view)
@@ -64,17 +76,6 @@ class MainActivity : AppCompatActivity() {
         val imgupcard = findViewById<MaterialCardView>(R.id.imageUpCard)
         val imgdowncard = findViewById<MaterialCardView>(R.id.imageDownCard)
 
-        // Funktion prüfen, ob Tutorial angezeigt werden soll
-        fun shouldShowTutorial(): Boolean {
-            val prefs = getSharedPreferences("tutorialPrefs", MODE_PRIVATE)
-            return !prefs.getBoolean("hasSeenTutorial", false)
-        }
-
-        if(shouldShowTutorial()){
-            val tutorialOverlay = findViewById<View>(R.id.tutorialOverlay)
-            tutorialOverlay.visibility = View.VISIBLE
-            showTutorial(true)
-        }
         // Set camera distance for 3D rotation
         val scale = resources.displayMetrics.density
         imgupcard.cameraDistance = 8000 * scale
@@ -87,9 +88,16 @@ class MainActivity : AppCompatActivity() {
         cardBackDown = findViewById(R.id.card_back_down)
 
         // Back-of-card views
+        viewFlipperUp = findViewById(R.id.viewFlipperUp)
         attributeGridUp = findViewById(R.id.attribute_grid_up)
+        allergenGridUp = findViewById(R.id.allergen_grid_up)
+        zutatenTextUp = findViewById(R.id.ingredients_text_up)
         recipeWebsiteButtonUp = findViewById(R.id.recipe_website_button_up)
+
+        viewFlipperDown = findViewById(R.id.viewFlipperDown)
         attributeGridDown = findViewById(R.id.attribute_grid_down)
+        allergenGridDown = findViewById(R.id.allergen_grid_down)
+        zutatenTextDown = findViewById(R.id.ingredients_text_down)
         recipeWebsiteButtonDown = findViewById(R.id.recipe_website_button_down)
 
         // Original views
@@ -107,6 +115,16 @@ class MainActivity : AppCompatActivity() {
             loadNewRecipe(imgdown, dishNameDown, zzDown)
             loadNewRecipe(imgup, dishNameUp, zzUp)
         }
+
+        if (shouldShowTutorial()) {
+            val tutorialOverlay = findViewById<View>(R.id.tutorialOverlay)
+            tutorialOverlay.visibility = View.VISIBLE
+            showTutorial(true)
+        }
+    }
+
+    private fun shouldShowTutorial(): Boolean {
+        return true
     }
 
     private fun showMenu(view: View) {
@@ -133,7 +151,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.action_filter -> {
-                    // Filter Implementierung
+                    // Logic for filter
                     true
                 }
                 R.id.action_tutorial -> {
@@ -179,16 +197,47 @@ class MainActivity : AppCompatActivity() {
             "grilled_att" -> R.drawable.grilled_att
             "hearty_att" -> R.drawable.hearty_att
             "vegan_att" -> R.drawable.vegan_att
-
             else -> null
         }
     }
 
+    private fun getAllergenDrawableId(allergen: String): Int? {
+        return when (allergen.lowercase().trim()) {
+            "gluten", "gluten_all" -> R.drawable.gluten_all
+            "ei", "eggs_all" -> R.drawable.eggs_all
+            "fisch", "fish_all" -> R.drawable.fish_all
+            "erdnüsse", "nüsse", "schalenfrüchte", "nuts_all" -> R.drawable.nuts_all
+            "soja", "soy_all" -> R.drawable.soy_all
+            "laktose", "lactose_all" -> R.drawable.lactose_all
+            "sellerie", "celery_all" -> R.drawable.celery_all
+            "senf", "mustard_all" -> R.drawable.mustard_all
+            "sesam", "sesame_all" -> R.drawable.sesame_all
+            "schwefeldioxid", "sulfite", "schwefel", "sulphur_all", "sulphites_all" -> R.drawable.sulphites_all
+            "weichtiere", "molluscs_all" -> R.drawable.molluscs_all
+            "krebstiere", "crustacea_all" -> R.drawable.crustacea_all
+            else -> null
+        }
+    }
+
+    private fun applyBackCardTouchListenerRecursively(view: View, listener: View.OnTouchListener) {
+        if (view is Button) return
+        view.setOnTouchListener(listener)
+        if (view is ViewGroup) {
+            for (i in 0 until view.childCount) {
+                applyBackCardTouchListenerRecursively(view.getChildAt(i), listener)
+            }
+        }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
     private fun flipCard(isUpCard: Boolean) {
         val cardView: MaterialCardView
         val cardFront: ConstraintLayout
         val cardBack: ConstraintLayout
-        val attributeGrid: GridLayout
+        val flipper: ViewFlipper
+        val attrGrid: GridLayout
+        val allGrid: GridLayout
+        val ingText: TextView
         val recipeImageView: ImageView
         val websiteButton: Button
 
@@ -196,14 +245,20 @@ class MainActivity : AppCompatActivity() {
             cardView = findViewById(R.id.imageUpCard)
             cardFront = cardFrontUp
             cardBack = cardBackUp
-            attributeGrid = attributeGridUp
+            flipper = viewFlipperUp
+            attrGrid = attributeGridUp
+            allGrid = allergenGridUp
+            ingText = zutatenTextUp
             recipeImageView = findViewById(R.id.imageUp)
             websiteButton = recipeWebsiteButtonUp
         } else {
             cardView = findViewById(R.id.imageDownCard)
             cardFront = cardFrontDown
             cardBack = cardBackDown
-            attributeGrid = attributeGridDown
+            flipper = viewFlipperDown
+            attrGrid = attributeGridDown
+            allGrid = allergenGridDown
+            ingText = zutatenTextDown
             recipeImageView = findViewById(R.id.imageDown)
             websiteButton = recipeWebsiteButtonDown
         }
@@ -211,31 +266,58 @@ class MainActivity : AppCompatActivity() {
         val isFlipped = if (isUpCard) isCardUpFlipped else isCardDownFlipped
 
         if (!isFlipped) {
-            // FLIP TO BACK
             if(tutorialrunning) stopTutorial()
-            attributeGrid.removeAllViews()
+            
+            flipper.displayedChild = 0 
+            attrGrid.removeAllViews()
+            allGrid.removeAllViews()
+
             val recipe = recipeImageView.tag as? List<*>
             if (recipe != null) {
+                // Attributes
                 val attributesList = recipe.getOrNull(5) as? List<*>
-                if (!attributesList.isNullOrEmpty()) {
-                    attributesList.forEach { attribute ->
-                        if (attribute is String) {
-                            getAttributeDrawableId(attribute)?.let { drawableId ->
-                                val imageView = ImageView(this).apply {
-                                    setImageResource(drawableId)
-                                    layoutParams = GridLayout.LayoutParams().apply {
-                                        width = 0
-                                        height = 0
-                                        columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1, 1f)
-                                        rowSpec = GridLayout.spec(GridLayout.UNDEFINED, 1, 1f)
-                                        setMargins(8, 8, 8, 8)
-                                    }
+                attributesList?.forEach { attr ->
+                    if (attr is String) {
+                        getAttributeDrawableId(attr)?.let { resId ->
+                            val iv = ImageView(this).apply {
+                                setImageResource(resId)
+                                layoutParams = GridLayout.LayoutParams().apply {
+                                    width = 0
+                                    height = 0
+                                    columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1, 1f)
+                                    rowSpec = GridLayout.spec(GridLayout.UNDEFINED, 1, 1f)
+                                    setMargins(8, 8, 8, 8)
                                 }
-                                attributeGrid.addView(imageView)
                             }
+                            attrGrid.addView(iv)
                         }
                     }
                 }
+
+                // Allergens
+                val allergensList = recipe.getOrNull(4) as? List<*>
+                allergensList?.forEach { all ->
+                    if (all is String) {
+                        getAllergenDrawableId(all)?.let { resId ->
+                            val iv = ImageView(this).apply {
+                                setImageResource(resId)
+                                // WICHTIG: Hier exakt das gleiche Verhalten wie bei Attributen
+                                layoutParams = GridLayout.LayoutParams().apply {
+                                    width = 0
+                                    height = 0
+                                    columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1, 1f)
+                                    rowSpec = GridLayout.spec(GridLayout.UNDEFINED, 1, 1f)
+                                    setMargins(8, 8, 8, 8)
+                                }
+                            }
+                            allGrid.addView(iv)
+                        }
+                    }
+                }
+
+                // Ingredients
+                val ingredientsList = recipe.getOrNull(3) as? List<*>
+                ingText.text = ingredientsList?.joinToString(", ") ?: ""
 
                 websiteButton.setOnClickListener {
                     val recipeSource = recipe.getOrNull(8) as? String
@@ -243,19 +325,44 @@ class MainActivity : AppCompatActivity() {
                         RecipeWebsite.openSource(this, recipeSource)
                     } else {
                         val idObject = recipe.getOrNull(7)
-                        val recipeId = when (idObject) {
-                            is Number -> idObject.toInt()
-                            is String -> idObject.toIntOrNull()
-                            else -> null
-                        }
+                        val recipeId = (idObject as? Number)?.toInt() ?: idObject.toString().toIntOrNull()
                         if (recipeId != null) RecipeWebsite.sendToWebsite(this, recipeId)
                     }
                 }
             }
-            attributeGrid.setOnClickListener { flipCard(isUpCard) }
+
+            // Swipe & Tap Detection
+            val gestureDetector = GestureDetector(this, object : GestureDetector.SimpleOnGestureListener() {
+                override fun onDown(e: MotionEvent): Boolean = true 
+                
+                override fun onFling(e1: MotionEvent?, e2: MotionEvent, vx: Float, vy: Float): Boolean {
+                    val diffX = (e1?.x ?: 0f) - e2.x
+                    if (Math.abs(diffX) > 100) {
+                        if (diffX > 0) { // Swipe Left -> Show Allergens
+                            flipper.setInAnimation(this@MainActivity, R.anim.slide_in_right)
+                            flipper.setOutAnimation(this@MainActivity, R.anim.slide_out_left)
+                            if (flipper.displayedChild == 0) flipper.showNext()
+                        } else { // Swipe Right -> Show Attributes
+                            flipper.setInAnimation(this@MainActivity, R.anim.slide_in_left)
+                            flipper.setOutAnimation(this@MainActivity, R.anim.slide_out_right)
+                            if (flipper.displayedChild == 1) flipper.showPrevious()
+                        }
+                        return true
+                    }
+                    return false
+                }
+                
+                override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
+                    flipCard(isUpCard)
+                    return true
+                }
+            })
+            
+            val touchListener = View.OnTouchListener { _, event -> gestureDetector.onTouchEvent(event) }
+            applyBackCardTouchListenerRecursively(cardBack, touchListener)
 
         } else {
-            attributeGrid.setOnClickListener(null)
+            applyBackCardTouchListenerRecursively(cardBack, View.OnTouchListener { _, _ -> false })
             websiteButton.setOnClickListener(null)
         }
 
@@ -277,11 +384,7 @@ class MainActivity : AppCompatActivity() {
                     .start()
             }.start()
 
-        if (isUpCard) {
-            isCardUpFlipped = !isCardUpFlipped
-        } else {
-            isCardDownFlipped = !isCardDownFlipped
-        }
+        if (isUpCard) isCardUpFlipped = !isCardUpFlipped else isCardDownFlipped = !isCardDownFlipped
     }
 
     private fun resetCardFlip(isUpCard: Boolean) {
@@ -292,7 +395,7 @@ class MainActivity : AppCompatActivity() {
                 isCardUpFlipped = false
                 cardFrontUp.visibility = View.VISIBLE
                 cardBackUp.visibility = View.GONE
-                attributeGridUp.setOnClickListener(null)
+                applyBackCardTouchListenerRecursively(cardFrontUp, View.OnTouchListener { _, _ -> false })
                 recipeWebsiteButtonUp.setOnClickListener(null)
             }
         } else {
@@ -300,7 +403,7 @@ class MainActivity : AppCompatActivity() {
                 isCardDownFlipped = false
                 cardFrontDown.visibility = View.VISIBLE
                 cardBackDown.visibility = View.GONE
-                attributeGridDown.setOnClickListener(null)
+                applyBackCardTouchListenerRecursively(cardFrontDown, View.OnTouchListener { _, _ -> false })
                 recipeWebsiteButtonDown.setOnClickListener(null)
             }
         }
@@ -312,13 +415,10 @@ class MainActivity : AppCompatActivity() {
                 val recipe = Imageloader.loadnewImg(imageView)
                 if (recipe != null) {
                     imageView.tag = recipe
-                    dishNameView.text = recipe[0] as String
+                    dishNameView.text = recipe[0] as? String ?: ""
                     zzView.text = "${recipe[2]} Min."
                     EloManager.starttimer()
-
                     dishNameView.isSelected = true
-                    dishNameView.isFocusable = true
-                    dishNameView.isFocusableInTouchMode = true
                     dishNameView.requestFocus()
                 }
             } catch (e: Exception) {
@@ -344,23 +444,13 @@ class MainActivity : AppCompatActivity() {
             swipeTutorial.visibility = View.VISIBLE
             clickTutorial.visibility = View.GONE
 
-            fun startSwipeAnimation(swipeArrow: ImageView) {
-                val distance = 50f
-
-                val animator = ValueAnimator.ofFloat(0f, distance, -distance, 0f).apply {
-                    duration = 2000
-                    interpolator = LinearInterpolator()
-                    repeatCount = ValueAnimator.INFINITE
-
-                    addUpdateListener { animation ->
-                        swipeArrow.translationX = animation.animatedValue as Float
-                    }
-                }
-
-                animator.start()
+            val animator = ValueAnimator.ofFloat(0f, 50f, -50f, 0f).apply {
+                duration = 2000
+                interpolator = LinearInterpolator()
+                repeatCount = ValueAnimator.INFINITE
+                addUpdateListener { animation -> swipeArrow.translationX = animation.animatedValue as Float }
             }
-            startSwipeAnimation(swipeArrow)
-
+            animator.start()
         }else{
             firstuse = false;
             swipeTutorial.visibility = View.GONE
@@ -371,28 +461,16 @@ class MainActivity : AppCompatActivity() {
             animator.setRepeatCount(ValueAnimator.INFINITE)
             animator.start()
         }
+
+        tutorialOverlay.setOnClickListener { stopTutorial() }
     }
 
 
     private fun stopTutorial() {
         tutorialrunning = false;
-        val tutorialOverlay = findViewById<View>(R.id.tutorialOverlay)
-        val swipeTutorial = findViewById<LinearLayout>(R.id.swipeTutorial)
-        val swipeArrow = findViewById<ImageView>(R.id.swipeArrow)
-        val clickTutorial = findViewById<LinearLayout>(R.id.clickTutorial)
-        val clickArrow = findViewById<ImageView>(R.id.clickArrow)
-
-        // Tutorial-Overlay ausblenden
-        tutorialOverlay.visibility = View.GONE
-        swipeTutorial.visibility = View.GONE
-        clickTutorial.visibility = View.GONE
-
-        // Animationen abbrechen
-        swipeArrow.animate().cancel()
-        clickArrow.animate().cancel()
-
-        swipeArrow.translationX = 0f
-        clickArrow.translationX = 0f
+        findViewById<View>(R.id.tutorialOverlay).visibility = View.GONE
+        findViewById<ImageView>(R.id.swipeArrow).animate().cancel()
+        findViewById<ImageView>(R.id.clickArrow).animate().cancel()
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -413,9 +491,7 @@ class MainActivity : AppCompatActivity() {
             val isUpCard = cardView.id == R.id.imageUpCard
             val isFlipped = if (isUpCard) isCardUpFlipped else isCardDownFlipped
 
-            if (isFlipped) {
-                return@setOnTouchListener false
-            }
+            if (isFlipped) return@setOnTouchListener false
 
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
@@ -448,19 +524,15 @@ class MainActivity : AppCompatActivity() {
                                 view.x = originalX
                                 view.rotation = 0f
                                 view.alpha = 1f
-
                                 resetCardFlip(isUpCard)
-
                                 val winner = otherview.tag as? MutableList<Any?>
                                 val loser = imageView.tag as? MutableList<Any?>
-
                                 if (winner != null && loser != null) {
                                     lifecycleScope.launch { EloManager.updateElo(winner, loser, EloManager.wasFastEnough()) }
                                 }
                                 loadNewRecipe(imageView, dishNameView, zzView)
                                 if(firstuse)showTutorial(false)
-                            }
-                            .start()
+                            }.start()
                     } else {
                         view.animate().x(originalX).rotation(0f).setDuration(200).start()
                     }
