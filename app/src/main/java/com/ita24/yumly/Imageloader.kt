@@ -154,7 +154,22 @@ object Imageloader
     const val idIndex = 7
     suspend fun loadnewImg(imageView: ImageView): MutableList<Any?>? {
 
-        val rezept = EloManager.pickNextRecipe(liste, exclude)
+        var rezept: List<Any?> = emptyList()
+        var allreadyFiltered: MutableList<Int> = mutableListOf()
+
+
+
+        while (true){
+            rezept = EloManager.pickNextRecipe(liste, exclude, allreadyFiltered)
+            if (Filter.checkIfValid(rezept)) break
+            else{
+                allreadyFiltered.add(rezept[idIndex] as Int)
+                continue
+            }
+        }
+
+
+
 
         if (rezept != null && rezept.size > idIndex && rezept[idIndex] is Int) {
             exclude.add(rezept[idIndex] as Int)

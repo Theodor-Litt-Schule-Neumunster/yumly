@@ -12,6 +12,7 @@ class WelcomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         userdatapref.init(applicationContext)
         userdataprefrecipes.init(this)
+        Filter.initFilters(this)
         setContentView(R.layout.activity_welcome)
 
         val welcomeTextView = findViewById<TextView>(R.id.welcomeTextView)

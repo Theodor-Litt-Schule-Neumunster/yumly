@@ -56,13 +56,13 @@ object EloManager {
         }
     }
 
-    fun pickNextRecipe(recipelist: List<List<Any?>>, exclude: List<Int>): List<Any?> {
+    fun pickNextRecipe(recipelist: List<List<Any?>>, exclude: List<Int>, allreadyFiltered: MutableList<Int>): List<Any?> {
 
         Log.e("testelorating", "$exclude")
 
         val Auswahl = recipelist.filter { r ->
             val id = (r[idindex] as? Number)?.toInt() ?: -1
-            id !in exclude && id != -1
+            id !in exclude && id !in allreadyFiltered && id != -1
         }
         if (Auswahl.isEmpty()) return emptyList()
 
