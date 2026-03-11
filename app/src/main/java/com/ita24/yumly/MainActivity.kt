@@ -66,7 +66,8 @@ class MainActivity : AppCompatActivity() {
 
         // Funktion prüfen, ob Tutorial angezeigt werden soll
         fun shouldShowTutorial(): Boolean {
-            return true
+            val prefs = getSharedPreferences("tutorialPrefs", MODE_PRIVATE)
+            return !prefs.getBoolean("hasSeenTutorial", false)
         }
 
         if(shouldShowTutorial()){
@@ -211,6 +212,7 @@ class MainActivity : AppCompatActivity() {
 
         if (!isFlipped) {
             // FLIP TO BACK
+            if(tutorialrunning) stopTutorial()
             attributeGrid.removeAllViews()
             val recipe = recipeImageView.tag as? List<*>
             if (recipe != null) {
@@ -369,10 +371,6 @@ class MainActivity : AppCompatActivity() {
             animator.setRepeatCount(ValueAnimator.INFINITE)
             animator.start()
         }
-
-        tutorialOverlay.setOnClickListener {
-            stopTutorial()
-        }
     }
 
 
@@ -426,6 +424,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 MotionEvent.ACTION_MOVE -> {
+                    if(tutorialrunning) stopTutorial()
                     val newX = event.rawX + dX
                     view.x = newX
                     view.rotation = (newX - originalX) / (view.width.toFloat() / 2) * 15f
@@ -458,8 +457,8 @@ class MainActivity : AppCompatActivity() {
                                 if (winner != null && loser != null) {
                                     lifecycleScope.launch { EloManager.updateElo(winner, loser, EloManager.wasFastEnough()) }
                                 }
-
                                 loadNewRecipe(imageView, dishNameView, zzView)
+                                if(firstuse)showTutorial(false)
                             }
                             .start()
                     } else {

@@ -155,7 +155,6 @@ object Imageloader
     suspend fun loadnewImg(imageView: ImageView): MutableList<Any?>? {
 
         val rezept = EloManager.pickNextRecipe(liste, exclude)
-        Filter.
 
         if (rezept != null && rezept.size > idIndex && rezept[idIndex] is Int) {
             exclude.add(rezept[idIndex] as Int)
