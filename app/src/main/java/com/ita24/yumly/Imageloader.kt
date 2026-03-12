@@ -116,6 +116,33 @@ object Imageloader
         }
 
     }
+
+    suspend fun loadallIngredients(): List<String> {
+        val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+        val collection = "rezepte"
+        val snap = db.collection(collection).get().await()
+
+
+        val listOfIngredients = mutableSetOf<String>()
+
+        try {
+            for (doc in snap.documents) {
+
+                val ingredients = doc.get("zutaten") as? List<String> ?: continue
+
+                for (ingredient in ingredients) {
+                    listOfIngredients.add(ingredient)
+                }
+            }
+            return listOfIngredients.sorted()
+
+        }catch (e: Exception){
+            Log.e("testloader", "${e}")
+            return emptyList()
+        }
+
+    }
+
     suspend fun preloadImgs(context: Context) {
         try {
             coroutineScope {
