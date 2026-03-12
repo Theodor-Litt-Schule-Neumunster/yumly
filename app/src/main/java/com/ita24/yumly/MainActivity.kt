@@ -438,6 +438,7 @@ class MainActivity : AppCompatActivity() {
     var tutorialrunning = false;
     var firstuse = false
     private fun showTutorial(swipe: String) {
+        stopTutorial()
 
         tutorialrunning = true;
         val tutorialOverlay = findViewById<View>(R.id.tutorialOverlay)

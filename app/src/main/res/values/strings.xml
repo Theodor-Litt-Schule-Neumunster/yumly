@@ -54,11 +54,16 @@
     <string name="recipe_att">Properties</string>
     <string name="recipe_all">Allergies</string>
     <string name="recipe_ing">Ingredients</string>
+    <string name="clickTutorial">Klicke für mehr Infos</string>
     <string name="open_recipe_with">Open recipe with...</string>
     <string name="error_open_file">Could not open file or link</string>
+
     <string name="swipe_tutorial">Swipe away the dish you like less.</string>
     <string name="click_tutorial">Tap a dish to see more information and the recipe.</string>
     <string name="secondswipe_tutorial">Swipe to see Allergies or Ingredients.</string>
+
+
+
 
     <!-- Upload Recipes Activity -->
     <string name="upload_recipe_title">Upload Recipe</string>
@@ -85,5 +90,6 @@
     <string name="filter_exclude">Exclude:</string>
     <string name="filter_ingredient_hint">Enter ingredient to exclude</string>
     <string name="filter_apply">Apply Filter</string>
+    <string name="swipeText">Swipe away what you like less.</string>
 
 </resources>

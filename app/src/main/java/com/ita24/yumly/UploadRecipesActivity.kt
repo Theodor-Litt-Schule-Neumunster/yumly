@@ -87,10 +87,17 @@ class UploadRecipesActivity : AppCompatActivity() {
             filePickerLauncher.launch("*/*")
         }
 
-        val recyclerView = findViewById<RecyclerView>(R.id.attributesRecyclerView)
+        // --- Attributes ---
+        val attrRecyclerView = findViewById<RecyclerView>(R.id.attributesRecyclerView)
         val attributes = createAttributeList()
         val attributeAdapter = AttributeAdapter(attributes)
-        recyclerView.adapter = attributeAdapter
+        attrRecyclerView.adapter = attributeAdapter
+
+        // --- Allergies ---
+        val allergyRecyclerView = findViewById<RecyclerView>(R.id.allergiesRecyclerView)
+        val allergies = createAllergyList()
+        val allergyAdapter = AttributeAdapter(allergies)
+        allergyRecyclerView.adapter = allergyAdapter
 
         val ingredientEditText = findViewById<EditText>(R.id.ingredientEditText)
         val addIngredientButton = findViewById<ImageButton>(R.id.addIngredientButton)
@@ -152,7 +159,7 @@ class UploadRecipesActivity : AppCompatActivity() {
                 zeit,
                 permanentImgUrl,
                 ingredients,
-                emptyList(),
+                allergyAdapter.getAttributes(),
                 attributeAdapter.getAttributes(),
                 1100,
                 recipeSource
@@ -219,6 +226,24 @@ class UploadRecipesActivity : AppCompatActivity() {
             AttributeItem("vegan_att", R.drawable.vegan_att),
             AttributeItem("veggie_att", R.drawable.veggie_att),
             AttributeItem("hearty_att", R.drawable.hearty_att)
+        )
+    }
+
+    private fun createAllergyList(): List<AttributeItem> {
+        return listOf(
+            AttributeItem("gluten_all", R.drawable.gluten_all),
+            AttributeItem("lactose_all", R.drawable.lactose_all),
+            AttributeItem("milk_all", R.drawable.milk_all),
+            AttributeItem("eggs_all", R.drawable.eggs_all),
+            AttributeItem("fish_all", R.drawable.fish_all),
+            AttributeItem("crustacea_all", R.drawable.crustacea_all),
+            AttributeItem("molluscs_all", R.drawable.molluscs_all),
+            AttributeItem("nuts_all", R.drawable.nuts_all),
+            AttributeItem("soy_all", R.drawable.soy_all),
+            AttributeItem("mustard_all", R.drawable.mustard_all),
+            AttributeItem("celery_all", R.drawable.celery_all),
+            AttributeItem("sesame_all", R.drawable.sesame_all),
+            AttributeItem("sulphites_all", R.drawable.sulphites_all)
         )
     }
 
