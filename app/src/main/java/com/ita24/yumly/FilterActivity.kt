@@ -1,20 +1,35 @@
 package com.ita24.yumly
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageButton
 import android.widget.ImageView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import com.google.android.material.textfield.TextInputEditText
 
 class FilterActivity : AppCompatActivity() {
+
+    private lateinit var cgBlackIngredients: ChipGroup
+
+    private val ingredientSearchLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val selectedIngredient = result.data?.getStringExtra("selectedIngredient")
+            if (selectedIngredient != null && !Filter.blacklistIngredients.contains(selectedIngredient)) {
+                Filter.saveBlackIngredient(selectedIngredient)
+                addIngredientChip(selectedIngredient, cgBlackIngredients)
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,21 +61,16 @@ class FilterActivity : AppCompatActivity() {
         ) { item -> Filter.saveBlackAllergy(item) }
 
         // --- Ingredients Blacklist ---
-        val cgBlackIngredients = findViewById<ChipGroup>(R.id.cgBlackIngredients)
-        val etBlackIngredient = findViewById<TextInputEditText>(R.id.etBlackIngredient)
-        val btnAddBlackIngredient = findViewById<ImageButton>(R.id.btnAddBlackIngredient)
+        cgBlackIngredients = findViewById(R.id.cgBlackIngredients)
+        val btnSearchIngredient = findViewById<Button>(R.id.btnSearchIngredient)
 
         Filter.blacklistIngredients.forEach { ingredient ->
             addIngredientChip(ingredient, cgBlackIngredients)
         }
 
-        btnAddBlackIngredient.setOnClickListener {
-            val text = etBlackIngredient.text.toString().trim()
-            if (text.isNotEmpty() && !Filter.blacklistIngredients.contains(text)) {
-                Filter.saveBlackIngredient(text)
-                addIngredientChip(text, cgBlackIngredients)
-                etBlackIngredient.text?.clear()
-            }
+        btnSearchIngredient.setOnClickListener {
+            val intent = Intent(this, IngredientSearchActivity::class.java)
+            ingredientSearchLauncher.launch(intent)
         }
 
         findViewById<Button>(R.id.btnApplyFilter).setOnClickListener {
@@ -123,7 +133,6 @@ class FilterActivity : AppCompatActivity() {
         AttributeItem("sulphites_all", R.drawable.sulphites_all)
     )
 
-    // Internal specialized adapter to avoid modifying the generic AttributeAdapter
     private class FilterAttributeAdapter(
         private val items: List<AttributeItem>,
         private val onToggle: (String) -> Unit

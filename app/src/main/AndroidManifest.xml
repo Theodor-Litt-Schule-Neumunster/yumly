@@ -65,6 +65,11 @@
             android:name=".FilterActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
+
+        <activity
+            android:name=".IngredientSearchActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
         
         <!-- FileProvider for sharing the image URI securely with the camera app -->
         <provider

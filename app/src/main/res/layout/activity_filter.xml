@@ -119,37 +119,17 @@
                 android:text="@string/filter_exclude"
                 android:textColor="@color/black" />
 
-            <LinearLayout
+            <Button
+                android:id="@+id/btnSearchIngredient"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:orientation="horizontal">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tilBlackIngredient"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="@string/filter_ingredient_hint">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etBlackIngredient"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="text" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <ImageButton
-                    android:id="@+id/btnAddBlackIngredient"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="8dp"
-                    android:background="?attr/selectableItemBackground"
-                    android:src="@drawable/ic_add"
-                    app:tint="@color/yumly_yellow" />
-            </LinearLayout>
+                android:layout_marginTop="8dp"
+                android:text="Zutat suchen..."
+                app:icon="@drawable/ic_add"
+                android:textColor="@color/black"
+                app:strokeColor="@color/yumly_yellow"
+                app:iconTint="@color/yumly_yellow" />
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/cgBlackIngredients"

@@ -68,6 +68,9 @@
     <string name="upload_error_duration_toast">Por favor, ingrese una duración de preparación</string>
     <string name="upload_error_save_image_toast">Error al guardar la imagen</string>
     <string name="error_open_file">No se pudo abrir el archivo o el enlace.</string>
+
+
+    <!-- Noch nicht eingeordnet -->
     <string name="swipe_tutorial">Desliza el plato que menos te guste.</string>
     <string name="same_password_toast">La nueva y la antigua contraseña son iguales.</string>
     <string name="reauth_error_toast">Error de reautenticación.</string>
