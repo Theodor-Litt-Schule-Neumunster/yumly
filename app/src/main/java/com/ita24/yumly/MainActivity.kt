@@ -152,7 +152,8 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.action_filter -> {
-                    // Logic for filter
+                    val intent = Intent(this, FilterActivity::class.java)
+                    startActivity(intent)
                     true
                 }
                 R.id.action_tutorial -> {
@@ -173,6 +174,7 @@ class MainActivity : AppCompatActivity() {
             "scharf" -> R.drawable.spicy_att
             "spicy" -> R.drawable.spicy_att
             "warme gerichte" -> R.drawable.hot_att
+            "warm" -> R.drawable.hot_att
             "vegetarisch" -> R.drawable.veggie_att
             "herzhaft" -> R.drawable.hearty_att
             "glutenfrei" -> R.drawable.gluten_free_att

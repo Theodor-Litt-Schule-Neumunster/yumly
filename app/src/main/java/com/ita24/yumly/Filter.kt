@@ -10,10 +10,8 @@ object Filter {
     // Die 6 Filter-Listen
     var whitelistAttributes = mutableSetOf<String>()
     var blacklistAttributes = mutableSetOf<String>()
-
     var whitelistIngredients = mutableSetOf<String>()
     var blacklistIngredients = mutableSetOf<String>()
-
     var whitelistAllergies = mutableSetOf<String>()
     var blacklistAllergies = mutableSetOf<String>()
 
@@ -34,19 +32,69 @@ object Filter {
         }
     }
 
+    /**
+     * Normalisiert Attribute auf die internen IDs (identisch zu MainActivity.getAttributeDrawableId)
+     */
+    fun normalizeAttribute(attr: String): String {
+        return when (attr.lowercase().trim()) {
+            "gekocht", "cooked_att" -> "cooked_att"
+            "gebraten", "fried_att" -> "fried_att"
+            "frittiert", "deep_fried_att" -> "deep_fried_att"
+            "scharf", "spicy", "spicy_att" -> "spicy_att"
+            "warme gerichte", "warm", "hot_att" -> "hot_att"
+            "vegetarisch", "veggie_att" -> "veggie_att"
+            "herzhaft", "hearty_att" -> "hearty_att"
+            "glutenfrei", "gluten_free_att" -> "gluten_free_att"
+            "vegan", "vegan_att" -> "vegan_att"
+            "kalte gerichte", "cold_att" -> "cold_att"
+            "laktosefrei", "lactose_free_att" -> "lactose_free_att"
+            "gebacken", "baked_att" -> "baked_att"
+            "fast food", "fast_food_att" -> "fast_food_att"
+            "süß", "sweet_att" -> "sweet_att"
+            "gegrillt", "grilled_att" -> "grilled_att"
+            else -> attr.lowercase().trim()
+        }
+    }
+
+    /**
+     * Normalisiert Allergene auf die internen IDs (identisch zu MainActivity.getAllergenDrawableId)
+     */
+    fun normalizeAllergen(all: String): String {
+        return when (all.lowercase().trim()) {
+            "gluten", "gluten_all" -> "gluten_all"
+            "ei", "eggs_all" -> "eggs_all"
+            "fisch", "fish_all" -> "fish_all"
+            "erdnüsse", "nüsse", "schalenfrüchte", "nuts_all" -> "nuts_all"
+            "soja", "soy_all" -> "soy_all"
+            "laktose", "lactose_all" -> "lactose_all"
+            "sellerie", "celery_all" -> "celery_all"
+            "senf", "mustard_all" -> "mustard_all"
+            "sesam", "sesame_all" -> "sesame_all"
+            "schwefeldioxid", "sulfite", "schwefel", "sulphur_all", "sulphites_all" -> "sulphites_all"
+            "weichtiere", "molluscs_all" -> "molluscs_all"
+            "krebstiere", "crustacea_all" -> "crustacea_all"
+            else -> all.lowercase().trim()
+        }
+    }
 
     fun checkIfValid(recipe: List<Any?>): Boolean {
         val recipeIngredients = recipe[3] as? List<String> ?: emptyList()
-        val recipeAllergies = recipe[4] as? List<String> ?: emptyList()
-        val recipeAttributes = recipe[5] as? List<String> ?: emptyList()
+        val rawAllergies = recipe[4] as? List<String> ?: emptyList()
+        val rawAttributes = recipe[5] as? List<String> ?: emptyList()
 
+        val recipeAllergies = rawAllergies.map { normalizeAllergen(it) }
+        val recipeAttributes = rawAttributes.map { normalizeAttribute(it) }
+
+        // Blacklist Check
         if (recipeAttributes.any { it in blacklistAttributes }) return false
         if (recipeIngredients.any { it in blacklistIngredients }) return false
         if (recipeAllergies.any { it in blacklistAllergies }) return false
 
+        // Whitelist Check (Must have all selected)
         if (!recipeAttributes.containsAll(whitelistAttributes)) return false
         if (!recipeAllergies.containsAll(whitelistAllergies)) return false
 
+        // Ingredient Whitelist (If any selected, must have at least one)
         if (whitelistIngredients.isNotEmpty() && !recipeIngredients.any { it in whitelistIngredients }) return false
 
         return true
@@ -57,11 +105,13 @@ object Filter {
     }
 
     fun saveWhiteAttribute(item: String) {
-        if (whitelistAttributes.contains(item)) whitelistAttributes.remove(item) else whitelistAttributes.add(item)
+        val norm = normalizeAttribute(item)
+        if (whitelistAttributes.contains(norm)) whitelistAttributes.remove(norm) else whitelistAttributes.add(norm)
         save("whiteAttr", whitelistAttributes)
     }
     fun saveBlackAttribute(item: String) {
-        if (blacklistAttributes.contains(item)) blacklistAttributes.remove(item) else blacklistAttributes.add(item)
+        val norm = normalizeAttribute(item)
+        if (blacklistAttributes.contains(norm)) blacklistAttributes.remove(norm) else blacklistAttributes.add(norm)
         save("blackAttr", blacklistAttributes)
     }
 
@@ -75,11 +125,13 @@ object Filter {
     }
 
     fun saveWhiteAllergy(item: String) {
-        if (whitelistAllergies.contains(item)) whitelistAllergies.remove(item) else whitelistAllergies.add(item)
+        val norm = normalizeAllergen(item)
+        if (whitelistAllergies.contains(norm)) whitelistAllergies.remove(norm) else whitelistAllergies.add(norm)
         save("whiteAllergy", whitelistAllergies)
     }
     fun saveBlackAllergy(item: String) {
-        if (blacklistAllergies.contains(item)) blacklistAllergies.remove(item) else blacklistAllergies.add(item)
+        val norm = normalizeAllergen(item)
+        if (blacklistAllergies.contains(norm)) blacklistAllergies.remove(norm) else blacklistAllergies.add(norm)
         save("blackAllergy", blacklistAllergies)
     }
 }
