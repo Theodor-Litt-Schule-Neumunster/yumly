@@ -330,7 +330,6 @@ class MainActivity : AppCompatActivity() {
                         if (recipeId != null) RecipeWebsite.sendToWebsite(this, recipeId)
                     }
                 }
-                if(firstuse)showTutorial("secondswipe")
             }
 
             // Swipe & Tap Detection
@@ -384,8 +383,12 @@ class MainActivity : AppCompatActivity() {
                 cardView.animate()
                     .rotationY(0f)
                     .setDuration(250)
+                    .withEndAction {
+                        if(firstuse)showTutorial("secondswipe")
+                    }
                     .start()
             }.start()
+
 
         if (isUpCard) isCardUpFlipped = !isCardUpFlipped else isCardDownFlipped = !isCardDownFlipped
     }
@@ -483,7 +486,6 @@ class MainActivity : AppCompatActivity() {
             startSwipeanimation(secondSwipeArrow)
         }
 
-        tutorialOverlay.setOnClickListener { stopTutorial() }
     }
 
 
