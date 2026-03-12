@@ -14,6 +14,8 @@
         android:layout_height="match_parent"
         android:background="#80000000"
         android:elevation="100dp"
+        android:clickable="false"
+        android:focusable="false"
         android:visibility="gone">
 
         <LinearLayout
@@ -29,13 +31,39 @@
                 android:id="@+id/swipeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/swipeText"
+                android:text="@string/swipe_tutorial"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
                 android:gravity="center"/>
 
             <ImageView
                 android:id="@+id/swipeArrow"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/swipeimage"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/secondSwipeTutorial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:padding="24dp">
+
+            <TextView
+                android:id="@+id/secondSwipeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/secondswipe_tutorial"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:gravity="center"/>
+
+            <ImageView
+                android:id="@+id/secondSwipeArrow"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:src="@drawable/swipeimage"

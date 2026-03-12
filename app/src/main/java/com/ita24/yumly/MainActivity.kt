@@ -119,12 +119,13 @@ class MainActivity : AppCompatActivity() {
         if (shouldShowTutorial()) {
             val tutorialOverlay = findViewById<View>(R.id.tutorialOverlay)
             tutorialOverlay.visibility = View.VISIBLE
-            showTutorial(true)
+            showTutorial("swipe")
         }
     }
 
     private fun shouldShowTutorial(): Boolean {
-        return true
+        val prefs = getSharedPreferences("tutorialPrefs", MODE_PRIVATE)
+        return !prefs.getBoolean("hasSeenTutorial", false)
     }
 
     private fun showMenu(view: View) {
@@ -155,7 +156,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.action_tutorial -> {
-                    showTutorial(true)
+                    showTutorial("swipe")
                     true
                 }
                 else -> false
@@ -329,6 +330,7 @@ class MainActivity : AppCompatActivity() {
                         if (recipeId != null) RecipeWebsite.sendToWebsite(this, recipeId)
                     }
                 }
+                if(firstuse)showTutorial("secondswipe")
             }
 
             // Swipe & Tap Detection
@@ -337,6 +339,7 @@ class MainActivity : AppCompatActivity() {
                 
                 override fun onFling(e1: MotionEvent?, e2: MotionEvent, vx: Float, vy: Float): Boolean {
                     val diffX = (e1?.x ?: 0f) - e2.x
+                    if(tutorialrunning) stopTutorial()
                     if (Math.abs(diffX) > 100) {
                         if (diffX > 0) { // Swipe Left -> Show Allergens
                             flipper.setInAnimation(this@MainActivity, R.anim.slide_in_right)
@@ -429,30 +432,42 @@ class MainActivity : AppCompatActivity() {
 
     var tutorialrunning = false;
     var firstuse = false
-    private fun showTutorial(swipe: Boolean) {
+    private fun showTutorial(swipe: String) {
+
         tutorialrunning = true;
         val tutorialOverlay = findViewById<View>(R.id.tutorialOverlay)
         val swipeTutorial = findViewById<LinearLayout>(R.id.swipeTutorial)
+        val secondSwipeTutorial = findViewById<LinearLayout>(R.id.secondSwipeTutorial)
+
         val swipeArrow = findViewById<ImageView>(R.id.swipeArrow)
+        val secondSwipeArrow = findViewById<ImageView>(R.id.secondSwipeArrow)
+
         val clickTutorial = findViewById<LinearLayout>(R.id.clickTutorial)
         val clickArrow = findViewById<ImageView>(R.id.clickArrow)
 
         tutorialOverlay.visibility = View.VISIBLE
 
-        if(swipe) {
-            firstuse = true;
-            swipeTutorial.visibility = View.VISIBLE
-            clickTutorial.visibility = View.GONE
+
+        fun startSwipeanimation(whichTut: ImageView){
 
             val animator = ValueAnimator.ofFloat(0f, 50f, -50f, 0f).apply {
                 duration = 2000
                 interpolator = LinearInterpolator()
                 repeatCount = ValueAnimator.INFINITE
-                addUpdateListener { animation -> swipeArrow.translationX = animation.animatedValue as Float }
+                addUpdateListener { animation -> whichTut.translationX = animation.animatedValue as Float }
             }
             animator.start()
-        }else{
-            firstuse = false;
+        }
+
+        if(swipe == "swipe") {
+            firstuse = true;
+            swipeTutorial.visibility = View.VISIBLE
+            clickTutorial.visibility = View.GONE
+            secondSwipeTutorial.visibility = View.GONE
+            startSwipeanimation(swipeArrow)
+
+        }
+        if(swipe == "click"){
             swipeTutorial.visibility = View.GONE
             clickTutorial.visibility = View.VISIBLE
             val animator = ObjectAnimator.ofFloat(clickArrow, "translationY", 0f, 20f)
@@ -460,6 +475,12 @@ class MainActivity : AppCompatActivity() {
             animator.setRepeatMode(ValueAnimator.REVERSE)
             animator.setRepeatCount(ValueAnimator.INFINITE)
             animator.start()
+        }
+        if (swipe == "secondswipe"){
+            firstuse = false;
+            secondSwipeTutorial.visibility = View.VISIBLE
+            clickTutorial.visibility = View.GONE
+            startSwipeanimation(secondSwipeArrow)
         }
 
         tutorialOverlay.setOnClickListener { stopTutorial() }
@@ -470,6 +491,7 @@ class MainActivity : AppCompatActivity() {
         tutorialrunning = false;
         findViewById<View>(R.id.tutorialOverlay).visibility = View.GONE
         findViewById<ImageView>(R.id.swipeArrow).animate().cancel()
+        findViewById<ImageView>(R.id.secondSwipeArrow).animate().cancel()
         findViewById<ImageView>(R.id.clickArrow).animate().cancel()
     }
 
@@ -531,7 +553,7 @@ class MainActivity : AppCompatActivity() {
                                     lifecycleScope.launch { EloManager.updateElo(winner, loser, EloManager.wasFastEnough()) }
                                 }
                                 loadNewRecipe(imageView, dishNameView, zzView)
-                                if(firstuse)showTutorial(false)
+                                if(firstuse)showTutorial("click")
                             }.start()
                     } else {
                         view.animate().x(originalX).rotation(0f).setDuration(200).start()

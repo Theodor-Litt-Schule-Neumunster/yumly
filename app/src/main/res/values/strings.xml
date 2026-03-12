@@ -46,13 +46,14 @@
     <string name="recipe_att">Properties</string>
     <string name="recipe_all">Allergies</string>
     <string name="recipe_ing">Ingredients</string>
-    <string name="swipeText">Swipe weg, was du weniger magst</string>
     <string name="clickTutorial">Klicke für mehr Infos</string>
     <string name="open_recipe_with">Open recipe with...</string>
     <string name="error_open_file">Could not open file or link</string>
 
     <string name="swipe_tutorial">Swipe away the dish you like less.</string>
     <string name="click_tutorial">Tap a dish to see more information and the recipe.</string>
+    <string name="secondswipe_tutorial">Swipe to see Allergies or Ingredients.</string>
+
 
 
 

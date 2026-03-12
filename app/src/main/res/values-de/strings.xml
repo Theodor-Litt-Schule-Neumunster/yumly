@@ -50,6 +50,8 @@
 
     <string name="swipe_tutorial">Wische das Gericht weg, das dir weniger gefällt.</string>
     <string name="click_tutorial">Tippe auf ein Gericht, um mehr Infos und das Rezept zu sehen.</string>
+    <string name="secondswipe_tutorial">Wische um Allergien und Zutaten zu sehen.</string>
+
 
 
 
