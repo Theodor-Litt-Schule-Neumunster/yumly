@@ -32,7 +32,8 @@ class ManageAccountActivity : AppCompatActivity() {
 
         val firebaseUser = FirebaseAuth.getInstance().currentUser
         if (firebaseUser == null) {
-            Toast.makeText(this, "Kein User angemeldet!", Toast.LENGTH_SHORT).show()
+            val text = getString(R.string.no_user_logged_in)
+            Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
             navigateToLogin()
             return
         }
@@ -56,7 +57,8 @@ class ManageAccountActivity : AppCompatActivity() {
             userRef.child("password").get().addOnSuccessListener { snapshot ->
                 val oldPassword = snapshot.getValue(String::class.java)
                 if (oldPassword == newPassword) {
-                    Toast.makeText(this, "Neues Passwort muss anders sein!", Toast.LENGTH_SHORT).show()
+                    val text = getString(R.string.password_must_be_different_toast)
+                    Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
                     return@addOnSuccessListener
                 }
 
@@ -83,27 +85,30 @@ class ManageAccountActivity : AppCompatActivity() {
                                         }
                                     }
                             } else {
+                                val text = getString(R.string.error_changing_auth_password_toast, authTask.exception?.message)
                                 Toast.makeText(
                                     this,
-                                    "Fehler beim Ändern des Auth-Passworts: ${authTask.exception?.message}",
+                                    text,
                                     Toast.LENGTH_LONG
                                 ).show()
                             }
                         }
 
                     } else {
+                        val text = getString(R.string.reauth_failed_toast, reauthTask.exception?.message)
                         Toast.makeText(
                             this,
-                            "Reauth fehlgeschlagen: ${reauthTask.exception?.message}",
+                            text,
                             Toast.LENGTH_LONG
                         ).show()
                     }
                 }
 
             }.addOnFailureListener {
+                val text = getString(R.string.error_retrieving_old_password_toast)
                 Toast.makeText(
                     this,
-                    "Fehler beim Abrufen des alten Passworts",
+                    text,
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -112,22 +117,25 @@ class ManageAccountActivity : AppCompatActivity() {
         recipeWebsiteButton.setOnClickListener {
             userdataprefrecipes.init(this)
             val recipes = userdataprefrecipes.getAllRecipes()
+            val text = getString(R.string.select_recipe_to_open_title)
             if (recipes.isNotEmpty()) {
                 val recipeOptions = recipes.map { it.name }.toTypedArray()
                 AlertDialog.Builder(this)
-                    .setTitle("Rezept zum Öffnen auswählen")
+                    .setTitle(text)
                     .setItems(recipeOptions) { _, which ->
                         val selectedRecipe = recipes[which]
                         val source = selectedRecipe.recipeSource
                         if (source != null) {
                             RecipeWebsite.openSource(this, source)
                         } else {
-                            Toast.makeText(this, "Keine URL oder Datei für dieses Rezept hinterlegt", Toast.LENGTH_SHORT).show()
+                            val text = getString(R.string.error_open_file)
+                            Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
                         }
                     }
                     .show()
             } else {
-                Toast.makeText(this, "Keine eigenen Rezepte gefunden", Toast.LENGTH_SHORT).show()
+                val text = getString(R.string.no_recipes_found)
+                Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -146,6 +154,7 @@ class ManageAccountActivity : AppCompatActivity() {
                     userRef.child("password").get().addOnSuccessListener { snapshot ->
                         val oldPassword = snapshot.getValue(String::class.java)
                         if (oldPassword.isNullOrBlank()) {
+                            val text = getString(R.string.error_old_password_not_found_toast)
                             Toast.makeText(this, "Fehler: altes Passwort nicht gefunden", Toast.LENGTH_SHORT).show()
                             return@addOnSuccessListener
                         }
