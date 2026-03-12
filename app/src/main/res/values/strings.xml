@@ -32,6 +32,10 @@
     <string name="password_length_error_toast">Password must be at least 6 characters long</string>
     <string name="password_change_success_toast">Password changed successfully</string>
     <string name="password_change_error_toast">Error changing password</string>
+    <string name="same_password_toast">New and old password are the same</string>
+    <string name="reauth_error_toast">Reauthentification error</string>
+    <string name="error_getoldpassword_toast">Error getting old password</string>
+
     <string name="delete_account_button_text">Delete Account Permanently</string>
     <string name="delete_account_dialog_title">Delete Account</string>
     <string name="delete_account_dialog_message">Are you sure you want to permanently delete your account? This action cannot be undone.</string>

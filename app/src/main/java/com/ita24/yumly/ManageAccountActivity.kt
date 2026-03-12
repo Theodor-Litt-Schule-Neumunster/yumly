@@ -56,7 +56,7 @@ class ManageAccountActivity : AppCompatActivity() {
             userRef.child("password").get().addOnSuccessListener { snapshot ->
                 val oldPassword = snapshot.getValue(String::class.java)
                 if (oldPassword == newPassword) {
-                    Toast.makeText(this, "Neues Passwort muss anders sein!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.same_password_toast), Toast.LENGTH_SHORT).show()
                     return@addOnSuccessListener
                 }
 
@@ -85,7 +85,7 @@ class ManageAccountActivity : AppCompatActivity() {
                             } else {
                                 Toast.makeText(
                                     this,
-                                    "Fehler beim Ändern des Auth-Passworts: ${authTask.exception?.message}",
+                                    getString(R.string.password_change_error_toast)+": ${authTask.exception?.message}",
                                     Toast.LENGTH_LONG
                                 ).show()
                             }
@@ -94,7 +94,7 @@ class ManageAccountActivity : AppCompatActivity() {
                     } else {
                         Toast.makeText(
                             this,
-                            "Reauth fehlgeschlagen: ${reauthTask.exception?.message}",
+                            getString(R.string.reauth_error_toast)+": ${reauthTask.exception?.message}",
                             Toast.LENGTH_LONG
                         ).show()
                     }
@@ -103,7 +103,7 @@ class ManageAccountActivity : AppCompatActivity() {
             }.addOnFailureListener {
                 Toast.makeText(
                     this,
-                    "Fehler beim Abrufen des alten Passworts",
+                    getString(R.string.error_getoldpassword_toast),
                     Toast.LENGTH_SHORT
                 ).show()
             }
