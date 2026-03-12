@@ -31,6 +31,7 @@
     <string name="password_length_error_toast">La contraseña debe tener al menos 6 caracteres</string>
     <string name="password_change_success_toast">Contraseña cambiada con éxito</string>
     <string name="password_change_error_toast">Error al cambiar la contraseña</string>
+    <string name="error_getoldpassword_toast">Error al obtener la contraseña antigua.</string>
     <string name="delete_account_button_text">Eliminar cuenta permanentemente</string>
     <string name="delete_account_dialog_title">Eliminar cuenta</string>
     <string name="delete_account_dialog_message">¿Estás seguro de que quieres eliminar tu cuenta de forma permanente? Esta acción no se puede deshacer.</string>
@@ -44,12 +45,12 @@
     <string name="recipe_website" >Ver receta</string>
     <string name="recipe_att">Características</string>
     <string name="recipe_all">Alergias</string>
-    <string name="swipeText">Swipe para eliminar lo que menos te guste</string>
     <string name="clickTutorial">Click para ver más</string>
 
     <!-- Upload Recipes Activity -->
     <string name="recipe_ing">Ingredientes</string>
     <string name="click_tutorial">Toca un plato para ver más información y la receta.</string>
+    <string name="secondswipe_tutorial">Desliza hacia la izquierda para ver las alergias o los ingredientes.</string>
     <string name="upload_recipe_title">Subir receta</string>
     <string name="dish_name_hint">Nombre</string>
     <string name="prep_time_hint">Tiempo de preparación</string>
@@ -66,5 +67,9 @@
     <string name="upload_recipe_button_text">Subir receta</string>
     <string name="upload_error_duration_toast">Por favor, ingrese una duración de preparación</string>
     <string name="upload_error_save_image_toast">Error al guardar la imagen</string>
+    <string name="error_open_file">No se pudo abrir el archivo o el enlace.</string>
     <string name="swipe_tutorial">Desliza el plato que menos te guste.</string>
+    <string name="same_password_toast">La nueva y la antigua contraseña son iguales.</string>
+    <string name="reauth_error_toast">Error de reautenticación.</string>
+    <string name="open_recipe_with">Abrir receta con…</string>
 </resources>

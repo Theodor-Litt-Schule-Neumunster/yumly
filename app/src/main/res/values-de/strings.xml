@@ -32,6 +32,7 @@
     <string name="password_length_error_toast">Passwort muss mindestens 6 Zeichen lang sein</string>
     <string name="password_change_success_toast">Passwort erfolgreich geändert</string>
     <string name="password_change_error_toast">Fehler beim Ändern des Passworts</string>
+    <string name="error_getoldpassword_toast">Fehler beim Abrufen des alten Passworts.</string>
     <string name="delete_account_button_text">Konto endgültig löschen</string>
     <string name="delete_account_dialog_title">Konto löschen</string>
     <string name="delete_account_dialog_message">Bist du sicher, dass du dein Konto endgültig löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden.</string>
@@ -45,12 +46,12 @@
     <string name="recipe_website" >Rezept ansehen</string>
     <string name="recipe_att">Eigenschaften</string>
     <string name="recipe_all">Allergien</string>
-    <string name="swipeText">Swipe weg, was du weniger magst</string>
     <string name="clickTutorial">Klicke für mehr Infos</string>
 
+    <string name="error_open_file">Datei oder Link konnte nicht geöffnet werden.</string>
     <string name="swipe_tutorial">Wische das Gericht weg, das dir weniger gefällt.</string>
     <string name="click_tutorial">Tippe auf ein Gericht, um mehr Infos und das Rezept zu sehen.</string>
-    <string name="secondswipe_tutorial">Wische um Allergien und Zutaten zu sehen.</string>
+    <string name="secondswipe_tutorial">Wische nach links, um Allergien oder Zutaten zu sehen.</string>
 
 
 
@@ -72,5 +73,8 @@
     <string name="upload_error_duration_toast">Bitte geben Sie dem Rezept eine Zubereitungsdauer</string>
     <string name="recipe_saved_toast">Rezept \"%1$s\" hinzugefügt</string>
     <string name="upload_error_save_image_toast">Fehler beim Speichern des Bildes</string>
+    <string name="same_password_toast">Neues und altes Passwort sind gleich.</string>
+    <string name="reauth_error_toast">Fehler bei der erneuten Authentifizierung.</string>
+    <string name="open_recipe_with">Rezept öffnen mit…</string>
 
 </resources>

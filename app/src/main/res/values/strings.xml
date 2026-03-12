@@ -56,7 +56,7 @@
 
     <string name="swipe_tutorial">Swipe away the dish you like less.</string>
     <string name="click_tutorial">Tap a dish to see more information and the recipe.</string>
-    <string name="secondswipe_tutorial">Swipe to see Allergies or Ingredients.</string>
+    <string name="secondswipe_tutorial">Swipe to the left to see Allergies or Ingredients.</string>
 
 
 
@@ -77,5 +77,6 @@
     <string name="recipe_saved_toast">Recipe \"%1$s\" added</string>
     <string name="upload_error_duration_toast">Please enter a prep duration</string>
     <string name="upload_error_save_image_toast">Error saving image</string>
+    <string name="swipeText">Swipe away what you like less.</string>
 
 </resources>
