@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yumly Help</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap");
+        :root {
+            --yellow: #ffd400;
+            --dark-gray: #2b2b2b;
+            --black: #000000;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background-color: var(--black);
+            background-image: url("img/background.png");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .navbar {
+            width: 100%;
+            background: var(--dark-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px 16px;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+        }
+
+        .navbar__logo {
+            position: absolute;
+            left: 38px;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 56px;
+            width: auto;
+        }.navbar__title {
+            font-family: "Luckiest Guy", "Trebuchet MS", sans-serif;
+            font-size: 32px;
+            color: var(--yellow);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.45);
+            margin: 0;
+        }
+
+        .page-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+            padding: 48px 16px 64px;
+        }
+
+        .card {
+            border: 4px solid var(--yellow);
+            border-radius: 18px;
+            background: var(--black);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .card--tall {
+            width: 320px;
+            min-height: 520px;
+            height: auto;
+            background: #1e1e1e;
+            color: #ffffff;
+            padding: 20px 18px 24px;
+            line-height: 1.45;
+        }
+        .recipe-text {
+            margin: 0;
+            font-size: 14px;
+            display: block;
+        }
+
+        .recipe-text h2 {
+            margin: 0 0 12px;
+            font-size: 18px;
+            text-align: center;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #555555;
+        }
+
+        .recipe-text h3 {
+            margin: 16px 0 8px;
+            font-size: 16px;
+            text-align: center;
+            padding-bottom: 4px;
+            border-bottom: 1px solid #555555;
+        }
+
+        .recipe-text p {
+            margin: 6px 0;
+        }
+
+        .difficulty-tag {
+            display: inline-block;
+            margin-left: 6px;
+            padding: 2px 8px;
+            border-radius: 999px;
+            background: #b8f0c2;
+            border: 1px solid #2f8f3a;
+            color: #1f6b2a;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        .recipe-text ul,
+        .recipe-text ol {
+            margin: 6px 0 0 18px;
+            padding: 0;
+        }
+
+        .recipe-text li {
+            margin: 4px 0;
+        }
+
+        .tutorial-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-top: 12px;
+        }
+
+        .tutorial-image {
+            width: 120px;
+            height: auto;
+            border-radius: 10px;
+            flex: 0 0 auto;
+        }
+
+        .tutorial-text {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.45;
+        }
+
+        .tutorial-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .tutorial-images {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .tutorial-divider {
+            height: 1px;
+            background: #3a3a3a;
+            margin: 16px 0;
+            width: 100%;
+        }
+
+        @media (max-width: 520px) {
+            .tutorial-row {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <h1 class="navbar__title">Yumly Rezepte</h1></nav>
+    <main class="page-content">
+        <section class="card card--tall">
+            <div class="recipe-text">
+                <h2>App - Tutorial</h2>
+                <div class="tutorial-row">
+                    <img class="tutorial-image" src="img/1.jpeg" alt="App Screenshot 1">
+                    <p class="tutorial-text">Auf dem Home-Bildschirm findest du vier Buttons. Wenn du auf Neue Sitzung klickst, gelangst du zur Gerichtsauswahl. Du kannst hier ebenfalls ein Rezept hochladen, dich registrieren und anmelden.</p>
+                </div>
+                <div class="tutorial-divider" aria-hidden="true"></div>
+                <div class="tutorial-block">
+                    <div class="tutorial-images">
+                        <img class="tutorial-image" src="img/2.jpeg" alt="App Screenshot 2">
+                        <img class="tutorial-image" src="img/3.jpeg" alt="App Screenshot 3">
+                    </div>
+                    <p class="tutorial-text">Wenn du auf &quot;Rezepthochladen&quot; geklickt hast, kommst du hierher. Hier kannst du dein eigenes Rezept in der App hochladen und zur Gerichtsauswahl hinzufügen. Weiter unten findest du dann noch die Eigenschaften, die dein Gericht haben soll, z. B. Spicy, Vegan oder Süß. Du kannst ebenfalls noch eine Rezeptquelle angeben, falls du eine parat hast. Zum Schluss musst du deinem Gericht noch ein geeignetes Bild geben und du bist fertig.</p>
+                </div>
+                <div class="tutorial-divider" aria-hidden="true"></div>
+                <div class="tutorial-block">
+                    <div class="tutorial-images">
+                        <img class="tutorial-image" src="img/4.jpeg" alt="App Screenshot 4">
+                    </div>
+                    <p class="tutorial-text">Wenn du im Homescreen auf Anmelden oder Registrieren geklickt hast, landest du hier. Hier kannst du dir dein Yumly-Konto erstellen mit einem Nutzernamen und einem Passwort.</p>
+                </div>
+                <div class="tutorial-divider" aria-hidden="true"></div>
+                <div class="tutorial-block">
+                    <div class="tutorial-images">
+                        <img class="tutorial-image" src="img/5.jpeg" alt="App Screenshot 5">
+                        <img class="tutorial-image" src="img/7.jpeg" alt="App Screenshot 7">
+                        <img class="tutorial-image" src="img/8.jpeg" alt="App Screenshot 8">
+                    </div>
+                    <p class="tutorial-text">Wenn du auf &quot;Neue Sitzung&quot; geklickt hast, landest du hier. Das ist die Gerichtswahl, quasi das Herzstück der Yumly-App. Du hast immer oben sowie unten eine Karte mit einem Gericht, und du schiebst das Gericht, das dir nicht gefällt, nach links oder nach rechts und erhältst dann ein neues. Das machst du so lange, bis du dich auf eins festgelegt hast. Dann kannst du mit einem simplen Klick auf die Karte des Gerichtes diese umdrehen und erhältst detaillierte Infos zu diesem Gericht. Du siehst dessen Eigenschaften, Allergien und Zutaten. Wenn du bereit bist, das Gericht kochen zu wollen, dann musst du auf den &quot;Rezept ansehen&quot;-Button klicken. Dieser befindet sich wie abgebildet auf der Rückseite der Karte und führt dich direkt auf unsere Website mit dem richtigen Rezept.</p>
+                </div>
+                <div class="tutorial-divider" aria-hidden="true"></div>
+                <div class="tutorial-block">
+                    <div class="tutorial-images">
+                        <img class="tutorial-image" src="img/6.jpeg" alt="App Screenshot 6">
+                    </div>
+                    <p class="tutorial-text">Oben rechts befindet sich ein kleiner Menü-Button. Wenn du darauf klickst, kannst du noch beliebige Filter auswählen, um die gezeigten Gerichte weiter eingrenzen zu können. Dazu gelangst du über das Menü auch wieder zum Homescreen und das Tutorial für die Gerichtsauswahl findest du dort ebenfalls.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
+
+
+
+
+
+
+
