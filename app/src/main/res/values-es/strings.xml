@@ -75,4 +75,22 @@
     <string name="same_password_toast">La nueva y la antigua contraseña son iguales.</string>
     <string name="reauth_error_toast">Error de reautenticación.</string>
     <string name="open_recipe_with">Abrir receta con…</string>
+    <string name="filter_apply">Aplicar filtros</string>
+    <string name="search_ingridient_button">Ingrediente de búsqueda...</string>
+    <string name="refrigerator_mode">Modo refrigerador (solo permitir esto)</string>
+    <string name="select_all">Seleccionar todo</string>
+    <string name="confirm_selection">Confirmar selección</string>
+    <string name="no_recipes_found">No se encontraron recetas propias</string>
+    <string name="recipe_source">Fuente de la receta (opcional)</string>
+    <string name="recipe_url_hint">URL de la receta</string>
+    <string name="select_file">Seleccionar archivo</string>
+    <string name="no_file_selected">Ningún archivo seleccionado</string>
+    <string name="select_recipe_to_open_title">Seleccione receta para abrir</string>
+    <string name="filter_title">Configuración de filtro</string>
+    <string name="filter_include">Asumir:</string>
+    <string name="filter_exclude">Excluir:</string>
+    <string name="filter_ingredient_hint">Introduzca el ingrediente a excluir</string>
+    <string name="select_ingredients_label">Seleccionar ingredientes</string>
+    <string name="zur_ck_zum_startbildschirm">Volver a la pantalla de inicio</string>
+    <string name="tutorial_starten">Iniciar tutorial</string>
 </resources>

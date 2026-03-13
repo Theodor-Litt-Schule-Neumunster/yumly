@@ -62,6 +62,7 @@
     <string name="swipe_tutorial">Swipe away the dish you like less.</string>
     <string name="click_tutorial">Tap a dish to see more information and the recipe.</string>
     <string name="secondswipe_tutorial">Swipe to see Allergies or Ingredients.</string>
+    <string name="clickTutorial">Click for more info</string>
 
     <!-- Upload Recipes Activity -->
     <string name="upload_recipe_title">Upload Recipe</string>
@@ -81,6 +82,10 @@
     <string name="upload_error_save_image_toast">Error saving image</string>
     <string name="select_recipe_to_open_title">Select recipe to open</string>
     <string name="no_recipes_found">No original recipes found</string>
+    <string name="recipe_source">Recipe-Source (Optional)</string>
+    <string name="recipe_url_hint">Recipe URL</string>
+    <string name="select_file">Select file</string>
+    <string name="no_file_selected">No file selected</string>
 
     <!-- Filter Activity -->
     <string name="filter_title">Filter Settings</string>
@@ -88,10 +93,12 @@
     <string name="filter_exclude">Exclude:</string>
     <string name="filter_ingredient_hint">Enter ingredient to exclude</string>
     <string name="filter_apply">Apply Filter</string>
-
-    <string name="crustacea_all">Crustaceans</string>
-    <string name="lactose_all">Lactose</string>
-    <string name="crustaceans_all">Crustaceans</string>
-    <string name="laktose_all">Lactose</string>
+    <string name="search_ingridient_button">Search ingredient...</string>
+    <string name="refrigerator_mode">Refrigerator-Mode (only these are allowed)</string>
+    <string name="select_all">Select all</string>
+    <string name="confirm_selection">Confirm selection</string>
+    <string name="select_ingredients_label">Select ingredients</string>
+    <string name="zur_ck_zum_startbildschirm">Back to start screen</string>
+    <string name="tutorial_starten">Start tutorial</string>
 
 </resources>

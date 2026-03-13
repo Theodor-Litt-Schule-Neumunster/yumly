@@ -32,6 +32,7 @@
     <string name="password_length_error_toast">Passwort muss mindestens 6 Zeichen lang sein</string>
     <string name="password_change_success_toast">Passwort erfolgreich geändert</string>
     <string name="password_change_error_toast">Fehler beim Ändern des Passworts</string>
+    <string name="no_user_logged_in">Kein Nutzer angemeldet</string>
     <string name="error_getoldpassword_toast">Fehler beim Abrufen des alten Passworts.</string>
     <string name="delete_account_button_text">Konto endgültig löschen</string>
     <string name="delete_account_dialog_title">Konto löschen</string>
@@ -69,12 +70,38 @@
     <string name="select_image_dialog_title">Bild auswählen</string>
     <string name="camera_option">Kamera</string>
     <string name="gallery_option">Galerie</string>
-    <string name="upload_error_name_image_toast">Bitte geben Sie dem Rezept einen Namen</string>
+    <string name="upload_error_name_image_toast">Bitte geben Sie dem Rezept einen Namen und ein Bild</string>
     <string name="upload_error_duration_toast">Bitte geben Sie dem Rezept eine Zubereitungsdauer</string>
     <string name="recipe_saved_toast">Rezept \"%1$s\" hinzugefügt</string>
     <string name="upload_error_save_image_toast">Fehler beim Speichern des Bildes</string>
     <string name="same_password_toast">Neues und altes Passwort sind gleich.</string>
     <string name="reauth_error_toast">Fehler bei der erneuten Authentifizierung.</string>
     <string name="open_recipe_with">Rezept öffnen mit…</string>
+    <string name="error_changing_auth_password_toast">Fehler beim Ändern des Auth Passworts: %1$s</string>
+    <string name="error_changing_db_password_toast">Fehler beim Ändern des sb Passworts:  %1$s</string>
+    <string name="error_retrieving_old_password_toast">Fehler beim Abrufen des alten Pasworts</string>
+    <string name="error_old_password_not_found_toast">Fehler: Altes Passwort nicht gefunden</string>
+    <string name="reauth_success_toast">Reauth erfolgreich</string>
+    <string name="reauth_failed_toast">Reauth fehlgeschlagen: %1$s</string>
+    <string name="password_must_be_different_toast">Neues Passwort muss anders sein!</string>
+    <string name="select_recipe_to_open_title">Rezept zum Öffnen auswählen</string>
+    <string name="no_recipes_found">Keine eigenen Rezepte gefunden</string>
+    <string name="filter_title">Filter Einstellungen</string>
+    <string name="filter_include">Voraussetzen:</string>
+    <string name="filter_exclude">Ausschließen:</string>
+    <string name="filter_ingredient_hint">Zutat zum Ausschließen eingeben</string>
+    <string name="filter_apply">Filter anwenden</string>
+    <string name="search_ingridient_button">Zutat suchen...</string>
+    <string name="refrigerator_mode">Kühlschrank-Modus (nur diese erlauben)</string>
+    <string name="select_all">Alle wählen</string>
+    <string name="confirm_selection">Auswahl bestätigen</string>
+    <string name="recipe_source">Rezept-Quelle (Optional)</string>
+    <string name="recipe_url_hint">Rezept URL</string>
+    <string name="select_file">Datei auswählen</string>
+    <string name="no_file_selected">Keine Datei ausgewählt</string>
+    <string name="select_ingredients_label">Zutaten auswählen</string>
+    <string name="zur_ck_zum_startbildschirm">Zurück zum Startbildschirm</string>
+    <string name="filter_anwenden">Filter anwenden</string>
+    <string name="tutorial_starten">Tutorial starten</string>
 
 </resources>
