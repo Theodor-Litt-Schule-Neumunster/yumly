@@ -15,9 +15,15 @@
         <item name="cornerSize">24dp</item>
     </style>
 
-    <style name="SearchViewTheme" parent="">
-        <item name="android:textColorPrimary">?android:attr/textColorPrimary</item>
+    <!-- Ensuring PopupMenu always has black text on its background -->
+    <style name="YumlyMenuTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:colorBackground">@color/yumly_sand</item>
+    </style>
+
+    <style name="YumlySearchViewTheme" parent="Widget.AppCompat.SearchView">
+        <item name="android:editTextColor">?android:attr/textColorPrimary</item>
         <item name="android:textColorHint">?android:attr/textColorSecondary</item>
-        <item name="colorControlNormal">?android:attr/textColorPrimary</item>
     </style>
 </resources>
