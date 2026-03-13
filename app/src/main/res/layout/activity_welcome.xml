@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:padding="16dp">
 
     <ImageButton
@@ -13,7 +14,8 @@
         android:background="@drawable/bg_help_circle"
         android:foreground="?attr/selectableItemBackgroundBorderless"
         android:src="@drawable/ic_help"
-        android:padding="4dp"
+        app:tint="@color/black"
+        android:padding="8dp"
         android:scaleType="fitCenter"
         android:contentDescription="Hilfe"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,6 +27,7 @@
         android:layout_height="wrap_content"
         android:textSize="28sp"
         android:textStyle="bold"
+        android:textColor="?android:attr/textColorPrimary"
         app:layout_constraintBottom_toTopOf="@+id/newSessionButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,6 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
         android:text="@string/new_session_button_text"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/uploadButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,6 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/upload_recipe_button_text"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/manageAccountButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -80,7 +85,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/manageAccountButton" />
 
-    <!-- Sprach-Container mit Flaggen -->
     <LinearLayout
         android:id="@+id/languageContainer"
         android:layout_width="wrap_content"
