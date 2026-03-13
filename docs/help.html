@@ -80,9 +80,43 @@
             padding: 20px 18px 24px;
             line-height: 1.45;
         }
+
+        .card--flags {
+            width: 280px;
+            height: 64px;
+            background: #1e1e1e;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            overflow: hidden;
+            border-radius: 28px;
+        }
+
+        .flag-option {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+        }
+
+        .flag-option.is-selected {
+            background: rgba(46, 204, 113, 0.25);
+            box-shadow: inset 0 0 0 2px #2ecc71;
+            border-radius: 999px;
+        }
+
         .recipe-text {
             margin: 0;
             font-size: 14px;
+            display: none;
+        }
+
+        .recipe-text.is-active {
             display: block;
         }
 
@@ -183,8 +217,12 @@
     <nav class="navbar">
         <h1 class="navbar__title">Yumly Rezepte</h1></nav>
     <main class="page-content">
+        <section class="card card--flags" aria-label="Sprache auswaehlen">
+            <button class="flag-option" type="button" data-flag="de" aria-pressed="false">DE</button>
+            <button class="flag-option" type="button" data-flag="en" aria-pressed="false">EN</button>
+        </section>
         <section class="card card--tall">
-            <div class="recipe-text">
+            <div class="recipe-text is-active" data-lang="de">
                 <h2>App - Tutorial</h2>
                 <div class="tutorial-row">
                     <img class="tutorial-image" src="img/1.jpeg" alt="App Screenshot 1">
@@ -196,14 +234,14 @@
                         <img class="tutorial-image" src="img/2.jpeg" alt="App Screenshot 2">
                         <img class="tutorial-image" src="img/3.jpeg" alt="App Screenshot 3">
                     </div>
-                    <p class="tutorial-text">Wenn du auf &quot;Rezepthochladen&quot; geklickt hast, kommst du hierher. Hier kannst du dein eigenes Rezept in der App hochladen und zur Gerichtsauswahl hinzufügen. Weiter unten findest du dann noch die Eigenschaften, die dein Gericht haben soll, z. B. Spicy, Vegan oder Süß. Du kannst ebenfalls noch eine Rezeptquelle angeben, falls du eine parat hast. Zum Schluss musst du deinem Gericht noch ein geeignetes Bild geben und du bist fertig.</p>
+                        <p class="tutorial-text">Hier siehst du unser Filter-Menü. Hier kannst du die Eigenschaften der Gerichte sowie Allergien und Zutaten angeben, die dir angezeigt werden sollen oder nicht.</p>
                 </div>
                 <div class="tutorial-divider" aria-hidden="true"></div>
                 <div class="tutorial-block">
                     <div class="tutorial-images">
                         <img class="tutorial-image" src="img/4.jpeg" alt="App Screenshot 4">
                     </div>
-                    <p class="tutorial-text">Wenn du im Homescreen auf Anmelden oder Registrieren geklickt hast, landest du hier. Hier kannst du dir dein Yumly-Konto erstellen mit einem Nutzernamen und einem Passwort.</p>
+                    <p class="tutorial-text">Wenn du im Home-Screen auf Anmelden oder Registrieren geklickt hast, landest du hier. Hier kannst du dir dein Yumly-Konto erstellen mit einem Nutzernamen und einem Passwort.</p>
                 </div>
                 <div class="tutorial-divider" aria-hidden="true"></div>
                 <div class="tutorial-block">
@@ -212,18 +250,73 @@
                         <img class="tutorial-image" src="img/7.jpeg" alt="App Screenshot 7">
                         <img class="tutorial-image" src="img/8.jpeg" alt="App Screenshot 8">
                     </div>
-                    <p class="tutorial-text">Wenn du auf &quot;Neue Sitzung&quot; geklickt hast, landest du hier. Das ist die Gerichtswahl, quasi das Herzstück der Yumly-App. Du hast immer oben sowie unten eine Karte mit einem Gericht, und du schiebst das Gericht, das dir nicht gefällt, nach links oder nach rechts und erhältst dann ein neues. Das machst du so lange, bis du dich auf eins festgelegt hast. Dann kannst du mit einem simplen Klick auf die Karte des Gerichtes diese umdrehen und erhältst detaillierte Infos zu diesem Gericht. Du siehst dessen Eigenschaften, Allergien und Zutaten. Wenn du bereit bist, das Gericht kochen zu wollen, dann musst du auf den &quot;Rezept ansehen&quot;-Button klicken. Dieser befindet sich wie abgebildet auf der Rückseite der Karte und führt dich direkt auf unsere Website mit dem richtigen Rezept.</p>
+                    <p class="tutorial-text">Wenn du auf &quot;Neue Sitzung&quot; geklickt hast, landest du hier. Das ist die Gerichtswahl, quasi das Herzstück der Yumly-App. Du hast immer oben sowie unten eine Karte mit einem Gericht, und du schiebst das Gericht, das dir nicht gefällt, nach links oder nach rechts und erhältst dann ein neues. Das machst du so lange, bis du dich auf eins festgelegt hast. Dann kannst du mit einem simplen Klick auf die Karte des Gerichts diese umdrehen und erhältst detaillierte Infos zu diesem Gericht. Du siehst dessen Eigenschaften, Allergien und Zutaten. Wenn du bereit bist, das Gericht kochen zu wollen, dann musst du auf den &quot;Rezept ansehen&quot;-Button klicken. Dieser befindet sich wie abgebildet auf der Rückseite der Karte und führt dich direkt auf unsere Website mit dem richtigen Rezept.</p>
                 </div>
                 <div class="tutorial-divider" aria-hidden="true"></div>
                 <div class="tutorial-block">
                     <div class="tutorial-images">
                         <img class="tutorial-image" src="img/6.jpeg" alt="App Screenshot 6">
                     </div>
-                    <p class="tutorial-text">Oben rechts befindet sich ein kleiner Menü-Button. Wenn du darauf klickst, kannst du noch beliebige Filter auswählen, um die gezeigten Gerichte weiter eingrenzen zu können. Dazu gelangst du über das Menü auch wieder zum Homescreen und das Tutorial für die Gerichtsauswahl findest du dort ebenfalls.</p>
+                    <p class="tutorial-text">Oben rechts befindet sich ein kleiner Menü-Button. Wenn du darauf klickst, kannst du noch beliebige Filter auswählen, um die gezeigten Gerichte weiter eingrenzen zu können. Dazu gelangst du über das Menü auch wieder zum Home-Screen und das Tutorial für die Gerichtsauswahl findest du dort ebenfalls.</p>
+                </div>
+                <div class="tutorial-divider" aria-hidden="true"></div>
+                <div class="tutorial-block">
+                    <div class="tutorial-images">
+                        <img class="tutorial-image" src="img/9.jpeg" alt="App Screenshot 9">
+                        <img class="tutorial-image" src="img/10.jpeg" alt="App Screenshot 10">
+                    </div>
+                    <p class="tutorial-text">Hier siehst du unser Filter-Menü. Hier kannst du die Eigenschaften der Gerichte sowie Allergien und Zutaten angeben, die dir angezeigt werden sollen oder nicht.</p>
+                </div>
+            </div>
+            <div class="recipe-text" data-lang="en">
+                <h2>App Tutorial</h2>
+                <div class="tutorial-row">
+                    <img class="tutorial-image" src="img/1.jpeg" alt="App Screenshot 1">
+                    <p class="tutorial-text">On the home screen you will find four buttons. If you click New Session, you will get to the dish selection. You can also upload a recipe, register, and log in here.</p>
+                </div>
+                <div class="tutorial-divider" aria-hidden="true"></div>
+                <div class="tutorial-block">
+                    <div class="tutorial-images">
+                        <img class="tutorial-image" src="img/2.jpeg" alt="App Screenshot 2">
+                        <img class="tutorial-image" src="img/3.jpeg" alt="App Screenshot 3">
+                    </div>
+                    <p class="tutorial-text">When you click &quot;Upload Recipe&quot;, you get here. Here you can upload your own recipe in the app and add it to the dish selection. Further down you can choose the properties your dish should have, e.g. spicy, vegan, or sweet. You can also provide a recipe source if you have one. Finally, give your dish a suitable image and you are done.</p>
+                </div>
+                <div class="tutorial-divider" aria-hidden="true"></div>
+                <div class="tutorial-block">
+                    <div class="tutorial-images">
+                        <img class="tutorial-image" src="img/4.jpeg" alt="App Screenshot 4">
+                    </div>
+                    <p class="tutorial-text">If you clicked Log In or Register on the home screen, you land here. Here you can create your Yumly account with a username and a password.</p>
+                </div>
+                <div class="tutorial-divider" aria-hidden="true"></div>
+                <div class="tutorial-block">
+                    <div class="tutorial-images">
+                        <img class="tutorial-image" src="img/5.jpeg" alt="App Screenshot 5">
+                        <img class="tutorial-image" src="img/7.jpeg" alt="App Screenshot 7">
+                        <img class="tutorial-image" src="img/8.jpeg" alt="App Screenshot 8">
+                    </div>
+                    <p class="tutorial-text">If you clicked &quot;New Session&quot;, you land here. This is the dish selection, the heart of the Yumly app. You always have a card with a dish at the top and bottom, and you swipe the dish you do not like left or right to get a new one. You keep doing that until you settle on one. Then you can flip the dish card with a simple tap and get detailed info about this dish. You see its properties, allergies, and ingredients. If you are ready to cook the dish, you must click the &quot;View Recipe&quot; button. It is on the back of the card as shown and takes you directly to our website with the right recipe.</p>
+                </div>
+                <div class="tutorial-divider" aria-hidden="true"></div>
+                <div class="tutorial-block">
+                    <div class="tutorial-images">
+                        <img class="tutorial-image" src="img/6.jpeg" alt="App Screenshot 6">
+                    </div>
+                    <p class="tutorial-text">At the top right there is a small menu button. If you click it, you can select additional filters to further narrow the dishes shown. From the menu you can also get back to the home screen, and the tutorial for dish selection is available there as well.</p>
+                </div>
+                <div class="tutorial-divider" aria-hidden="true"></div>
+                <div class="tutorial-block">
+                    <div class="tutorial-images">
+                        <img class="tutorial-image" src="img/9.jpeg" alt="App Screenshot 9">
+                        <img class="tutorial-image" src="img/10.jpeg" alt="App Screenshot 10">
+                    </div>
+                    <p class="tutorial-text">Here you can see our filter menu. Here you can specify the properties of dishes as well as allergies and ingredients that should or should not be shown to you.</p>
                 </div>
             </div>
         </section>
     </main>
+    <script src="scripts/help_language_toggle.js"></script>
 </body>
 </html>
 
