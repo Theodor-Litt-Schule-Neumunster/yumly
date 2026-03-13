@@ -18,15 +18,22 @@ import com.google.android.material.chip.ChipGroup
 class FilterActivity : AppCompatActivity() {
 
     private lateinit var cgBlackIngredients: ChipGroup
+    private lateinit var cgWhiteIngredients: ChipGroup
+    private var isWhitelistSearch = false
 
     private val ingredientSearchLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            val selectedIngredient = result.data?.getStringExtra("selectedIngredient")
-            if (selectedIngredient != null && !Filter.blacklistIngredients.contains(selectedIngredient)) {
-                Filter.saveBlackIngredient(selectedIngredient)
-                addIngredientChip(selectedIngredient, cgBlackIngredients)
+            val selectedItems = result.data?.getStringArrayListExtra("selectedItems")?.toSet() ?: emptySet()
+            val isLimitMode = result.data?.getBooleanExtra("isLimitMode", false) ?: false
+
+            if (isWhitelistSearch) {
+                Filter.saveWhiteIngredients(selectedItems, isLimitMode)
+                updateIngredientsChips(cgWhiteIngredients, selectedItems, true)
+            } else {
+                Filter.saveBlackIngredients(selectedItems)
+                updateIngredientsChips(cgBlackIngredients, selectedItems, false)
             }
         }
     }
@@ -60,21 +67,57 @@ class FilterActivity : AppCompatActivity() {
             Filter.blacklistAllergies
         ) { item -> Filter.saveBlackAllergy(item) }
 
+        // --- Ingredients Whitelist ---
+        cgWhiteIngredients = findViewById(R.id.cgWhiteIngredients)
+        val btnSearchWhiteIngredient = findViewById<Button>(R.id.btnSearchWhiteIngredient)
+
+        updateIngredientsChips(cgWhiteIngredients, Filter.whitelistIngredients, true)
+
+        btnSearchWhiteIngredient.setOnClickListener {
+            isWhitelistSearch = true
+            startSearchActivity(Filter.whitelistIngredients, Filter.ingredientFilterIsLimit)
+        }
+
         // --- Ingredients Blacklist ---
         cgBlackIngredients = findViewById(R.id.cgBlackIngredients)
         val btnSearchIngredient = findViewById<Button>(R.id.btnSearchIngredient)
 
-        Filter.blacklistIngredients.forEach { ingredient ->
-            addIngredientChip(ingredient, cgBlackIngredients)
-        }
+        updateIngredientsChips(cgBlackIngredients, Filter.blacklistIngredients, false)
 
         btnSearchIngredient.setOnClickListener {
-            val intent = Intent(this, IngredientSearchActivity::class.java)
-            ingredientSearchLauncher.launch(intent)
+            isWhitelistSearch = false
+            startSearchActivity(Filter.blacklistIngredients, false)
         }
 
         findViewById<Button>(R.id.btnApplyFilter).setOnClickListener {
             finish()
+        }
+    }
+
+    private fun startSearchActivity(currentItems: Set<String>, isLimitMode: Boolean) {
+        val intent = Intent(this, IngredientSearchActivity::class.java).apply {
+            putExtra("isWhitelist", isWhitelistSearch)
+            putStringArrayListExtra("selectedItems", ArrayList(currentItems))
+            putExtra("isLimitMode", isLimitMode)
+        }
+        ingredientSearchLauncher.launch(intent)
+    }
+
+    private fun updateIngredientsChips(chipGroup: ChipGroup, items: Set<String>, isWhitelist: Boolean) {
+        chipGroup.removeAllViews()
+        items.forEach { text ->
+            val chip = Chip(this)
+            chip.text = text
+            chip.isCloseIconVisible = true
+            chip.setOnCloseIconClickListener {
+                if (isWhitelist) {
+                    Filter.saveWhiteIngredient(text)
+                } else {
+                    Filter.saveBlackIngredient(text)
+                }
+                updateIngredientsChips(chipGroup, if(isWhitelist) Filter.whitelistIngredients else Filter.blacklistIngredients, isWhitelist)
+            }
+            chipGroup.addView(chip)
         }
     }
 
@@ -86,17 +129,6 @@ class FilterActivity : AppCompatActivity() {
     ) {
         items.forEach { it.isSelected = activeSet.contains(it.name) }
         rv.adapter = FilterAttributeAdapter(items, onToggle)
-    }
-
-    private fun addIngredientChip(text: String, chipGroup: ChipGroup) {
-        val chip = Chip(this)
-        chip.text = text
-        chip.isCloseIconVisible = true
-        chip.setOnCloseIconClickListener {
-            Filter.saveBlackIngredient(text)
-            chipGroup.removeView(chip)
-        }
-        chipGroup.addView(chip)
     }
 
     private fun createAttributeList() = listOf(

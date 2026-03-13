@@ -47,6 +47,9 @@
     <string name="reauth_failed_toast">Reauth failed: %1$s</string>
     <string name="password_must_be_different_toast">New password must be different from old password!</string>
     <string name="no_user_logged_in">No user logged in</string>
+    <string name="error_getoldpassword_toast">Error retrieving old password</string>
+    <string name="reauth_error_toast">Reauth failed</string>
+    <string name="same_password_toast">New password must be different from old password</string>
 
     <!-- Main Activity -->
     <string name="main_activity_prep_time">%d Min</string>
@@ -54,16 +57,11 @@
     <string name="recipe_att">Properties</string>
     <string name="recipe_all">Allergies</string>
     <string name="recipe_ing">Ingredients</string>
-    <string name="clickTutorial">Klicke für mehr Infos</string>
     <string name="open_recipe_with">Open recipe with...</string>
     <string name="error_open_file">Could not open file or link</string>
-
     <string name="swipe_tutorial">Swipe away the dish you like less.</string>
     <string name="click_tutorial">Tap a dish to see more information and the recipe.</string>
     <string name="secondswipe_tutorial">Swipe to see Allergies or Ingredients.</string>
-
-
-
 
     <!-- Upload Recipes Activity -->
     <string name="upload_recipe_title">Upload Recipe</string>
@@ -90,6 +88,10 @@
     <string name="filter_exclude">Exclude:</string>
     <string name="filter_ingredient_hint">Enter ingredient to exclude</string>
     <string name="filter_apply">Apply Filter</string>
-    <string name="swipeText">Swipe away what you like less.</string>
+
+    <string name="crustacea_all">Crustaceans</string>
+    <string name="lactose_all">Lactose</string>
+    <string name="crustaceans_all">Crustaceans</string>
+    <string name="laktose_all">Lactose</string>
 
 </resources>

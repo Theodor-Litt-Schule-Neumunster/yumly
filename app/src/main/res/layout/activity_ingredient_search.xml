@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:background="@drawable/themed_background_blur">
 
     <androidx.appcompat.widget.Toolbar
@@ -13,41 +14,85 @@
         android:background="@color/yumly_sand"
         android:elevation="4dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="Zutaten suchen"
+        app:title="Zutaten auswählen"
         app:titleTextColor="@color/black" />
 
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/ingredientSearchView"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/searchContainer"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:backgroundTint="@color/white"
-        app:iconifiedByDefault="false"
-        app:queryHint="Zutat eingeben..."
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchToolbar" />
+        android:orientation="vertical"
+        android:padding="8dp"
+        app:layout_constraintTop_toBottomOf="@id/searchToolbar">
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/ingredientSearchView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/abgerundet"
+            app:iconifiedByDefault="false"
+            app:queryHint="Zutat suchen..." />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="4dp">
+
+            <CheckBox
+                android:id="@+id/cbLimitMode"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Kühlschrank-Modus (nur diese erlauben)"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="12sp"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <Button
+                android:id="@+id/btnSelectAll"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Alle wählen"
+                android:textColor="?android:attr/textColorPrimary" />
+        </LinearLayout>
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvIngredientResults"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnConfirmSelection"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ingredientSearchView"
-        tools:listitem="@android:layout/simple_list_item_1" />
+        app:layout_constraintTop_toBottomOf="@id/searchContainer"
+        tools:listitem="@android:layout/simple_list_item_multiple_choice" />
 
     <ProgressBar
         android:id="@+id/searchProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnConfirmSelection"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ingredientSearchView" />
+        app:layout_constraintTop_toBottomOf="@id/searchContainer" />
+
+    <Button
+        android:id="@+id/btnConfirmSelection"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:backgroundTint="@color/yumly_yellow"
+        android:text="Auswahl bestätigen"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

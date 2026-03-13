@@ -20,11 +20,10 @@ object Imageloader
     suspend fun loadList(){
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
         val collection = "rezepte"
-        val snap = db.collection(collection).get().await()
-
-        liste.clear()
-
+        
         try {
+            val snap = db.collection(collection).get().await()
+            liste.clear()
             var count = 0
             for (doc in snap.documents) {
 
@@ -48,7 +47,7 @@ object Imageloader
                         attribute,
                         elorank,
                         id,
-                        null // Kein recipeSource für Online-Rezepte
+                        null 
                     )
                 )
                 count++
@@ -57,30 +56,23 @@ object Imageloader
             addLokalToList(count)
 
         }catch (e: Exception){
-            Log.e("testloader", "${e}")
+            Log.e("testloader", "loadList failed: ${e}")
         }
     }
 
     suspend fun loadallIds(): List<Int>{
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
         val collection = "rezepte"
-        val snap = db.collection(collection).get().await()
-
-
-        var listOfIds = mutableListOf<Int>()
-
-
         try {
+            val snap = db.collection(collection).get().await()
+            var listOfIds = mutableListOf<Int>()
             for (doc in snap.documents) {
-
                 val id = doc.getString("id")?.toIntOrNull() ?: continue
-
                 listOfIds.add(id)
             }
             return listOfIds
-
         }catch (e: Exception){
-            Log.e("testloader", "${e}")
+            Log.e("testloader", "loadallIds failed: ${e}")
             return emptyList()
         }
     }
@@ -117,30 +109,28 @@ object Imageloader
 
     }
 
-    suspend fun loadallIngredients(): List<String> {
+    suspend fun loadallIngredients(): List<String> = withContext(Dispatchers.IO) {
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
         val collection = "rezepte"
-        val snap = db.collection(collection).get().await()
-
-
         val listOfIngredients = mutableSetOf<String>()
 
         try {
+            val snap = db.collection(collection).get().await()
             for (doc in snap.documents) {
-
                 val ingredients = doc.get("zutaten") as? List<String> ?: continue
-
                 for (ingredient in ingredients) {
                     listOfIngredients.add(ingredient)
                 }
             }
-            return listOfIngredients.sorted()
-
-        }catch (e: Exception){
-            Log.e("testloader", "${e}")
-            return emptyList()
+            // Auch lokale Zutaten hinzufügen
+            userdataprefrecipes.getAllRecipes().forEach { recipe ->
+                recipe.ingredients.forEach { listOfIngredients.add(it) }
+            }
+            return@withContext listOfIngredients.sorted()
+        } catch (e: Exception) {
+            Log.e("testloader", "loadallIngredients failed: ${e}")
+            return@withContext emptyList<String>()
         }
-
     }
 
     suspend fun preloadImgs(context: Context) {
@@ -163,8 +153,6 @@ object Imageloader
                                 Log.e("testloader", "Fehler bei $url", e)
                             }
                         }
-                    }else if (url != null){
-                        Log.d("testloader", "localimg: $url")
                     }
                 }
             }
@@ -184,27 +172,27 @@ object Imageloader
         var rezept: List<Any?> = emptyList()
         var allreadyFiltered: MutableList<Int> = mutableListOf()
 
-
-
         while (true){
             rezept = EloManager.pickNextRecipe(liste, exclude, allreadyFiltered)
+            
+            if (rezept.isEmpty()) {
+                Log.e("Imageloader", "No recipe found matching filters")
+                return null
+            }
+            
             if (Filter.checkIfValid(rezept)) break
             else{
-                allreadyFiltered.add(rezept[idIndex] as Int)
+                val id = (rezept[idIndex] as? Number)?.toInt()
+                if (id != null) allreadyFiltered.add(id) else break 
                 continue
             }
         }
 
-
-
-
-        if (rezept != null && rezept.size > idIndex && rezept[idIndex] is Int) {
+        if (rezept.size > idIndex && rezept[idIndex] is Int) {
             exclude.add(rezept[idIndex] as Int)
         }
 
         try {
-            if (liste.isEmpty() || rezept == null || rezept.isEmpty()) return null
-
             val url = rezept[1] as String
 
             withContext(Dispatchers.Main) {
@@ -214,8 +202,6 @@ object Imageloader
                     .dontAnimate()
                     .into(imageView)
             }
-
-            Log.d("DEBUGtest", "liste.size = ${liste.size}")
             return rezept.toMutableList()
 
         } catch (e: Exception) {

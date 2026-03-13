@@ -14,4 +14,10 @@
     <style name="abgerundet" parent="">
         <item name="cornerSize">24dp</item>
     </style>
+
+    <style name="SearchViewTheme" parent="">
+        <item name="android:textColorPrimary">?android:attr/textColorPrimary</item>
+        <item name="android:textColorHint">?android:attr/textColorSecondary</item>
+        <item name="colorControlNormal">?android:attr/textColorPrimary</item>
+    </style>
 </resources>

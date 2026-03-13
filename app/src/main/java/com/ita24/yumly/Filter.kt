@@ -7,13 +7,16 @@ object Filter {
 
     private var prefs: SharedPreferences? = null
 
-    // Die 6 Filter-Listen
+    // Filter-Listen
     var whitelistAttributes = mutableSetOf<String>()
     var blacklistAttributes = mutableSetOf<String>()
     var whitelistIngredients = mutableSetOf<String>()
     var blacklistIngredients = mutableSetOf<String>()
     var whitelistAllergies = mutableSetOf<String>()
     var blacklistAllergies = mutableSetOf<String>()
+
+    // Modus für Zutaten-Whitelist: true = Kühlschrank-Modus (Subset), false = Voraussetzungs-Modus (ContainsAll)
+    var ingredientFilterIsLimit = false
 
 
     fun initFilters(context: Context) {
@@ -29,12 +32,10 @@ object Filter {
             blacklistIngredients = p.getStringSet("blackIngred", emptySet())?.toMutableSet() ?: mutableSetOf()
             whitelistAllergies = p.getStringSet("whiteAllergy", emptySet())?.toMutableSet() ?: mutableSetOf()
             blacklistAllergies = p.getStringSet("blackAllergy", emptySet())?.toMutableSet() ?: mutableSetOf()
+            ingredientFilterIsLimit = p.getBoolean("ingredIsLimit", false)
         }
     }
 
-    /**
-     * Normalisiert Attribute auf die internen IDs (identisch zu MainActivity.getAttributeDrawableId)
-     */
     fun normalizeAttribute(attr: String): String {
         return when (attr.lowercase().trim()) {
             "gekocht", "cooked_att" -> "cooked_att"
@@ -56,9 +57,6 @@ object Filter {
         }
     }
 
-    /**
-     * Normalisiert Allergene auf die internen IDs (identisch zu MainActivity.getAllergenDrawableId)
-     */
     fun normalizeAllergen(all: String): String {
         return when (all.lowercase().trim()) {
             "gluten", "gluten_all" -> "gluten_all"
@@ -90,17 +88,25 @@ object Filter {
         if (recipeIngredients.any { it in blacklistIngredients }) return false
         if (recipeAllergies.any { it in blacklistAllergies }) return false
 
-        // Whitelist Check (Must have all selected)
+        // Whitelist Check Attributes & Allergies
         if (!recipeAttributes.containsAll(whitelistAttributes)) return false
         if (!recipeAllergies.containsAll(whitelistAllergies)) return false
 
-        // Ingredient Whitelist (If any selected, must have at least one)
-        if (whitelistIngredients.isNotEmpty() && !recipeIngredients.any { it in whitelistIngredients }) return false
+        // Ingredient Whitelist
+        if (whitelistIngredients.isNotEmpty()) {
+            if (ingredientFilterIsLimit) {
+                // Kühlschrank-Modus: Alle Rezeptzutaten müssen in der Whitelist sein
+                if (!whitelistIngredients.containsAll(recipeIngredients)) return false
+            } else {
+                // Voraussetzungs-Modus: Alle Whitelist-Zutaten müssen im Rezept sein
+                if (!recipeIngredients.containsAll(whitelistIngredients)) return false
+            }
+        }
 
         return true
     }
 
-    private fun save(key: String, set: Set<String>) {
+    fun save(key: String, set: Set<String>) {
         prefs?.edit()?.putStringSet(key, set)?.apply()
     }
 
@@ -115,10 +121,18 @@ object Filter {
         save("blackAttr", blacklistAttributes)
     }
 
-    fun saveWhiteIngredient(item: String) {
-        if (whitelistIngredients.contains(item)) whitelistIngredients.remove(item) else whitelistIngredients.add(item)
+    fun saveWhiteIngredients(items: Set<String>, isLimit: Boolean) {
+        whitelistIngredients = items.toMutableSet()
+        ingredientFilterIsLimit = isLimit
         save("whiteIngred", whitelistIngredients)
+        prefs?.edit()?.putBoolean("ingredIsLimit", isLimit)?.apply()
     }
+
+    fun saveBlackIngredients(items: Set<String>) {
+        blacklistIngredients = items.toMutableSet()
+        save("blackIngred", blacklistIngredients)
+    }
+
     fun saveBlackIngredient(item: String) {
         if (blacklistIngredients.contains(item)) blacklistIngredients.remove(item) else blacklistIngredients.add(item)
         save("blackIngred", blacklistIngredients)
@@ -133,5 +147,10 @@ object Filter {
         val norm = normalizeAllergen(item)
         if (blacklistAllergies.contains(norm)) blacklistAllergies.remove(norm) else blacklistAllergies.add(norm)
         save("blackAllergy", blacklistAllergies)
+    }
+
+    fun saveWhiteIngredient(item: String) {
+        if (whitelistIngredients.contains(item)) whitelistIngredients.remove(item) else whitelistIngredients.add(item)
+        save("whiteIngred", whitelistIngredients)
     }
 }
