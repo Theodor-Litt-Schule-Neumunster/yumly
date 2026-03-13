@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import android.widget.ImageButton
 
 class WelcomeActivity : AppCompatActivity() {
 
@@ -20,6 +21,12 @@ class WelcomeActivity : AppCompatActivity() {
         val uploadButton = findViewById<Button>(R.id.uploadButton)
         val manageAccountButton = findViewById<Button>(R.id.manageAccountButton)
         val logoutButton = findViewById<Button>(R.id.logoutButton)
+        val helpButton = findViewById<ImageButton>(R.id.helpButton)
+
+        helpButton.setOnClickListener {
+            RecipeWebsite.sendToHelp(this)
+        }
+
 
         val username = SessionManager.getSession(this)
 

@@ -20,6 +20,12 @@ object RecipeWebsite {
         openUrlInWebView(context, url)
     }
 
+    fun sendToHelp(context: Context) {
+        val url = "https://theodor-litt-schule-neumunster.github.io/yumly/help.html"
+        openUrlInWebView(context, url)
+    }
+
+
     private fun openUrlInWebView(context: Context, url: String) {
         val intent = Intent(context, RecipeWebViewActivity::class.java).apply {
             putExtra("RECIPE_URL", url)
