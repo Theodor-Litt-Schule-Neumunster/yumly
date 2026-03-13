@@ -107,6 +107,54 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ingredientInputLayout" />
 
+        <TextView
+            android:id="@+id/sourceLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Rezept-Quelle (Optional)"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ingredientChipGroup" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/recipeUrlInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="Rezept URL"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sourceLabel">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/recipeUrlEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textUri" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/selectFileButton"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Datei auswählen"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recipeUrlInputLayout" />
+
+        <TextView
+            android:id="@+id/selectedFileName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Keine Datei ausgewählt"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/selectFileButton" />
+
         <Button
             android:id="@+id/uploadImageButton"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -116,7 +164,7 @@
             android:text="@string/upload_image_button_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ingredientChipGroup" />
+            app:layout_constraintTop_toBottomOf="@id/selectedFileName" />
 
         <ImageView
             android:id="@+id/recipeImageView"
@@ -176,54 +224,6 @@
             tools:itemCount="6"
             tools:listitem="@layout/item_attribute" />
 
-        <TextView
-            android:id="@+id/sourceLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="Rezept-Quelle (Optional)"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/allergiesRecyclerView" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/recipeUrlInputLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:hint="Rezept URL"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/sourceLabel">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/recipeUrlEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textUri" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <Button
-            android:id="@+id/selectFileButton"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Datei auswählen"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recipeUrlInputLayout" />
-
-        <TextView
-            android:id="@+id/selectedFileName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="Keine Datei ausgewählt"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/selectFileButton" />
-
         <Button
             android:id="@+id/saveRecipe"
             android:layout_width="0dp"
@@ -231,9 +231,10 @@
             android:layout_marginTop="32dp"
             android:layout_marginBottom="50dp"
             android:text="@string/save_recipe_button_text"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/selectedFileName"
+            app:layout_constraintTop_toBottomOf="@id/allergiesRecyclerView"
             app:layout_constraintVertical_bias="1.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
