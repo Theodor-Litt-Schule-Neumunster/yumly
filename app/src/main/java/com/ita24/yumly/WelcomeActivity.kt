@@ -6,6 +6,8 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.ImageButton
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 
 class WelcomeActivity : AppCompatActivity() {
 
@@ -22,6 +24,14 @@ class WelcomeActivity : AppCompatActivity() {
         val manageAccountButton = findViewById<Button>(R.id.manageAccountButton)
         val logoutButton = findViewById<Button>(R.id.logoutButton)
         val helpButton = findViewById<ImageButton>(R.id.helpButton)
+
+        val flagDeButton = findViewById<ImageButton>(R.id.flagDeButton)
+        val flagEnButton = findViewById<ImageButton>(R.id.flagEnButton)
+        val flagEsButton = findViewById<ImageButton>(R.id.flagEsButton)
+
+        flagDeButton.setOnClickListener { changeLanguage("de") }
+        flagEnButton.setOnClickListener { changeLanguage("en") }
+        flagEsButton.setOnClickListener { changeLanguage("es") }
 
         helpButton.setOnClickListener {
             RecipeWebsite.sendToHelp(this)
@@ -60,6 +70,12 @@ class WelcomeActivity : AppCompatActivity() {
             SessionManager.clearSession(this)
             navigateToLogin()
         }
+    }
+
+    
+    private fun changeLanguage(languageCode: String) {
+        val appLocale: LocaleListCompat = LocaleListCompat.forLanguageTags(languageCode)
+        AppCompatDelegate.setApplicationLocales(appLocale)
     }
 
     private fun navigateToLogin() {

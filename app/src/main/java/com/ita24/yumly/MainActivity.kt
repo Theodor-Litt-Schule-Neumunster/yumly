@@ -128,6 +128,12 @@ class MainActivity : AppCompatActivity() {
         return !prefs.getBoolean("hasSeenTutorial", false)
     }
 
+
+    fun sawTutorial() {
+        val prefs = getSharedPreferences("tutorialPrefs", MODE_PRIVATE)
+        prefs.edit().putBoolean("hasSeenTutorial", true).apply()
+    }
+
     private fun showMenu(view: View) {
         val popup = PopupMenu(this, view)
         popup.menuInflater.inflate(R.menu.main_menu, popup.menu)
@@ -487,6 +493,7 @@ class MainActivity : AppCompatActivity() {
             secondSwipeTutorial.visibility = View.VISIBLE
             clickTutorial.visibility = View.GONE
             startSwipeanimation(secondSwipeArrow)
+            sawTutorial()
         }
 
     }
